@@ -51,6 +51,7 @@ REQUIRED_FILES = [
     "why.html",
     "azure-vm-errors.html",
     "termius-azure.html",
+    "mobile-fail.html",
     "scripts/azure-idle-vm.sh",
     "scripts/delete-azure-idle-vm.sh",
     "scripts/export-grok-idle-key.sh",
@@ -157,6 +158,7 @@ class TestRepoFiles(unittest.TestCase):
         self.assertIn("why.html", text)
         self.assertIn("azure-vm-errors.html", text)
         self.assertIn("termius-azure.html", text)
+        self.assertIn("mobile-fail.html", text)
         self.assertIn("copy.js", text)
         self.assertIn("nav.js", text)
         self.assertIn("test.js", text)
@@ -225,6 +227,7 @@ class TestPagesContent(unittest.TestCase):
             "why.html",
             "azure-vm-errors.html",
             "termius-azure.html",
+            "mobile-fail.html",
             "index.html",
             "iphone.html",
             "test.html",
@@ -329,6 +332,12 @@ class TestPagesContent(unittest.TestCase):
         self.assertIn("azureuser", html)
         self.assertIn("grok-idle", html)
         self.assertIn("delete-azure-idle-vm.sh", html)
+
+    def test_mobile_fail_page(self) -> None:
+        html = _read("mobile-fail.html")
+        self.assertIn("Why your mobile connection failed", html)
+        self.assertIn("azureuser", html)
+        self.assertIn("PasswordAuthentication", html)
 
 
 class TestNoSecretsCommitted(unittest.TestCase):

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>📱 Why the Termius connection failed</title>
+  <meta name="description" content="Your phone reached Azure SSH, then died at login: wrong key or username. Not Wi-Fi, not the SKU.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav id="topnav" class="topnav"></nav>
+  <script src="nav.js"></script>
+  <header>
+    <div class="eyebrow">📱 one failure · one cause</div>
+    <h1>📱 Why your mobile connection failed</h1>
+    <p class="lede">
+      Termius got to the Azure VM. Then it closed. That is not “Azure is down” and not
+      “D2s_v3 is wrong.” Ubuntu on <code>grok-idle</code> <strong>refuses passwords</strong>.
+      Termius never sent the <code>grok-idle</code> private key (or used the Mac username).
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>🧾 Your log, decoded</h2>
+      <table>
+        <thead>
+          <tr><th>What Termius printed</th><th>What it means</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Starting address resolution of 40.120.63.5</td>
+            <td>✅ DNS/IP is a raw address. Fine.</td>
+          </tr>
+          <tr>
+            <td>Connecting to port 22 … Connection established</td>
+            <td>✅ The VM was up. NSG allowed 22. Cellular/Wi-Fi reached UK South.</td>
+          </tr>
+          <tr>
+            <td>Remote server: SSH-2.0-OpenSSH_9.6p1 Ubuntu-3ubuntu13.18</td>
+            <td>✅ You hit our Ubuntu box, not GitHub, not the Mac.</td>
+          </tr>
+          <tr>
+            <td>Agreed KEX / host key / aes256-gcm</td>
+            <td>✅ Encryption handshake finished. The servers shook hands.</td>
+          </tr>
+          <tr>
+            <td>Then “Connection could not be established” / Close</td>
+            <td>❌ <strong>Login.</strong> Next step would have been “Authenticating with public key.” That line never appeared. Termius had no usable identity, so OpenSSH hung up.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>🔑 The actual bug</h2>
+      <p>On the VM:</p>
+      <ul>
+        <li><code>PasswordAuthentication no</code></li>
+        <li>User is <code>azureuser</code> — not <code>rifaterdemsahin</code></li>
+        <li>Only one key in <code>~/.ssh/authorized_keys</code>: the Ed25519 key <code>grok-idle</code></li>
+      </ul>
+      <p>
+        If Termius uses your default Mac key, or no key, or username <code>rifaterdemsahin</code>,
+        the handshake still succeeds (that part does not need your key). Auth then fails and
+        Termius shows a generic Close.
+      </p>
+    </section>
+
+    <section>
+      <h2>✅ Fix (once)</h2>
+      <ol class="steps">
+        <li>Mac: <code>./scripts/export-grok-idle-key.sh</code> → AirDrop <code>Desktop/grok-idle</code>.</li>
+        <li>Termius → Keys → Import that file. Attach it to the host. Name it grok-idle.</li>
+        <li>Host: Address <code>40.120.63.5</code>, port <code>22</code>, username <strong>azureuser</strong>.</li>
+        <li>Connect → Accept host key. Fingerprint of the <em>client</em> key: <code>SHA256:NA0Ra24KU1/8YJnJbds1VgLyG9pdH34VIrWzv2VKcFQ</code>.</li>
+      </ol>
+      <p>
+        Copy-paste host card: <a href="termius-azure.html">📱 Termius Azure</a>.
+        If it hangs <em>before</em> “Remote server: OpenSSH”, the VM already idle-deleted — run
+        <code>./scripts/azure-idle-vm.sh request</code> on the Mac first.
+      </p>
+    </section>
+  </main>
+  <footer>
+    📱 Network worked. Identity did not. No private key on this page.
+  </footer>
+</body>
+</html>

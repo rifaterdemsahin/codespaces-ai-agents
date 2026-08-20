@@ -136,6 +136,10 @@
         const t = await fetchText("./termius-azure.html");
         return mustInclude(t, "azureuser", "termius-azure");
       }),
+      check("mobile-fail.html loads", async () => {
+        const t = await fetchText("./mobile-fail.html");
+        return mustInclude(t, "Why your mobile connection failed", "mobile-fail");
+      }),
       check("styles.css loads", async () => {
         const t = await fetchText("./styles.css");
         return mustInclude(t, "--accent", "css");
