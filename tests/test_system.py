@@ -38,6 +38,7 @@ REQUIRED_FILES = [
     "test.html",
     "after-green.html",
     "agy-worked.html",
+    "grok-worked.html",
     "test.js",
     "nav.js",
     "styles.css",
@@ -124,6 +125,7 @@ class TestRepoFiles(unittest.TestCase):
         self.assertIn("test.html", text)
         self.assertIn("after-green.html", text)
         self.assertIn("agy-worked.html", text)
+        self.assertIn("grok-worked.html", text)
         self.assertIn("nav.js", text)
         self.assertIn("test.js", text)
         self.assertIn("report.json", text)
@@ -175,6 +177,7 @@ class TestPagesContent(unittest.TestCase):
         for name in (
             "after-green.html",
             "agy-worked.html",
+            "grok-worked.html",
             "index.html",
             "iphone.html",
             "test.html",
@@ -186,6 +189,13 @@ class TestPagesContent(unittest.TestCase):
         self.assertIn("What you should see when agy works", html)
         self.assertIn("Antigravity CLI 1.1.16", html)
         self.assertIn("Google AI Pro", html)
+        self.assertIn("nav.js", html)
+
+    def test_grok_worked_page(self) -> None:
+        html = _read("grok-worked.html")
+        self.assertIn("when grok is authorised", html)
+        self.assertIn("grok login --device-auth", html)
+        self.assertIn("READY", html)
         self.assertIn("nav.js", html)
 
 
@@ -250,6 +260,13 @@ class TestLivePages(unittest.TestCase):
             self.skipTest("agy-worked.html not on Pages yet (first deploy)")
         self.assertEqual(status, 200)
         self.assertIn("What you should see when agy works", body)
+
+    def test_pages_grok_worked_http(self) -> None:
+        status, body = _http_get(f"{PAGES}/grok-worked.html")
+        if status == 404:
+            self.skipTest("grok-worked.html not on Pages yet (first deploy)")
+        self.assertEqual(status, 200)
+        self.assertIn("when grok is authorised", body)
 
 
 class TestGithubRepo(unittest.TestCase):

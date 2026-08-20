@@ -84,6 +84,10 @@
         const t = await fetchText("./agy-worked.html");
         return mustInclude(t, "What you should see when agy works", "agy-worked");
       }),
+      check("grok-worked.html loads", async () => {
+        const t = await fetchText("./grok-worked.html");
+        return mustInclude(t, "when grok is authorised", "grok-worked");
+      }),
       check("styles.css loads", async () => {
         const t = await fetchText("./styles.css");
         return mustInclude(t, "--accent", "css");

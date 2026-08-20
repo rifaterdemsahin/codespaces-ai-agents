@@ -10,6 +10,8 @@ Just pressed the green **Code** button? [after-green.html](https://rifaterdemsah
 
 What a working `agy` session looks like: [agy-worked.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/agy-worked.html)
 
+Grok authorised (device-auth): [grok-worked.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/grok-worked.html)
+
 Open this repo in **GitHub Codespaces**. The container installs:
 
 - **Grok Build** (`grok`) — xAI, subscription login

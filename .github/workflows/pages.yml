@@ -27,7 +27,7 @@ jobs:
         run: |
           mkdir -p _site
           python3 tests/test_system.py --json > _site/report.json || true
-          cp index.html iphone.html test.html after-green.html agy-worked.html styles.css test.js nav.js _site/
+          cp index.html iphone.html test.html after-green.html agy-worked.html grok-worked.html styles.css test.js nav.js _site/
           touch _site/.nojekyll
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>🤖 What you should see when grok is authorised</title>
+  <meta name="description" content="Grok device-auth succeeded in the zany-train Codespace. Here is the screen that means it worked.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav id="topnav" class="topnav"></nav>
+  <script src="nav.js"></script>
+  <header>
+    <div class="eyebrow">🤖 authorised in zany-train · 20 Aug 2026</div>
+    <h1>🤖 What you should see when grok is authorised</h1>
+    <p class="lede">
+      Device login finished in
+      <a href="https://zany-train-p9wx45qrxq3rr5p.github.dev/">zany-train.github.dev</a>
+      the same way Antigravity did. Both agents are on subscription login — no
+      <code>XAI_API_KEY</code>. Pair with <a href="agy-worked.html">✨ agy worked</a>.
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>👀 What “authorised” looks like</h2>
+      <div class="grid">
+        <div class="card">
+          <strong>1️⃣ Not asking for an API key</strong>
+          <span>If it says set <code>XAI_API_KEY</code>, you are off subscription. <code>unset XAI_API_KEY</code> and login again.</span>
+        </div>
+        <div class="card">
+          <strong>2️⃣ Version prints</strong>
+          <span><code>grok --version</code> shows something like <code>grok 1.0.5</code> (patch can differ).</span>
+        </div>
+        <div class="card">
+          <strong>3️⃣ <code>grok models</code> lists models</strong>
+          <span>This is the real auth check. Failure here means the device session is missing or expired.</span>
+        </div>
+        <div class="card">
+          <strong>4️⃣ A READY reply</strong>
+          <span><code>grok -p "Reply with READY and nothing else"</code> contains <code>READY</code>. That is the basic Grok test.</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>💻 Commands that prove it (run in zany-train)</h2>
+<pre class="term"><code>unset XAI_API_KEY
+grok --version
+grok models
+grok -p "Reply with READY and nothing else"
+./scripts/system-test.sh --live -v</code></pre>
+      <p>
+        First login (already done in this codespace):
+      </p>
+<pre><code>grok login --device-auth</code></pre>
+      <p>
+        Approve the URL + short code on the phone / this Mac while signed into SuperGrok
+        or X Premium+. Session lives in <code>~/.grok/</code> <em>inside zany-train</em>, not on the phone.
+      </p>
+    </section>
+
+    <section>
+      <h2>✅ Pass vs 🚫 not yet</h2>
+      <table>
+        <thead>
+          <tr><th>You see</th><th>Meaning</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>URL + user code from <code>grok login --device-auth</code></td>
+            <td>🚫 Not authorised yet. Open the URL, confirm the code, return to the terminal.</td>
+          </tr>
+          <tr>
+            <td>Prompt for <code>XAI_API_KEY</code></td>
+            <td>🚫 API-key mode. Unset the variable; do not pull <code>xai-api-key</code> from Key Vault unless you want pay-per-token.</td>
+          </tr>
+          <tr>
+            <td><code>grok: command not found</code></td>
+            <td>🚫 post-create still running. New terminal after it finishes.</td>
+          </tr>
+          <tr>
+            <td><code>grok models</code> prints a list, <code>-p</code> prints READY</td>
+            <td>✅ Authorised. Same status as this zany-train session.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>🤝 Both agents in this Codespace</h2>
+      <table>
+        <thead>
+          <tr><th>Agent</th><th>zany-train</th><th>Proof page</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>✨ Antigravity <code>agy</code></td>
+            <td>✅ Google AI Pro, answered <code>hello</code></td>
+            <td><a href="agy-worked.html">agy-worked.html</a></td>
+          </tr>
+          <tr>
+            <td>🤖 Grok Build <code>grok</code></td>
+            <td>✅ device-auth done</td>
+            <td>this page</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        A <em>new</em> codespace forgets both logins. Resume of <code>zany-train</code> keeps
+        <code>~/.grok</code> and <code>~/.agy</code>. Stop the VM when you leave.
+      </p>
+    </section>
+  </main>
+  <footer>
+    🤖 Confirmed authorised in zany-train. No API keys on this page.
+  </footer>
+</body>
+</html>
