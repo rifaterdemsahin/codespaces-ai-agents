@@ -5,7 +5,9 @@
     { href: "agy-worked.html", emoji: "✨", label: "agy worked" },
     { href: "grok-worked.html", emoji: "🤖", label: "grok authorised" },
     { href: "index.html", emoji: "🏠", label: "Setup log" },
-    { href: "iphone.html", emoji: "📱", label: "iPhone" },
+    { href: "codespace-url.html", emoji: "🔗", label: "Codespace URL" },
+    { href: "iphone-ssh.html", emoji: "📡", label: "iPhone SSH" },
+    { href: "iphone.html", emoji: "📱", label: "iPhone Safari" },
     { href: "test.html", emoji: "✅", label: "System test" },
   ];
 

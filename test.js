@@ -88,6 +88,14 @@
         const t = await fetchText("./grok-worked.html");
         return mustInclude(t, "when grok is authorised", "grok-worked");
       }),
+      check("codespace-url.html loads", async () => {
+        const t = await fetchText("./codespace-url.html");
+        return mustInclude(t, "zany-train-p9wx45qrxq3rr5p.github.dev", "codespace-url");
+      }),
+      check("iphone-ssh.html loads", async () => {
+        const t = await fetchText("./iphone-ssh.html");
+        return mustInclude(t, "gh codespace ssh", "iphone-ssh");
+      }),
       check("styles.css loads", async () => {
         const t = await fetchText("./styles.css");
         return mustInclude(t, "--accent", "css");

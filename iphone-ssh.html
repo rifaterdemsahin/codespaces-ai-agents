@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>📡 SSH into the Codespace from iPhone</title>
+  <meta name="description" content="Skip Safari github.dev and the passkey page. Connect from an iPhone SSH app with gh codespace ssh.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav id="topnav" class="topnav"></nav>
+  <script src="nav.js"></script>
+  <header>
+    <div class="eyebrow">📡 iPhone 14 Pro Max · not Safari</div>
+    <h1>📡 Connect from SSH on the iPhone</h1>
+    <p class="lede">
+      <code>github.dev</code> on the phone is a browser app, so GitHub opens a passkey / mobile
+      sign-in page. Codespaces have <strong>no public SSH IP</strong>. You SSH through
+      <code>gh codespace ssh</code>, which needs GitHub CLI on the phone (Blink), not Termius alone.
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>🚫 Why Termius-only fails</h2>
+      <p>
+        Termius wants host + user + key. A Codespace is not <code>zany-train.github.dev:22</code>.
+        GitHub builds a tunnel with your GitHub token, then talks to sshd inside the container.
+        That tunnel is the <code>gh</code> CLI. Put <code>gh</code> on the iPhone, then SSH.
+      </p>
+      <p>
+        Saved browser URL (passkey path): <a href="codespace-url.html">🔗 codespace-url.html</a>
+      </p>
+    </section>
+
+    <section>
+      <h2>1️⃣ Once on the Mac (PAT so the phone skips passkey)</h2>
+      <ol class="steps">
+        <li>
+          GitHub → Settings → Developer settings → Personal access tokens.
+          Create a token with <strong>Codespaces</strong> access. Copy it once. Do not commit it.
+        </li>
+        <li>
+          Keep zany-train <strong>running</strong> (or <code>gh cs ssh</code> will start it):
+<pre><code>gh codespace list
+# name looks like: zany-train-p9wx45qrxq3rr5p</code></pre>
+        </li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>2️⃣ iPhone app: Blink Shell</h2>
+      <p>
+        App Store: <strong>Blink Shell</strong>. It can run <code>gh</code>. Termius cannot, unless you
+        SSH to a Mac that already has <code>gh</code> (jump host, last section).
+      </p>
+      <ol class="steps">
+        <li>Install Blink. Open a shell tab.</li>
+        <li>
+          Install GitHub CLI (Blink package name may be <code>gh</code>):
+<pre><code>pkg update
+pkg install gh
+gh --version</code></pre>
+          If <code>pkg</code> has no <code>gh</code>, download the linux-arm64 binary from
+          <a href="https://github.com/cli/cli/releases">cli/cli releases</a> and put it on <code>$PATH</code>.
+        </li>
+        <li>
+          Sign in <em>with the token</em>, not the Safari passkey flow:
+<pre><code>gh auth login --with-token
+# paste the PAT, then Ctrl-D</code></pre>
+          <span class="check">✅ Pass: <code>gh auth status</code> shows rifaterdemsahin. No passkey page.</span>
+        </li>
+        <li>
+          Open the Codespace over SSH:
+<pre><code>gh codespace list
+gh codespace ssh -c zany-train-p9wx45qrxq3rr5p</code></pre>
+          If you omit <code>-c</code>, Blink shows a list. Tap/enter zany-train.
+          <span class="check">✅ Pass: prompt is something like <code>vscode@codespaces-</code> or <code>@rifaterdemsahin ➜ /workspaces/codespaces-ai-agents</code>.</span>
+        </li>
+        <li>
+          You are in the VM. Same as the github.dev terminal, without the editor:
+<pre><code>cd /workspaces/codespaces-ai-agents
+agy
+# or
+grok</code></pre>
+          Logins you already did stay in <code>~/.agy</code> and <code>~/.grok</code> on this machine.
+        </li>
+      </ol>
+      <p class="warn">
+        ⏳ First <code>gh codespace ssh</code> can take a minute if the VM was Stopped — it starts it.
+        Rebuild the container once after sshd was added to <code>.devcontainer</code> if SSH is refused.
+      </p>
+    </section>
+
+    <section>
+      <h2>3️⃣ Optional: Termius via your Mac</h2>
+      <p>Only if you want Termius’s UI and a Mac is on the same network / Tailscale.</p>
+      <ol class="steps">
+        <li>Termius host = your Mac. User = your macOS user. Key = your Mac SSH key.</li>
+        <li>
+          Remote command (or type after login):
+<pre><code>gh codespace ssh -c zany-train-p9wx45qrxq3rr5p</code></pre>
+        </li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>✅ You are connected when</h2>
+      <table>
+        <thead>
+          <tr><th>You see</th><th>Meaning</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Safari passkey / accounts.google / github.com login page</td>
+            <td>🚫 Still in the mobile browser. Close it. Use Blink + <code>gh cs ssh</code>.</td>
+          </tr>
+          <tr>
+            <td>Termius “connection refused” to <code>*.github.dev</code></td>
+            <td>🚫 Expected. That hostname is HTTPS VS Code, not sshd.</td>
+          </tr>
+          <tr>
+            <td><code>gh: command not found</code> in Blink</td>
+            <td>🚫 Install <code>gh</code> in that app first.</td>
+          </tr>
+          <tr>
+            <td>Prompt inside <code>/workspaces/codespaces-ai-agents</code></td>
+            <td>✅ SSH session. Run <code>agy</code> or <code>grok</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        Proof screens for the agents:
+        <a href="agy-worked.html">✨ agy</a> ·
+        <a href="grok-worked.html">🤖 grok</a>.
+        Stop the VM when you hang up: <code>gh codespace stop -c zany-train-p9wx45qrxq3rr5p</code>.
+      </p>
+    </section>
+  </main>
+  <footer>
+    📡 Tunnel is GitHub CLI, not a public port. No tokens on this page.
+  </footer>
+</body>
+</html>

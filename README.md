@@ -12,6 +12,10 @@ What a working `agy` session looks like: [agy-worked.html](https://rifaterdemsah
 
 Grok authorised (device-auth): [grok-worked.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/grok-worked.html)
 
+Saved Codespace URL: [codespace-url.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/codespace-url.html)
+
+SSH from iPhone (skip Safari passkey): [iphone-ssh.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/iphone-ssh.html)
+
 Open this repo in **GitHub Codespaces**. The container installs:
 
 - **Grok Build** (`grok`) — xAI, subscription login

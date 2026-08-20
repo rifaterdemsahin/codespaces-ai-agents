@@ -39,6 +39,8 @@ REQUIRED_FILES = [
     "after-green.html",
     "agy-worked.html",
     "grok-worked.html",
+    "codespace-url.html",
+    "iphone-ssh.html",
     "test.js",
     "nav.js",
     "styles.css",
@@ -112,7 +114,9 @@ class TestRepoFiles(unittest.TestCase):
     def test_devcontainer_json(self) -> None:
         data = json.loads(_read(".devcontainer/devcontainer.json"))
         self.assertEqual(data.get("postCreateCommand"), "bash .devcontainer/post-create.sh")
-        self.assertIn("azure-cli", json.dumps(data.get("features", {})))
+        feats = json.dumps(data.get("features", {}))
+        self.assertIn("azure-cli", feats)
+        self.assertIn("sshd", feats)
         cpus = data.get("hostRequirements", {}).get("cpus")
         self.assertEqual(cpus, 2)
 
@@ -126,6 +130,8 @@ class TestRepoFiles(unittest.TestCase):
         self.assertIn("after-green.html", text)
         self.assertIn("agy-worked.html", text)
         self.assertIn("grok-worked.html", text)
+        self.assertIn("codespace-url.html", text)
+        self.assertIn("iphone-ssh.html", text)
         self.assertIn("nav.js", text)
         self.assertIn("test.js", text)
         self.assertIn("report.json", text)
@@ -178,6 +184,8 @@ class TestPagesContent(unittest.TestCase):
             "after-green.html",
             "agy-worked.html",
             "grok-worked.html",
+            "codespace-url.html",
+            "iphone-ssh.html",
             "index.html",
             "iphone.html",
             "test.html",
@@ -196,6 +204,18 @@ class TestPagesContent(unittest.TestCase):
         self.assertIn("when grok is authorised", html)
         self.assertIn("grok login --device-auth", html)
         self.assertIn("READY", html)
+        self.assertIn("nav.js", html)
+
+    def test_codespace_url_page(self) -> None:
+        html = _read("codespace-url.html")
+        self.assertIn("zany-train-p9wx45qrxq3rr5p.github.dev", html)
+        self.assertIn("iphone-ssh.html", html)
+        self.assertIn("nav.js", html)
+
+    def test_iphone_ssh_page(self) -> None:
+        html = _read("iphone-ssh.html")
+        self.assertIn("gh codespace ssh", html)
+        self.assertIn("Blink", html)
         self.assertIn("nav.js", html)
 
 
@@ -267,6 +287,20 @@ class TestLivePages(unittest.TestCase):
             self.skipTest("grok-worked.html not on Pages yet (first deploy)")
         self.assertEqual(status, 200)
         self.assertIn("when grok is authorised", body)
+
+    def test_pages_codespace_url_http(self) -> None:
+        status, body = _http_get(f"{PAGES}/codespace-url.html")
+        if status == 404:
+            self.skipTest("codespace-url.html not on Pages yet (first deploy)")
+        self.assertEqual(status, 200)
+        self.assertIn("zany-train-p9wx45qrxq3rr5p.github.dev", body)
+
+    def test_pages_iphone_ssh_http(self) -> None:
+        status, body = _http_get(f"{PAGES}/iphone-ssh.html")
+        if status == 404:
+            self.skipTest("iphone-ssh.html not on Pages yet (first deploy)")
+        self.assertEqual(status, 200)
+        self.assertIn("gh codespace ssh", body)
 
 
 class TestGithubRepo(unittest.TestCase):

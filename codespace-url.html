@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>🔗 Saved Codespace URL</title>
+  <meta name="description" content="zany-train github.dev URL. Desktop and iPhone browser both work; iPhone may open a passkey page.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav id="topnav" class="topnav"></nav>
+  <script src="nav.js"></script>
+  <header>
+    <div class="eyebrow">🔗 zany-train · saved 20 Aug 2026</div>
+    <h1>🔗 The Codespace URL</h1>
+    <p class="lede">
+      This is the machine the green button created. Desktop Chrome/Safari opens VS Code for the Web.
+      iPhone Safari also works, but GitHub often pops a <strong>passkey / Sign in</strong> page first.
+      To skip that, use <a href="iphone-ssh.html">📡 SSH from the iPhone</a>.
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>🌐 Open this</h2>
+      <a class="urlbox" href="https://zany-train-p9wx45qrxq3rr5p.github.dev/">https://zany-train-p9wx45qrxq3rr5p.github.dev/</a>
+      <p>
+        Codespace name for <code>gh</code>:
+      </p>
+<pre><code>zany-train-p9wx45qrxq3rr5p</code></pre>
+      <p>
+        Repo: <a href="https://github.com/rifaterdemsahin/codespaces-ai-agents">github.com/rifaterdemsahin/codespaces-ai-agents</a>
+      </p>
+    </section>
+
+    <section>
+      <h2>💻 Desktop vs 📱 iPhone browser</h2>
+      <table>
+        <thead>
+          <tr><th></th><th>What happens</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>💻 Desktop</td>
+            <td>URL loads VS Code for the Web. GitHub session is usually already in the browser. Terminal → <code>agy</code> / <code>grok</code>.</td>
+          </tr>
+          <tr>
+            <td>📱 iPhone Safari</td>
+            <td>Same URL works after you request the desktop site. Sign-in often opens a <strong>passkey</strong> sheet or a second mobile login page. After that, the editor is cramped but usable.</td>
+          </tr>
+          <tr>
+            <td>📡 iPhone SSH</td>
+            <td>No VS Code UI, no passkey page on every open. Terminal only. See <a href="iphone-ssh.html">iphone-ssh.html</a>.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="warn">
+        🔐 Passkey on the phone is GitHub proving it is you in Safari. It is not Grok/agy login.
+        Those stay inside the VM (<code>~/.grok</code>, <code>~/.agy</code>) once you have authorised them once in zany-train.
+      </p>
+    </section>
+
+    <section>
+      <h2>🏠 Add to Home Screen (optional)</h2>
+      <ol class="steps">
+        <li>📱 Safari → open the URL above (after passkey if asked).</li>
+        <li>Share sheet → <strong>Add to Home Screen</strong>. Name it <code>zany-train</code>.</li>
+        <li>💻 Chrome desktop: bookmark the same URL, or drag it to the bookmarks bar.</li>
+      </ol>
+    </section>
+  </main>
+  <footer>
+    🔗 Public hostname only. Stopping the codespace does not change this URL; Resume reuses it.
+  </footer>
+</body>
+</html>
