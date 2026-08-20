@@ -47,6 +47,10 @@ REQUIRED_FILES = [
     "vps.html",
     "cheapest-vps.html",
     "azure-idle.html",
+    "azure-idle-vm.html",
+    "why.html",
+    "scripts/azure-idle-vm.sh",
+    "scripts/azure-idle-cloud-init.yaml",
     "copy.js",
     "test.js",
     "nav.js",
@@ -145,6 +149,8 @@ class TestRepoFiles(unittest.TestCase):
         self.assertIn("vps.html", text)
         self.assertIn("cheapest-vps.html", text)
         self.assertIn("azure-idle.html", text)
+        self.assertIn("azure-idle-vm.html", text)
+        self.assertIn("why.html", text)
         self.assertIn("copy.js", text)
         self.assertIn("nav.js", text)
         self.assertIn("test.js", text)
@@ -156,6 +162,7 @@ class TestRepoFiles(unittest.TestCase):
             "scripts/kv-env.sh",
             "scripts/system-test.sh",
             "scripts/smoke-test.sh",
+            "scripts/azure-idle-vm.sh",
         ):
             proc = _run(["bash", "-n", str(ROOT / rel)])
             self.assertEqual(proc.returncode, 0, proc.stderr)
@@ -206,6 +213,8 @@ class TestPagesContent(unittest.TestCase):
             "vps.html",
             "cheapest-vps.html",
             "azure-idle.html",
+            "azure-idle-vm.html",
+            "why.html",
             "index.html",
             "iphone.html",
             "test.html",
@@ -282,6 +291,20 @@ class TestPagesContent(unittest.TestCase):
         self.assertIn("destroy when idle", html)
         self.assertIn("az vm deallocate", html)
         self.assertIn("Container Apps", html)
+        self.assertIn("nav.js", html)
+
+    def test_azure_idle_vm_page(self) -> None:
+        html = _read("azure-idle-vm.html")
+        self.assertIn("dp-grok-idle-rg", html)
+        self.assertIn("B2s", html)
+        self.assertIn("$5", html)
+        self.assertIn("azure-idle-vm.sh", html)
+
+    def test_why_page(self) -> None:
+        html = _read("why.html")
+        self.assertIn("when you are mobile", html)
+        self.assertIn("many agents", html)
+        self.assertIn("base for agents", html)
         self.assertIn("nav.js", html)
 
 

@@ -1,6 +1,7 @@
 /* Shared top menu for every GitHub Pages screen. */
 (function () {
   const ITEMS = [
+    { href: "why.html", emoji: "🎯", label: "Why (mobile agents)" },
     { href: "after-green.html", emoji: "🟢", label: "After green button" },
     { href: "agy-worked.html", emoji: "✨", label: "agy worked" },
     { href: "grok-worked.html", emoji: "🤖", label: "grok authorised" },
@@ -14,6 +15,7 @@
     { href: "vps.html", emoji: "🖥️", label: "VPS vs Codespaces" },
     { href: "cheapest-vps.html", emoji: "💷", label: "Cheapest VPS" },
     { href: "azure-idle.html", emoji: "☁️", label: "Azure idle" },
+    { href: "azure-idle-vm.html", emoji: "💷", label: "Azure £5 VM" },
     { href: "test.html", emoji: "✅", label: "System test" },
   ];
 

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>🎯 Why this exists — mobile, one repo, many agents</title>
+  <meta name="description" content="Main use case: from a phone, work on one git repo with Grok, Antigravity, and later more agents. This setup is the seed of a shared agent base.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav id="topnav" class="topnav"></nav>
+  <script src="nav.js"></script>
+  <header>
+    <div class="eyebrow">🎯 the actual job · not the hosting argument</div>
+    <h1>🎯 Why use this when you are mobile</h1>
+    <p class="lede">
+      The point is not “I love Codespaces” or “I love Azure.”
+      The point is: <strong>you have a git repo, you are on an iPhone, and you want more than one agent
+      to work on that same tree</strong> — Grok now, Antigravity now, others later — without a laptop session.
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>📱 The use case</h2>
+      <ol class="steps">
+        <li>You are away from the desk. Phone only (Termius free, or Safari if you must).</li>
+        <li>The work lives in <strong>one repository</strong> — not a paste into a chat website.</li>
+        <li>You want <strong>several agents</strong> on that repo: plan with one, implement with another, review with a third.</li>
+        <li>They must see the same files, git history, tests, and Key Vault helpers.</li>
+        <li>When you lock the phone, the box should <strong>stop costing money</strong>.</li>
+      </ol>
+      <p>
+        That is why zany-train exists, why <code>agy</code> and <code>grok</code> were authorised on the same VM,
+        and why the Azure idle VM / a cheap VPS are alternatives — same job, different landlord.
+      </p>
+    </section>
+
+    <section>
+      <h2>🚫 What this is not</h2>
+      <table>
+        <thead>
+          <tr><th>Tempting shortcut</th><th>Why it fails this use case</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ChatGPT / grok.com / Gemini in Safari</td>
+            <td>No shared git tree. No tests. No <code>git push</code>. Each agent is a separate amnesiac tab.</td>
+          </tr>
+          <tr>
+            <td>GitHub Mobile editor</td>
+            <td>Fine for a typo. Not a shell. Cannot run <code>agy</code> and <code>grok</code> on the same checkout.</td>
+          </tr>
+          <tr>
+            <td>Three agents on three laptops</td>
+            <td>You are on a phone. Merge conflicts become your job.</td>
+          </tr>
+          <tr>
+            <td>Always-on VPS you forget to stop</td>
+            <td>Works for Termius, but it is not “mobile evening use.” Idle-delete / Codespaces Stop is the budget.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>🤖 Many agents, one workspace</h2>
+      <p>Today on the same machine:</p>
+      <div class="grid">
+        <div class="card">
+          <strong>✨ agy</strong>
+          <span>Google AI Pro. Authorised on zany-train. Good at the Google-shaped tools.</span>
+        </div>
+        <div class="card">
+          <strong>🤖 grok</strong>
+          <span>SuperGrok device-auth. Same <code>/workspaces/…</code> checkout.</span>
+        </div>
+        <div class="card">
+          <strong>🔌 MCP later</strong>
+          <span>Drive, Azure, git, browsers — as servers <em>next to</em> the agents, not in the phone.</span>
+        </div>
+        <div class="card">
+          <strong>🧩 More CLIs later</strong>
+          <span>Claude Code, Codex, Cursor CLI — install on the box, not as new SaaS tabs.</span>
+        </div>
+      </div>
+      <p>
+        The box is the product. Codespaces, Azure idle VM, Hetzner, Fly are interchangeable
+        <em>hosts</em> for that box. See <a href="vps.html">🖥️ VPS vs Codespaces</a>
+        and <a href="azure-idle-vm.html">💷 Azure £5 VM</a>.
+      </p>
+    </section>
+
+    <section>
+      <h2>🌱 Future: a base for agents</h2>
+      <p>This repo is a seed, not a finished “agent OS.” The next layers that fit without changing the use case:</p>
+      <ul>
+        <li>A standard <code>~/.config</code> for MCP servers shared by every CLI.</li>
+        <li>One git remote, one branch policy, one <code>./scripts/system-test.sh</code> all agents must pass.</li>
+        <li>Idle-delete / $5 budget so a forgotten session cannot become a bill.</li>
+        <li>The same Termius path: phone → shell → whatever agent is installed this month.</li>
+      </ul>
+      <p>
+        Start now (free): <a href="iphone-free.html">🆓 Termius → Mac → zany-train</a>.
+        Proof they already share the box: <a href="agy-worked.html">✨ agy</a> ·
+        <a href="grok-worked.html">🤖 grok</a>.
+      </p>
+    </section>
+  </main>
+  <footer>
+    🎯 Host is interchangeable. The use case is not: mobile + one repo + many agents.
+  </footer>
+</body>
+</html>

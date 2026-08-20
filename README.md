@@ -1,5 +1,7 @@
 # Codespaces AI Agents
 
+Why this exists (mobile + one repo + many agents): [why.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/why.html)
+
 Public explainer: [https://rifaterdemsahin.github.io/codespaces-ai-agents/](https://rifaterdemsahin.github.io/codespaces-ai-agents/)
 
 Test from an iPhone 14 Pro Max (Safari): [iphone.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/iphone.html)

@@ -1,0 +1,63 @@
+#cloud-config
+package_update: true
+packages:
+  - jq
+  - curl
+users:
+  - default
+swap:
+  filename: /swapfile
+  size: 1073741824
+write_files:
+  - path: /usr/local/bin/idle-delete.sh
+    permissions: "0755"
+    owner: root:root
+    content: |
+      #!/bin/bash
+      # Delete this VM when nobody has used SSH for IDLE_MINUTES.
+      # Uses managed identity. Never prints tokens.
+      set -euo pipefail
+      IDLE_MINUTES="${IDLE_MINUTES:-20}"
+      GRACE_MINUTES="${GRACE_MINUTES:-8}"
+      META="http://169.254.169.254/metadata/instance?api-version=2021-02-01"
+      TOK_URL="http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https://management.azure.com/"
+      up_min=$(( $(awk '{print int($1/60)}' /proc/uptime) ))
+      if [ "$up_min" -lt "$GRACE_MINUTES" ]; then
+        exit 0
+      fi
+      if who | grep -q .; then
+        exit 0
+      fi
+      last_ssh=$(last -F -s "-${IDLE_MINUTES} minutes" 2>/dev/null | grep -c sshd || true)
+      if [ "${last_ssh}" -gt 0 ]; then
+        exit 0
+      fi
+      token=$(curl -sS -H Metadata:true "$TOK_URL" | jq -r .access_token)
+      inst=$(curl -sS -H Metadata:true "$META")
+      sub=$(echo "$inst" | jq -r .compute.subscriptionId)
+      rg=$(echo "$inst" | jq -r .compute.resourceGroupName)
+      vm=$(echo "$inst" | jq -r .compute.name)
+      url="https://management.azure.com/subscriptions/${sub}/resourceGroups/${rg}/providers/Microsoft.Compute/virtualMachines/${vm}?api-version=2024-03-01&forceDeletion=true"
+      curl -sS -X DELETE -H "Authorization: Bearer ${token}" "$url" >/tmp/idle-delete.json || true
+  - path: /etc/systemd/system/grok-idle-delete.service
+    content: |
+      [Unit]
+      Description=Delete grok idle VM when unused
+      [Service]
+      Type=oneshot
+      ExecStart=/usr/local/bin/idle-delete.sh
+  - path: /etc/systemd/system/grok-idle-delete.timer
+    content: |
+      [Unit]
+      Description=Check SSH idle every 5 minutes
+      [Timer]
+      OnBootSec=8min
+      OnUnitActiveSec=5min
+      Persistent=true
+      [Install]
+      WantedBy=timers.target
+runcmd:
+  - systemctl daemon-reload
+  - systemctl enable --now grok-idle-delete.timer
+  - curl -fsSL https://x.ai/cli/install.sh | bash || true
+  - curl -fsSL https://antigravity.google/cli/install.sh | bash || true

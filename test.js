@@ -124,6 +124,10 @@
         const t = await fetchText("./azure-idle.html");
         return mustInclude(t, "destroy when idle", "azure-idle");
       }),
+      check("why.html loads", async () => {
+        const t = await fetchText("./why.html");
+        return mustInclude(t, "when you are mobile", "why");
+      }),
       check("styles.css loads", async () => {
         const t = await fetchText("./styles.css");
         return mustInclude(t, "--accent", "css");

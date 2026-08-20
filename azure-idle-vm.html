@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>☁️ £5 Azure idle VM — cost and what you get</title>
+  <meta name="description" content="UK South B2s for grok/agy. Under £5 if deleted when idle. $5 budget stop. Created with az login as info@deliverypilot.net.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav id="topnav" class="topnav"></nav>
+  <script src="nav.js"></script>
+  <header>
+    <div class="eyebrow">☁️ dp-grok-idle-rg · info@deliverypilot.net · $5 cap</div>
+    <h1>☁️ The idle Azure VM — cost and what you get</h1>
+    <p class="lede">
+      Code: <code>./scripts/azure-idle-vm.sh</code>. Isolated resource group
+      <code>dp-grok-idle-rg</code> (not the rest of DeliveryPilot).
+      West Europe (UK South had no B-series capacity). Deletes itself after ~20 minutes with no SSH.
+      A <strong>$5/month budget</strong> emails Owner at 80% and 100% (harder than £5).
+      VM create is ready in code; Azure currently returns
+      <strong>SkuNotAvailable / Capacity Restrictions</strong> for B- and A-series in UK South
+      and West Europe on this subscription — request a Compute quota increase, then
+      <code>./scripts/azure-idle-vm.sh request</code>.
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>💷 Cost (UK South, Aug 2026 retail)</h2>
+      <table>
+        <thead>
+          <tr><th>If you…</th><th>Compute</th><th>Fits $5 / ~£3.80?</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Use 10 hours then it auto-deletes</td>
+            <td>~10 hours × B2s ≈ <strong>well under $1</strong> + pennies for IP while up</td>
+            <td>✅ Yes</td>
+          </tr>
+          <tr>
+            <td>Use 40 hours in a month</td>
+            <td>≈ <strong>$0.42</strong></td>
+            <td>✅ Yes — well under £5</td>
+          </tr>
+          <tr>
+            <td>Leave it running 24/7 (idle killer broken)</td>
+            <td>≈ <strong>$30</strong>/mo if B2s left 24/7 — budget fires first</td>
+            <td>❌ Over $5 — budget alert fires; auto-shutdown 21:00 GMT is backup</td>
+          </tr>
+          <tr>
+            <td>Idle-deleted (no VM, no disk)</td>
+            <td><strong>$0</strong> compute. Budget object is free.</td>
+            <td>✅</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        SKU <code>Standard_B2s</code> (this subscription has <strong>0 quota</strong> for cheaper ARM B2ats_v2 in UK South).
+        2 vCPU / 4 GB. Idle-delete keeps a month of evening use under $5 / £5.
+        OS disk is <strong>deleted with the VM</strong>.
+      </p>
+    </section>
+
+    <section>
+      <h2>📦 What you get while it is up</h2>
+      <div class="grid">
+        <div class="card">
+          <strong>⚠️ Live status</strong>
+          <span>RG + $5 budget + action group <strong>exist</strong>. No VM yet (Azure capacity/quota). Codespaces zany-train is the working box until quota is approved.</span>
+        </div>
+        <div class="card">
+          <strong>🖥️ Box</strong>
+          <span>2 vCPU, 4 GB RAM, Ubuntu 24.04 x86, public IP, SSH key <code>~/.ssh/grok-idle</code>, user <code>azureuser</code></span>
+        </div>
+        <div class="card">
+          <strong>🤖 Agents</strong>
+          <span>cloud-init installs grok + agy CLIs. You still device-login once per new VM (delete wipes home).</span>
+        </div>
+        <div class="card">
+          <strong>💣 Idle</strong>
+          <span>No SSH for 20 minutes (8 min grace after boot) → VM deletes itself via managed identity.</span>
+        </div>
+        <div class="card">
+          <strong>🛑 $5 stop</strong>
+          <span>Cost Management budget on this RG only. Emails <code>info@deliverypilot.net</code> at 80% and 100% actual + 100% forecast. Does not touch the £500 DeliveryPilot budget.</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>📋 Commands (copy)</h2>
+      <div class="copyrow">
+        <div><span class="k">Create budget + RG</span><code>./scripts/azure-idle-vm.sh infra</code></div>
+        <button type="button" data-copy="./scripts/azure-idle-vm.sh infra">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Create / start VM</span><code>./scripts/azure-idle-vm.sh request</code></div>
+        <button type="button" data-copy="./scripts/azure-idle-vm.sh request">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Public IP + state</span><code>./scripts/azure-idle-vm.sh status</code></div>
+        <button type="button" data-copy="./scripts/azure-idle-vm.sh status">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">SSH (after status shows IP)</span><code>ssh -i ~/.ssh/grok-idle azureuser@IP</code></div>
+        <button type="button" data-copy="ssh -i ~/.ssh/grok-idle azureuser@">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Delete VM now</span><code>./scripts/azure-idle-vm.sh destroy</code></div>
+        <button type="button" data-copy="./scripts/azure-idle-vm.sh destroy">Copy</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>📱 Termius</h2>
+      <p>
+        Address = public IP from <code>status</code> (changes each create).
+        User <code>azureuser</code>. Key = <code>grok-idle</code> private key imported into Termius.
+        If the box is gone, run <code>request</code> on the Mac first — that is the “create on request”.
+      </p>
+      <p>
+        Design notes: <a href="azure-idle.html">☁️ Azure idle</a>.
+        Cheap VPS alternatives: <a href="cheapest-vps.html">💷 cheapest VPS</a>.
+      </p>
+    </section>
+  </main>
+  <footer>
+    ☁️ Isolated RG dp-grok-idle-rg. $5 USD monthly cap on that RG only.
+  </footer>
+  <script src="copy.js"></script>
+</body>
+</html>
