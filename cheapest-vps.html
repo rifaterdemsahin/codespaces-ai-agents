@@ -141,6 +141,56 @@
     </section>
 
     <section>
+      <h2>🔌 Which ones have MCP setups</h2>
+      <p>
+        MCP = Model Context Protocol (tools for agents). Two different things:
+        an <strong>official way to host/run MCP</strong>, vs a <strong>community MCP to control the cloud API</strong>.
+        Any Linux VPS can run MCP yourself (<code>npx</code> / Docker). First-class product is rarer.
+      </p>
+      <table>
+        <thead>
+          <tr><th>Place</th><th>Official MCP product?</th><th>What you actually get</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Fly.io</td>
+            <td>✅ Yes</td>
+            <td><code>fly mcp launch</code>, <code>fly mcp wrap</code>, <code>fly mcp proxy</code>, plus a flyctl MCP server. Best “MCP hosting” of this list. Docs: fly.io/docs/mcp/</td>
+          </tr>
+          <tr>
+            <td>Azure</td>
+            <td>✅ Yes</td>
+            <td>Azure MCP Server (manage Azure from an agent). Remote MCP on Container Apps / AKS / Functions. Not a cheap VPS SKU — see <a href="azure-idle.html">☁️ Azure idle box</a>.</td>
+          </tr>
+          <tr>
+            <td>GitHub Codespaces (zany-train)</td>
+            <td>🟡 Local, excellent</td>
+            <td>MCP runs <em>inside</em> the codespace next to <code>grok</code>/<code>agy</code> (stdio). GitHub also has a GitHub MCP server. No extra host to buy.</td>
+          </tr>
+          <tr>
+            <td>Hetzner</td>
+            <td>❌ No first-party</td>
+            <td>Community MCP for the Hetzner Cloud API. You install Node/Docker and run any MCP on the VPS yourself.</td>
+          </tr>
+          <tr>
+            <td>OVH / RackNerd / Contabo / Netcup / Oracle</td>
+            <td>❌ DIY only</td>
+            <td>Plain Linux. Same as Hetzner: you run MCP processes. No vendor <code>mcp launch</code>.</td>
+          </tr>
+          <tr>
+            <td>DigitalOcean</td>
+            <td>❌ DIY</td>
+            <td>Droplets are fine MCP hosts. No official MCP control plane.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        For <code>agy</code> / <code>grok</code> on the phone, MCP on the <em>same machine as the agent</em> is what matters.
+        Codespaces already does that. Fly is the one cheap-ish cloud with a real MCP deploy CLI.
+      </p>
+    </section>
+
+    <section>
       <h2>🪰 Fly.io vs “cheapest VPS”</h2>
       <p>
         Fly <strong>can</strong> host grok/agy in <code>lhr</code> (London) — great from the UK.

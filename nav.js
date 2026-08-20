@@ -13,6 +13,7 @@
     { href: "iphone.html", emoji: "📱", label: "iPhone Safari" },
     { href: "vps.html", emoji: "🖥️", label: "VPS vs Codespaces" },
     { href: "cheapest-vps.html", emoji: "💷", label: "Cheapest VPS" },
+    { href: "azure-idle.html", emoji: "☁️", label: "Azure idle" },
     { href: "test.html", emoji: "✅", label: "System test" },
   ];
 

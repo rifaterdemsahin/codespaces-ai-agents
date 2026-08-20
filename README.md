@@ -26,6 +26,8 @@ VPS vs Codespaces (and Fly.io): [vps.html](https://rifaterdemsahin.github.io/cod
 
 Cheapest VPS from the UK: [cheapest-vps.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/cheapest-vps.html)
 
+Azure wake-on-request / idle deallocate: [azure-idle.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/azure-idle.html)
+
 Open this repo in **GitHub Codespaces**. The container installs:
 
 - **Grok Build** (`grok`) — xAI, subscription login

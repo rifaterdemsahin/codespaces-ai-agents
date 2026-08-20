@@ -46,6 +46,7 @@ REQUIRED_FILES = [
     "iphone-free.html",
     "vps.html",
     "cheapest-vps.html",
+    "azure-idle.html",
     "copy.js",
     "test.js",
     "nav.js",
@@ -143,6 +144,7 @@ class TestRepoFiles(unittest.TestCase):
         self.assertIn("iphone-free.html", text)
         self.assertIn("vps.html", text)
         self.assertIn("cheapest-vps.html", text)
+        self.assertIn("azure-idle.html", text)
         self.assertIn("copy.js", text)
         self.assertIn("nav.js", text)
         self.assertIn("test.js", text)
@@ -203,6 +205,7 @@ class TestPagesContent(unittest.TestCase):
             "iphone-free.html",
             "vps.html",
             "cheapest-vps.html",
+            "azure-idle.html",
             "index.html",
             "iphone.html",
             "test.html",
@@ -271,6 +274,14 @@ class TestPagesContent(unittest.TestCase):
         self.assertIn("Hetzner", html)
         self.assertIn("OVHcloud", html)
         self.assertIn("Fly.io", html)
+        self.assertIn("MCP", html)
+        self.assertIn("nav.js", html)
+
+    def test_azure_idle_page(self) -> None:
+        html = _read("azure-idle.html")
+        self.assertIn("destroy when idle", html)
+        self.assertIn("az vm deallocate", html)
+        self.assertIn("Container Apps", html)
         self.assertIn("nav.js", html)
 
 
@@ -391,6 +402,13 @@ class TestLivePages(unittest.TestCase):
             self.skipTest("cheapest-vps.html not on Pages yet (first deploy)")
         self.assertEqual(status, 200)
         self.assertIn("Cheapest VPS you can reach from the UK", body)
+
+    def test_pages_azure_idle_http(self) -> None:
+        status, body = _http_get(f"{PAGES}/azure-idle.html")
+        if status == 404:
+            self.skipTest("azure-idle.html not on Pages yet (first deploy)")
+        self.assertEqual(status, 200)
+        self.assertIn("destroy when idle", body)
 
 
 class TestGithubRepo(unittest.TestCase):

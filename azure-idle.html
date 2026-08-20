@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>☁️ Azure: create on request, destroy when idle</title>
+  <meta name="description" content="Can Azure spin a grok/agy box on request and deallocate when idle, like Codespaces? Yes, with caveats. UK South. MCP included.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav id="topnav" class="topnav"></nav>
+  <script src="nav.js"></script>
+  <header>
+    <div class="eyebrow">☁️ you already have Azure subscription 1</div>
+    <h1>☁️ Azure: wake on request, sleep when idle</h1>
+    <p class="lede">
+      <strong>Yes, you can</strong> — but Azure has no single “Codespaces” button for
+      <code>grok</code>/<code>agy</code>. Closest: a small UK South VM that
+      <em>starts when you hit a URL</em> and <em>deallocates when SSH is idle</em>.
+      HTTP scale-to-zero (Container Apps) will not run those TUIs.
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>✅ What Azure can do vs Codespaces</h2>
+      <table>
+        <thead>
+          <tr><th>Behaviour</th><th>Codespaces (now)</th><th>Azure</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Create / start on request</td>
+            <td>Green Code button / <code>gh cs ssh</code></td>
+            <td><code>az vm start</code>, HTTP Function, Logic App, or DevTest Labs autostart</td>
+          </tr>
+          <tr>
+            <td>Stop when idle</td>
+            <td>Built-in idle timeout</td>
+            <td>Not one checkbox for SSH. Clock auto-shutdown, or a small script watching <code>sshd</code></td>
+          </tr>
+          <tr>
+            <td>Pay nothing while off</td>
+            <td>Hours stop (disk storage still billed by GitHub)</td>
+            <td><code>az vm deallocate</code> stops compute. Disk still costs unless you delete the VM</td>
+          </tr>
+          <tr>
+            <td>Termius from iPhone</td>
+            <td>Hop via Mac + <code>gh</code></td>
+            <td>If the VM has a public IP (or Tailscale): Termius → IP:22 after it is Started</td>
+          </tr>
+          <tr>
+            <td>UK ping</td>
+            <td>Codespace region (often West Europe)</td>
+            <td>Put the VM in <strong>UK South</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>🧩 Pick a shape</h2>
+      <div class="grid">
+        <div class="card">
+          <strong>A. B-series VM + start URL (recommended for grok/agy)</strong>
+          <span>Keep one tiny VM deallocated. Shortcut on the iPhone calls <code>az vm start</code>. Termius connects. A cron deallocates after N minutes with no SSH. Disk holds <code>~/.grok</code>.</span>
+        </div>
+        <div class="card">
+          <strong>B. DevTest Labs</strong>
+          <span>Autostart at 18:00, autoshutdown at 23:00. Clock, not “idle”. Fine for evenings. Policies cap spend.</span>
+        </div>
+        <div class="card">
+          <strong>C. Container Apps scale-to-zero</strong>
+          <span>Wakes on HTTP, billed at zero replicas. Wrong tool for an interactive TUI. Right tool for a remote MCP HTTP server.</span>
+        </div>
+        <div class="card">
+          <strong>D. Delete the whole VM</strong>
+          <span>Cheapest idle. You lose the disk unless it is Azure Files / a snapshot. Recreate from a custom image on each request. Coldest start.</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>▶️ Shape A — start on request</h2>
+      <p>On a machine already <code>az login</code> (or a Function with a managed identity):</p>
+      <div class="copyrow">
+        <div><span class="k">Start (pay CPU)</span><code>az vm start -g deliverypilot-rg -n grok-idle --no-wait</code></div>
+        <button type="button" data-copy="az vm start -g deliverypilot-rg -n grok-idle --no-wait">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Wait until SSH is up</span><code>az vm wait -g deliverypilot-rg -n grok-idle --created && az vm get-instance-view -g deliverypilot-rg -n grok-idle --query instanceView.statuses</code></div>
+        <button type="button" data-copy="az vm wait -g deliverypilot-rg -n grok-idle --created">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Deallocate (stop CPU bill, keep disk)</span><code>az vm deallocate -g deliverypilot-rg -n grok-idle</code></div>
+        <button type="button" data-copy="az vm deallocate -g deliverypilot-rg -n grok-idle">Copy</button>
+      </div>
+      <p>
+        iPhone: Shortcuts → “Get contents of URL” hitting an Azure Function that runs start.
+        Then Termius to the VM’s public IP. Do not leave 22 open to the world — restrict to your IP or use Tailscale and no public SSH.
+      </p>
+      <p>Idle destroy (on the VM, cron every 5 minutes):</p>
+      <div class="copyrow">
+        <div><span class="k">If nobody logged in for 20 min, deallocate self</span><code>who | grep -q . || az vm deallocate -g deliverypilot-rg -n grok-idle</code></div>
+        <button type="button" data-copy="who | grep -q . || az vm deallocate -g deliverypilot-rg -n grok-idle">Copy</button>
+      </div>
+      <p class="warn">
+        ⚠️ That one-liner is a sketch. You need a managed identity on the VM, a real idle window
+        (last <code>sshd</code> login, not a single <code>who</code>), and you should
+        <strong>deallocate</strong> not <code>az vm delete</code> if you want grok/agy sessions to survive.
+        Built-in Azure “auto-shutdown” is a clock (e.g. 23:00), not SSH-idle.
+      </p>
+    </section>
+
+    <section>
+      <h2>🔌 MCP on Azure</h2>
+      <p>
+        Azure <strong>does</strong> have MCP: the Azure MCP Server (agents can list resource groups, Key Vault names, etc.).
+        Host a <em>remote</em> MCP with Container Apps (HTTP, scale to zero — this part <em>is</em> request/idle).
+        That is complementary to a VM that runs <code>agy</code>. Do not expect Container Apps to replace the Codespace TUI.
+      </p>
+    </section>
+
+    <section>
+      <h2>💷 Cost vs Codespaces vs Hetzner</h2>
+      <p>
+        You already pay the Azure subscription. A B-series in UK South, deallocated 20+ hours/day, can beat a 24/7 Hetzner box.
+        It will <em>not</em> beat GitHub Pro included hours if you already stop zany-train.
+        Disk of a stopped VM still bills. Full delete + snapshot is cheaper idle, slower wake.
+      </p>
+      <p>
+        Shopping list: <a href="cheapest-vps.html">💷 cheapest VPS</a> (MCP column).
+        Comparison: <a href="vps.html">🖥️ VPS vs Codespaces</a>.
+      </p>
+    </section>
+  </main>
+  <footer>
+    ☁️ Design notes only — this page does not create Azure resources. No secrets.
+  </footer>
+  <script src="copy.js"></script>
+</body>
+</html>
