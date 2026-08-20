@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Codespaces AI Agents — setup log</title>
+  <meta name="description" content="What was deployed so GitHub Codespaces can run Grok Build and Antigravity, with Azure Key Vault for optional secrets.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0c0d0a;
+      --bg-2: #14160f;
+      --ink: #e8eadf;
+      --muted: #9aa18a;
+      --line: #2a2e22;
+      --accent: #d6ff4b;
+      --accent-ink: #111409;
+      --warn: #ffb347;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+    body {
+      font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+      line-height: 1.55;
+      font-size: 17px;
+    }
+    a { color: var(--accent); }
+    code, pre, kbd {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    header {
+      padding: 28px 8vw 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .eyebrow {
+      color: var(--accent);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    h1 {
+      font-size: clamp(28px, 5vw, 48px);
+      letter-spacing: -0.03em;
+      margin: 8px 0 12px;
+      max-width: 18ch;
+    }
+    .lede { color: var(--muted); max-width: 62ch; margin: 0 0 28px; }
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      padding-bottom: 18px;
+      font-size: 14px;
+    }
+    nav a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
+    nav a:hover { border-color: var(--accent); }
+    main { padding: 36px 8vw 80px; max-width: 1100px; }
+    h2 {
+      font-size: 22px;
+      margin: 48px 0 12px;
+      padding-top: 8px;
+      border-top: 1px solid var(--line);
+    }
+    h3 { font-size: 16px; margin: 24px 0 8px; }
+    p { max-width: 70ch; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin: 18px 0 8px;
+    }
+    .card {
+      background: var(--bg-2);
+      border: 1px solid var(--line);
+      padding: 16px;
+    }
+    .card strong { display: block; margin-bottom: 6px; }
+    .card span { color: var(--muted); font-size: 14px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin: 12px 0 20px;
+    }
+    th, td {
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+      padding: 8px 10px 8px 0;
+      vertical-align: top;
+    }
+    th { color: var(--muted); font-weight: 500; }
+    pre {
+      background: #080905;
+      border: 1px solid var(--line);
+      padding: 14px 16px;
+      overflow-x: auto;
+      font-size: 13px;
+    }
+    .warn {
+      border-left: 3px solid var(--warn);
+      padding: 8px 12px;
+      color: var(--muted);
+      max-width: 70ch;
+    }
+    svg.arch { width: 100%; max-width: 720px; height: auto; margin: 12px 0 24px; }
+    footer {
+      color: var(--muted);
+      font-size: 13px;
+      padding: 0 8vw 40px;
+    }
+    .ok { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="eyebrow">rifaterdemsahin / codespaces-ai-agents</div>
+    <h1>Codespaces that run AI agents</h1>
+    <p class="lede">
+      This page is the public log of the 20 Aug 2026 setup: Azure Key Vault was already logged in,
+      the starter files in the repo were unpacked and wired, GitHub Pages was deployed, and
+      Codespaces was pointed at Grok Build plus Antigravity.
+    </p>
+    <nav>
+      <a href="#done">What was done</a>
+      <a href="#arch">Architecture</a>
+      <a href="#use">How to use it</a>
+      <a href="#kv">Key Vault</a>
+      <a href="#files">Files</a>
+      <a href="#test">Tests</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="done">
+      <h2>What was done in this deploy</h2>
+      <p>
+        The GitHub repo existed but only had a two-line README. The real starter lived as
+        <code>devcontainer.zip</code> plus untracked docs. Those files were turned into a
+        working Codespaces environment and this site.
+      </p>
+      <div class="grid">
+        <div class="card">
+          <strong>1. Azure Key Vault</strong>
+          <span>Used the existing <code>az login</code> as <code>info@deliverypilot.net</code>. Vault <code>dp-kv-deliverypilot</code> is reachable. Secret <em>names</em> were checked; values were never committed.</span>
+        </div>
+        <div class="card">
+          <strong>2. Dev container</strong>
+          <span>Unpacked <code>devcontainer.zip</code> into <code>.devcontainer/</code>. Codespaces now installs <code>grok</code>, <code>agy</code>, Azure CLI, and GitHub CLI on a 2-core Ubuntu 24.04 image.</span>
+        </div>
+        <div class="card">
+          <strong>3. Secret helper</strong>
+          <span><code>scripts/kv-env.sh</code> does device-code Azure login and can write a gitignored <code>.env</code> from the vault. <code>XAI_API_KEY</code> is opt-in so Grok stays on subscription billing.</span>
+        </div>
+        <div class="card">
+          <strong>4. GitHub Pages</strong>
+          <span>This <code>index.html</code> is deployed by <code>.github/workflows/pages.yml</code> on every push to <code>main</code>.</span>
+        </div>
+      </div>
+      <p class="warn">
+        Default billing path: GitHub Pro pays for the VM hours. SuperGrok / X Premium+ and Google
+        pay for the agents via device login. An API key from Key Vault is optional and switches Grok
+        to pay-per-token.
+      </p>
+    </section>
+
+    <section id="arch">
+      <h2>Architecture</h2>
+      <svg class="arch" viewBox="0 0 720 260" role="img" aria-label="Phone and laptop open GitHub, which hosts Pages and a 2-core Codespace. The Codespace runs grok, agy, and az against Key Vault.">
+        <rect x="8" y="20" width="160" height="80" fill="#14160f" stroke="#d6ff4b"/>
+        <text x="88" y="54" text-anchor="middle" fill="#e8eadf" font-family="IBM Plex Sans, sans-serif" font-size="14">You (phone / laptop)</text>
+        <text x="88" y="76" text-anchor="middle" fill="#9aa18a" font-family="IBM Plex Mono, monospace" font-size="11">approve device codes</text>
+
+        <rect x="248" y="20" width="200" height="80" fill="#14160f" stroke="#9aa18a"/>
+        <text x="348" y="54" text-anchor="middle" fill="#e8eadf" font-family="IBM Plex Sans, sans-serif" font-size="14">GitHub repo</text>
+        <text x="348" y="76" text-anchor="middle" fill="#9aa18a" font-family="IBM Plex Mono, monospace" font-size="11">main + Actions</text>
+
+        <rect x="528" y="8" width="180" height="48" fill="#14160f" stroke="#d6ff4b"/>
+        <text x="618" y="38" text-anchor="middle" fill="#e8eadf" font-family="IBM Plex Sans, sans-serif" font-size="13">GitHub Pages (this site)</text>
+
+        <rect x="528" y="72" width="180" height="72" fill="#14160f" stroke="#d6ff4b"/>
+        <text x="618" y="100" text-anchor="middle" fill="#e8eadf" font-family="IBM Plex Sans, sans-serif" font-size="13">Codespace, 2-core</text>
+        <text x="618" y="122" text-anchor="middle" fill="#9aa18a" font-family="IBM Plex Mono, monospace" font-size="11">grok · agy · az · gh</text>
+
+        <rect x="248" y="160" width="200" height="72" fill="#14160f" stroke="#9aa18a"/>
+        <text x="348" y="190" text-anchor="middle" fill="#e8eadf" font-family="IBM Plex Sans, sans-serif" font-size="14">Azure Key Vault</text>
+        <text x="348" y="212" text-anchor="middle" fill="#9aa18a" font-family="IBM Plex Mono, monospace" font-size="11">dp-kv-deliverypilot</text>
+
+        <line x1="168" y1="60" x2="248" y2="60" stroke="#d6ff4b"/>
+        <line x1="448" y1="44" x2="528" y2="32" stroke="#9aa18a"/>
+        <line x1="448" y1="72" x2="528" y2="100" stroke="#d6ff4b"/>
+        <line x1="618" y1="144" x2="618" y2="196" stroke="#9aa18a"/>
+        <line x1="618" y1="196" x2="448" y2="196" stroke="#9aa18a"/>
+      </svg>
+      <p>
+        Codespaces has no desktop browser. First-time login for Grok, Antigravity, and Azure all use
+        a URL + code that you approve on your phone.
+      </p>
+    </section>
+
+    <section id="use">
+      <h2>How to run the agents</h2>
+      <h3>1. Open a Codespace</h3>
+      <p>
+        Repo → <strong>Code</strong> → <strong>Codespaces</strong> → Create on <code>main</code>.
+        Pick <strong>2-core</strong>. Wait for <code>post-create.sh</code> (installs <code>grok</code> and <code>agy</code>).
+      </p>
+      <h3>2. Log in with subscriptions</h3>
+<pre><code>unset XAI_API_KEY
+grok login --device-auth   # URL + code → phone, SuperGrok / X Premium+
+agy                        # Google URL → phone
+grok --version && grok models
+agy --version</code></pre>
+      <h3>3. Work, then stop the machine</h3>
+<pre><code>grok
+# or
+agy
+
+git add -A && git commit -m "…" && git push
+# GitHub → Codespaces → Stop, so included hours are not burned idle</code></pre>
+      <p>
+        Full subscription notes: <a href="https://github.com/rifaterdemsahin/codespaces-ai-agents/blob/main/SUBSCRIPTION.md">SUBSCRIPTION.md</a>.
+        Cap extra Codespaces spend at $0 in GitHub Billing.
+      </p>
+    </section>
+
+    <section id="kv">
+      <h2>Azure Key Vault</h2>
+      <p>
+        Vault <code>dp-kv-deliverypilot</code> in resource group <code>deliverypilot-rg</code>
+        (subscription <code>Azure subscription 1</code>). No new vault was created.
+      </p>
+<pre><code>az login --use-device-code
+./scripts/kv-env.sh status          # names + lengths only
+./scripts/kv-env.sh write           # .env without XAI_API_KEY
+./scripts/kv-env.sh write --include-xai   # also XAI_API_KEY (pay-per-token)</code></pre>
+      <table>
+        <thead>
+          <tr><th>Vault secret</th><th>.env variable</th><th>When</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>ANTHROPIC-API-KEY</td><td>ANTHROPIC_API_KEY</td><td><code>write</code></td></tr>
+          <tr><td>OPENAI-API-KEY</td><td>OPENAI_API_KEY</td><td><code>write</code></td></tr>
+          <tr><td>GEMINI-API-KEY-PRIMARY</td><td>GEMINI_API_KEY</td><td><code>write</code></td></tr>
+          <tr><td>OPENROUTER-API-KEY</td><td>OPENROUTER_API_KEY</td><td><code>write</code></td></tr>
+          <tr><td>FAL-AI-KEY</td><td>FAL_KEY</td><td><code>write</code></td></tr>
+          <tr><td>xai-api-key</td><td>XAI_API_KEY</td><td>only with <code>--include-xai</code></td></tr>
+        </tbody>
+      </table>
+      <p>
+        Values stay in gitignored <code>.env</code>. They are not GitHub Actions secrets and not
+        Codespaces secrets. Login is stored in the codespace home directory and is lost if you
+        rebuild or create a new codespace — run device login again.
+      </p>
+    </section>
+
+    <section id="files">
+      <h2>Files that landed on main</h2>
+      <table>
+        <thead>
+          <tr><th>Path</th><th>Role</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>.devcontainer/devcontainer.json</code></td><td>2-core Ubuntu, Azure CLI, GitHub CLI</td></tr>
+          <tr><td><code>.devcontainer/post-create.sh</code></td><td>Installs grok + agy, prints login steps</td></tr>
+          <tr><td><code>scripts/kv-env.sh</code></td><td>Azure device login + vault → .env</td></tr>
+          <tr><td><code>scripts/smoke-test.sh</code></td><td>File, JSON, URL, vault presence checks</td></tr>
+          <tr><td><code>.github/workflows/pages.yml</code></td><td>Deploys this page</td></tr>
+          <tr><td><code>.github/workflows/ci.yml</code></td><td>Runs smoke tests on push</td></tr>
+          <tr><td><code>index.html</code></td><td>This explanation</td></tr>
+          <tr><td><code>README.md</code> / <code>SUBSCRIPTION.md</code> / <code>AGENTS.md</code></td><td>Human + agent docs</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="test">
+      <h2>What was tested before this page went live</h2>
+      <ul>
+        <li><span class="ok">OK</span> <code>az account show</code> — user info@deliverypilot.net, Azure subscription 1</li>
+        <li><span class="ok">OK</span> vault <code>dp-kv-deliverypilot</code> reachable; xai-api-key, ANTHROPIC, OPENAI, GEMINI, OPENROUTER, FAL present (lengths only)</li>
+        <li><span class="ok">OK</span> <code>https://x.ai/cli/install.sh</code> and <code>https://antigravity.google/cli/install.sh</code> return HTTP 200</li>
+        <li><span class="ok">OK</span> <code>scripts/smoke-test.sh</code> run on the machine that committed this</li>
+        <li>GitHub Actions CI + Pages deploy run after the push (see the Actions tab)</li>
+      </ul>
+      <p>
+        A full Codespaces create (wait for post-create, then <code>grok --version</code> /
+        <code>agy --version</code>) is the remaining live check. Device-code Grok/Google login
+        still needs your phone.
+      </p>
+      <p>
+        Source: <a href="https://github.com/rifaterdemsahin/codespaces-ai-agents">github.com/rifaterdemsahin/codespaces-ai-agents</a>
+      </p>
+    </section>
+  </main>
+  <footer>
+    Deployed from main by GitHub Actions. No secrets on this page.
+  </footer>
+</body>
+</html>
