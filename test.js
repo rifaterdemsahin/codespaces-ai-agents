@@ -132,6 +132,10 @@
         const t = await fetchText("./azure-vm-errors.html");
         return mustInclude(t, "QuotaExceeded", "azure-vm-errors");
       }),
+      check("termius-azure.html loads", async () => {
+        const t = await fetchText("./termius-azure.html");
+        return mustInclude(t, "azureuser", "termius-azure");
+      }),
       check("styles.css loads", async () => {
         const t = await fetchText("./styles.css");
         return mustInclude(t, "--accent", "css");

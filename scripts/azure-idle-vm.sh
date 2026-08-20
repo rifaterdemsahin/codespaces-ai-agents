@@ -28,6 +28,7 @@ Usage: ./scripts/azure-idle-vm.sh <command>
   request   Create or recreate the VM (self-deletes when SSH idle)
   status    Show RG, VM, public IP, budget
   destroy   Delete the VM (+ NIC/IP/disk). Keeps RG + budget
+  delete    Same as destroy
   nuke      Delete the whole resource group (stops all idle-VM spend)
 
 Requires: az login as info@deliverypilot.net
@@ -203,7 +204,7 @@ main() {
     infra) cmd_infra ;;
     request) cmd_request ;;
     status) cmd_status ;;
-    destroy) cmd_destroy ;;
+    destroy|delete) cmd_destroy ;;
     nuke) cmd_nuke ;;
     -h|--help|help|"") usage ;;
     *) usage; exit 1 ;;

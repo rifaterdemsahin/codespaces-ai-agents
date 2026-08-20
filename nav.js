@@ -17,6 +17,7 @@
     { href: "azure-idle.html", emoji: "☁️", label: "Azure idle" },
     { href: "azure-idle-vm.html", emoji: "💷", label: "Azure £5 VM" },
     { href: "azure-vm-errors.html", emoji: "🧾", label: "Azure VM errors" },
+    { href: "termius-azure.html", emoji: "📱", label: "Termius Azure" },
     { href: "test.html", emoji: "✅", label: "System test" },
   ];
 

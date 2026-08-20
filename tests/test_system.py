@@ -50,7 +50,10 @@ REQUIRED_FILES = [
     "azure-idle-vm.html",
     "why.html",
     "azure-vm-errors.html",
+    "termius-azure.html",
     "scripts/azure-idle-vm.sh",
+    "scripts/delete-azure-idle-vm.sh",
+    "scripts/export-grok-idle-key.sh",
     "scripts/azure-idle-cloud-init.yaml",
     "copy.js",
     "test.js",
@@ -153,6 +156,7 @@ class TestRepoFiles(unittest.TestCase):
         self.assertIn("azure-idle-vm.html", text)
         self.assertIn("why.html", text)
         self.assertIn("azure-vm-errors.html", text)
+        self.assertIn("termius-azure.html", text)
         self.assertIn("copy.js", text)
         self.assertIn("nav.js", text)
         self.assertIn("test.js", text)
@@ -165,6 +169,8 @@ class TestRepoFiles(unittest.TestCase):
             "scripts/system-test.sh",
             "scripts/smoke-test.sh",
             "scripts/azure-idle-vm.sh",
+            "scripts/delete-azure-idle-vm.sh",
+            "scripts/export-grok-idle-key.sh",
         ):
             proc = _run(["bash", "-n", str(ROOT / rel)])
             self.assertEqual(proc.returncode, 0, proc.stderr)
@@ -218,6 +224,7 @@ class TestPagesContent(unittest.TestCase):
             "azure-idle-vm.html",
             "why.html",
             "azure-vm-errors.html",
+            "termius-azure.html",
             "index.html",
             "iphone.html",
             "test.html",
@@ -316,6 +323,12 @@ class TestPagesContent(unittest.TestCase):
         self.assertIn("QuotaExceeded", html)
         self.assertIn("SkuNotAvailable", html)
         self.assertIn("40.120.63.5", html)
+
+    def test_termius_azure_page(self) -> None:
+        html = _read("termius-azure.html")
+        self.assertIn("azureuser", html)
+        self.assertIn("grok-idle", html)
+        self.assertIn("delete-azure-idle-vm.sh", html)
 
 
 class TestNoSecretsCommitted(unittest.TestCase):

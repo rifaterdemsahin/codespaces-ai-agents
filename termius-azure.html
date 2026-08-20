@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>📱 Termius → Azure grok-idle (fix Connecting…)</title>
+  <meta name="description" content="Termius reached SSH then died at login. Use azureuser and the grok-idle key, not the Mac username.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav id="topnav" class="topnav"></nav>
+  <script src="nav.js"></script>
+  <header>
+    <div class="eyebrow">📱 Termius · Azure VPS · not the Mac hop</div>
+    <h1>📱 Termius to grok-idle — your error</h1>
+    <p class="lede">
+      The log got as far as ciphers. That means the network is fine.
+      Termius then had <strong>no matching private key</strong> (or the wrong username).
+      Ubuntu has <code>PasswordAuthentication no</code>. Only the
+      <code>grok-idle</code> key works.
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>📋 Host card — copy these</h2>
+      <div class="copyrow">
+        <div><span class="k">Address</span><code>40.120.63.5</code></div>
+        <button type="button" data-copy="40.120.63.5">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Port</span><code>22</code></div>
+        <button type="button" data-copy="22">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Username — not rifaterdemsahin</span><code>azureuser</code></div>
+        <button type="button" data-copy="azureuser">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Key in Termius</span><code>grok-idle</code> (Ed25519 · SHA256:NA0Ra24KU1/8YJnJbds1VgLyG9pdH34VIrWzv2VKcFQ)</div>
+        <button type="button" data-copy="grok-idle">Copy</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>🔑 Import the key (once)</h2>
+      <ol class="steps">
+        <li>On the Mac:
+<pre><code>./scripts/export-grok-idle-key.sh</code></pre>
+          AirDrop <code>Desktop/grok-idle</code> to the iPhone.</li>
+        <li>Termius → Keys → + → Import key → that file. Name it <code>grok-idle</code>.</li>
+        <li>Host → Key → select <code>grok-idle</code>. Not “default”, not your Mac key.</li>
+        <li>Tap Connect. If it asks to trust the host, Accept.</li>
+      </ol>
+      <p class="warn">
+        ⚠️ If the VM was idle it may already be deleted. Then Termius hangs before “Remote server: OpenSSH”.
+        Recreate on the Mac: <code>./scripts/azure-idle-vm.sh request</code> — IP can change.
+      </p>
+    </section>
+
+    <section>
+      <h2>🧾 What your log means</h2>
+      <table>
+        <thead>
+          <tr><th>Line</th><th>Meaning</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Connection … established / OpenSSH_9.6</td>
+            <td>✅ IP, port 22, NSG. Not a Wi-Fi problem.</td>
+          </tr>
+          <tr>
+            <td>Agreed KEX / cipher … then Close</td>
+            <td>❌ Auth. Wrong user or key not attached. Ubuntu refuses passwords.</td>
+          </tr>
+          <tr>
+            <td>Stuck on “Connecting to port 22” with no OpenSSH line</td>
+            <td>❌ VM gone (idle-delete) or IP stale.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>💣 Delete the VM (in this repo)</h2>
+      <div class="copyrow">
+        <div><span class="k">Delete VM, keep RG + $5 budget</span><code>./scripts/delete-azure-idle-vm.sh</code></div>
+        <button type="button" data-copy="./scripts/delete-azure-idle-vm.sh">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Same thing</span><code>./scripts/azure-idle-vm.sh destroy</code></div>
+        <button type="button" data-copy="./scripts/azure-idle-vm.sh destroy">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Create again</span><code>./scripts/azure-idle-vm.sh request</code></div>
+        <button type="button" data-copy="./scripts/azure-idle-vm.sh request">Copy</button>
+      </div>
+    </section>
+  </main>
+  <footer>
+    📱 Handshake succeeded. Attach grok-idle + azureuser. No private key on this page.
+  </footer>
+  <script src="copy.js"></script>
+</body>
+</html>
