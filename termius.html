@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>📱 How Termius reaches the Codespace</title>
+  <meta name="description" content="Termius (Terminus) on iPhone SSHs to the Mac. The Mac runs gh codespace ssh into zany-train. github.dev is not an SSH host.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav id="topnav" class="topnav"></nav>
+  <script src="nav.js"></script>
+  <header>
+    <div class="eyebrow">📱 Termius (the iPhone app) · not Safari</div>
+    <h1>📱 How Termius reaches that Codespace</h1>
+    <p class="lede">
+      The App Store app is spelled <strong>Termius</strong> (often said “Terminus”).
+      It is an SSH client. The Codespace URL
+      <code>zany-train-p9wx45qrxq3rr5p.github.dev</code> is <strong>not</strong> SSH —
+      it is a website. Termius reaches the VM in <em>two hops</em>.
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>🗺️ The path (two hops)</h2>
+      <svg class="arch" viewBox="0 0 720 220" role="img" aria-label="iPhone Termius SSHs to the Mac. The Mac runs gh codespace ssh into GitHub, which opens a shell in zany-train.">
+        <rect x="8" y="50" width="150" height="90" fill="#14160f" stroke="#d6ff4b"/>
+        <text x="83" y="88" text-anchor="middle" fill="#e8eadf" font-family="IBM Plex Sans, sans-serif" font-size="14">iPhone Termius</text>
+        <text x="83" y="110" text-anchor="middle" fill="#9aa18a" font-family="IBM Plex Mono, monospace" font-size="11">host = Mac IP</text>
+
+        <rect x="210" y="50" width="170" height="90" fill="#14160f" stroke="#d6ff4b"/>
+        <text x="295" y="82" text-anchor="middle" fill="#e8eadf" font-family="IBM Plex Sans, sans-serif" font-size="14">Mac sshd :22</text>
+        <text x="295" y="104" text-anchor="middle" fill="#9aa18a" font-family="IBM Plex Mono, monospace" font-size="11">rifaterdemsahin</text>
+        <text x="295" y="122" text-anchor="middle" fill="#9aa18a" font-family="IBM Plex Mono, monospace" font-size="11">gh codespace ssh</text>
+
+        <rect x="430" y="50" width="130" height="90" fill="#14160f" stroke="#9aa18a"/>
+        <text x="495" y="88" text-anchor="middle" fill="#e8eadf" font-family="IBM Plex Sans, sans-serif" font-size="14">GitHub</text>
+        <text x="495" y="110" text-anchor="middle" fill="#9aa18a" font-family="IBM Plex Mono, monospace" font-size="11">API tunnel</text>
+
+        <rect x="590" y="50" width="122" height="90" fill="#14160f" stroke="#d6ff4b"/>
+        <text x="651" y="82" text-anchor="middle" fill="#e8eadf" font-family="IBM Plex Sans, sans-serif" font-size="14">zany-train</text>
+        <text x="651" y="104" text-anchor="middle" fill="#9aa18a" font-family="IBM Plex Mono, monospace" font-size="11">agy · grok</text>
+        <text x="651" y="122" text-anchor="middle" fill="#9aa18a" font-family="IBM Plex Mono, monospace" font-size="11">/workspaces</text>
+
+        <line x1="158" y1="95" x2="210" y2="95" stroke="#d6ff4b"/>
+        <line x1="380" y1="95" x2="430" y2="95" stroke="#9aa18a"/>
+        <line x1="560" y1="95" x2="590" y2="95" stroke="#d6ff4b"/>
+        <text x="184" y="40" text-anchor="middle" fill="#d6ff4b" font-family="IBM Plex Mono, monospace" font-size="11">hop 1 SSH</text>
+        <text x="480" y="40" text-anchor="middle" fill="#9aa18a" font-family="IBM Plex Mono, monospace" font-size="11">hop 2 gh</text>
+      </svg>
+      <p>
+        Hop 1 is what you configure in Termius. Hop 2 is one command after you land on the Mac.
+        There is no “Termius host = github.dev”.
+      </p>
+    </section>
+
+    <section>
+      <h2>1️⃣ Termius host card (hop 1)</h2>
+      <p>Hosts → <strong>+</strong> → New Host. Not a URL. Not port 443.</p>
+      <table>
+        <thead>
+          <tr><th>Termius field</th><th>What to put</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Label</td><td><code>Mac → zany-train</code></td></tr>
+          <tr><td>Address</td><td>Same Wi-Fi: Mac LAN IP (this machine has been <code>10.142.236.14</code>) or <code>Rifats-MacBook-Pro-25258.local</code></td></tr>
+          <tr><td>Port</td><td><code>22</code></td></tr>
+          <tr><td>Username</td><td><code>rifaterdemsahin</code></td></tr>
+          <tr><td>Authentication</td><td>Key (Ed25519 generated in Termius → Keys)</td></tr>
+        </tbody>
+      </table>
+      <ol class="steps">
+        <li>Termius → Keys → Generate → Ed25519 → copy <strong>public</strong> key.</li>
+        <li>
+          On the Mac, one line in <code>~/.ssh/authorized_keys</code>, then
+          <code>chmod 600 ~/.ssh/authorized_keys</code>.
+        </li>
+        <li>
+          Mac: System Settings → General → Sharing → <strong>Remote Login On</strong>
+          for <code>rifaterdemsahin</code>.
+        </li>
+        <li>iPhone on the <strong>same Wi-Fi</strong>. Tap the host. Accept the Mac host key.</li>
+      </ol>
+      <p class="check">✅ Hop 1 worked when the prompt looks like a Mac (home directory, not <code>/workspaces</code> yet).</p>
+    </section>
+
+    <section>
+      <h2>2️⃣ Jump into the Codespace (hop 2)</h2>
+      <p>Still in that Termius session, on the Mac:</p>
+<pre class="term"><code>gh auth refresh -h github.com -s codespace,repo   # once
+gh codespace list
+gh codespace ssh -c zany-train-p9wx45qrxq3rr5p
+cd /workspaces/codespaces-ai-agents
+agy
+grok</code></pre>
+      <p>
+        Optional: Termius host → shell snippet / “run on connect” so hop 2 is automatic:
+      </p>
+<pre><code>gh codespace ssh -c zany-train-p9wx45qrxq3rr5p</code></pre>
+      <p class="check">✅ Hop 2 worked when <code>pwd</code> is under <code>/workspaces/codespaces-ai-agents</code> and <code>agy</code> / <code>grok</code> run. Same logins as the browser session.</p>
+    </section>
+
+    <section>
+      <h2>🚫 What Termius is not talking to</h2>
+      <table>
+        <thead>
+          <tr><th>You type this as Address</th><th>What it actually is</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>zany-train-p9wx45qrxq3rr5p.github.dev</code></td>
+            <td>HTTPS page (VS Code + passkey). Termius will fail or hang.</td>
+          </tr>
+          <tr>
+            <td><code>github.com</code> port 22 as <code>git</code></td>
+            <td>Git clone only. Not the Codespace VM.</td>
+          </tr>
+          <tr>
+            <td>Mac IP port 22 as <code>rifaterdemsahin</code></td>
+            <td>✅ Hop 1. Then <code>gh codespace ssh</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        Short SSH notes: <a href="iphone-ssh.html">📡 iphone-ssh.html</a>.
+        Browser URL: <a href="codespace-url.html">🔗 codespace-url.html</a>.
+      </p>
+    </section>
+  </main>
+  <footer>
+    📱 Termius → Mac → gh → zany-train. No secrets on this page.
+  </footer>
+</body>
+</html>

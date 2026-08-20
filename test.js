@@ -96,6 +96,10 @@
         const t = await fetchText("./iphone-ssh.html");
         return mustInclude(t, "gh codespace ssh", "iphone-ssh");
       }),
+      check("termius.html loads", async () => {
+        const t = await fetchText("./termius.html");
+        return mustInclude(t, "How Termius reaches that Codespace", "termius");
+      }),
       check("styles.css loads", async () => {
         const t = await fetchText("./styles.css");
         return mustInclude(t, "--accent", "css");

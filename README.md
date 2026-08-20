@@ -16,6 +16,8 @@ Saved Codespace URL: [codespace-url.html](https://rifaterdemsahin.github.io/code
 
 SSH from iPhone (skip Safari passkey): [iphone-ssh.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/iphone-ssh.html)
 
+How Termius reaches the Codespace: [termius.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/termius.html)
+
 Open this repo in **GitHub Codespaces**. The container installs:
 
 - **Grok Build** (`grok`) — xAI, subscription login

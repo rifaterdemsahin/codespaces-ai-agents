@@ -41,6 +41,7 @@ REQUIRED_FILES = [
     "grok-worked.html",
     "codespace-url.html",
     "iphone-ssh.html",
+    "termius.html",
     "test.js",
     "nav.js",
     "styles.css",
@@ -132,6 +133,7 @@ class TestRepoFiles(unittest.TestCase):
         self.assertIn("grok-worked.html", text)
         self.assertIn("codespace-url.html", text)
         self.assertIn("iphone-ssh.html", text)
+        self.assertIn("termius.html", text)
         self.assertIn("nav.js", text)
         self.assertIn("test.js", text)
         self.assertIn("report.json", text)
@@ -186,6 +188,7 @@ class TestPagesContent(unittest.TestCase):
             "grok-worked.html",
             "codespace-url.html",
             "iphone-ssh.html",
+            "termius.html",
             "index.html",
             "iphone.html",
             "test.html",
@@ -216,6 +219,13 @@ class TestPagesContent(unittest.TestCase):
         html = _read("iphone-ssh.html")
         self.assertIn("gh codespace ssh", html)
         self.assertIn("Termius", html)
+        self.assertIn("nav.js", html)
+
+    def test_termius_page(self) -> None:
+        html = _read("termius.html")
+        self.assertIn("How Termius reaches that Codespace", html)
+        self.assertIn("two hops", html)
+        self.assertIn("gh codespace ssh", html)
         self.assertIn("nav.js", html)
 
 
@@ -301,6 +311,13 @@ class TestLivePages(unittest.TestCase):
             self.skipTest("iphone-ssh.html not on Pages yet (first deploy)")
         self.assertEqual(status, 200)
         self.assertIn("gh codespace ssh", body)
+
+    def test_pages_termius_http(self) -> None:
+        status, body = _http_get(f"{PAGES}/termius.html")
+        if status == 404:
+            self.skipTest("termius.html not on Pages yet (first deploy)")
+        self.assertEqual(status, 200)
+        self.assertIn("How Termius reaches that Codespace", body)
 
 
 class TestGithubRepo(unittest.TestCase):
