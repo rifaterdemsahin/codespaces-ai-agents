@@ -108,6 +108,10 @@
         const t = await fetchText("./copy.js");
         return mustInclude(t, "data-copy", "copy.js");
       }),
+      check("iphone-free.html loads", async () => {
+        const t = await fetchText("./iphone-free.html");
+        return mustInclude(t, "skip Blink", "iphone-free");
+      }),
       check("styles.css loads", async () => {
         const t = await fetchText("./styles.css");
         return mustInclude(t, "--accent", "css");

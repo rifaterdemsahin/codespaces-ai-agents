@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>🆓 Free iPhone path — no Blink</title>
+  <meta name="description" content="Reach zany-train from iPhone for $0. Termius free → Mac → gh codespace ssh. Blink is not required.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav id="topnav" class="topnav"></nav>
+  <script src="nav.js"></script>
+  <header>
+    <div class="eyebrow">🆓 $0 · iPhone 14 Pro Max</div>
+    <h1>🆓 Free way from the iPhone — skip Blink</h1>
+    <p class="lede">
+      Blink Shell is paid. You do <strong>not</strong> need it.
+      You already have <strong>Termius</strong> (free Starter). That app SSHs to this Mac;
+      the Mac opens the Codespace. Copy buttons below. Same Wi-Fi as the Mac.
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>✅ What is free vs paid</h2>
+      <table>
+        <thead>
+          <tr><th>App</th><th>Use it?</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Termius Starter (you have this)</td>
+            <td>✅ Free SSH. Enough. Do not buy Pro for this.</td>
+          </tr>
+          <tr>
+            <td>Blink Shell</td>
+            <td>🚫 Skip. Paid. Not required.</td>
+          </tr>
+          <tr>
+            <td>Safari → github.dev</td>
+            <td>✅ Free fallback. Passkey page may appear.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>1️⃣ Termius host (free) — tap Copy</h2>
+      <p>Hosts → + → New Host. Authentication = Key (create one in Termius → Keys if needed).</p>
+      <div class="copyrow">
+        <div><span class="k">Label</span><code>Mac → zany-train</code></div>
+        <button type="button" data-copy="Mac → zany-train">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Address</span><code>10.142.236.14</code></div>
+        <button type="button" data-copy="10.142.236.14">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Port</span><code>22</code></div>
+        <button type="button" data-copy="22">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Username</span><code>rifaterdemsahin</code></div>
+        <button type="button" data-copy="rifaterdemsahin">Copy</button>
+      </div>
+      <p class="warn">📶 Same Wi-Fi as the Mac. Off-home this IP will not work unless you add Tailscale later (also free).</p>
+    </section>
+
+    <section>
+      <h2>2️⃣ Once on the Mac (free)</h2>
+      <p>Sharing → Remote Login On. Paste the Termius <em>public</em> key into <code>authorized_keys</code>.</p>
+      <div class="copyrow">
+        <div><span class="k">GitHub scope (browser once on Mac)</span><code>gh auth refresh -h github.com -s codespace,repo</code></div>
+        <button type="button" data-copy="gh auth refresh -h github.com -s codespace,repo">Copy</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>3️⃣ After Termius connects — paste this</h2>
+      <p>You are on the Mac. This opens the Codespace. No Blink.</p>
+      <div class="copyrow">
+        <div><span class="k">Hop into zany-train</span><code>gh codespace ssh -c zany-train-p9wx45qrxq3rr5p</code></div>
+        <button type="button" data-copy="gh codespace ssh -c zany-train-p9wx45qrxq3rr5p">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Repo folder</span><code>cd /workspaces/codespaces-ai-agents</code></div>
+        <button type="button" data-copy="cd /workspaces/codespaces-ai-agents">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Antigravity</span><code>agy</code></div>
+        <button type="button" data-copy="agy">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Grok</span><code>grok</code></div>
+        <button type="button" data-copy="grok">Copy</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>🆘 If the Mac is off — free Safari fallback</h2>
+      <p>No paid app. Passkey may pop once. Then Request Desktop Website.</p>
+      <div class="copyrow">
+        <div><span class="k">Open in Safari</span><code>https://zany-train-p9wx45qrxq3rr5p.github.dev/</code></div>
+        <button type="button" data-copy="https://zany-train-p9wx45qrxq3rr5p.github.dev/">Copy</button>
+      </div>
+      <p>
+        More copy rows: <a href="termius-setup.html">📋 Termius setup</a>.
+        Why two hops: <a href="termius.html">Termius hops</a>.
+      </p>
+    </section>
+  </main>
+  <footer>
+    🆓 Termius Starter + this Mac. Blink is optional paid, not part of this path.
+  </footer>
+  <script src="copy.js"></script>
+</body>
+</html>

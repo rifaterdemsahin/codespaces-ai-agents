@@ -43,6 +43,7 @@ REQUIRED_FILES = [
     "iphone-ssh.html",
     "termius.html",
     "termius-setup.html",
+    "iphone-free.html",
     "copy.js",
     "test.js",
     "nav.js",
@@ -137,6 +138,7 @@ class TestRepoFiles(unittest.TestCase):
         self.assertIn("iphone-ssh.html", text)
         self.assertIn("termius.html", text)
         self.assertIn("termius-setup.html", text)
+        self.assertIn("iphone-free.html", text)
         self.assertIn("copy.js", text)
         self.assertIn("nav.js", text)
         self.assertIn("test.js", text)
@@ -194,6 +196,7 @@ class TestPagesContent(unittest.TestCase):
             "iphone-ssh.html",
             "termius.html",
             "termius-setup.html",
+            "iphone-free.html",
             "index.html",
             "iphone.html",
             "test.html",
@@ -239,6 +242,14 @@ class TestPagesContent(unittest.TestCase):
         self.assertIn("data-copy", html)
         self.assertIn("copy.js", html)
         self.assertIn("zany-train-p9wx45qrxq3rr5p", html)
+        self.assertIn("nav.js", html)
+
+    def test_iphone_free_page(self) -> None:
+        html = _read("iphone-free.html")
+        self.assertIn("skip Blink", html)
+        self.assertIn("Termius", html)
+        self.assertIn("data-copy", html)
+        self.assertIn("copy.js", html)
         self.assertIn("nav.js", html)
 
 
@@ -338,6 +349,13 @@ class TestLivePages(unittest.TestCase):
             self.skipTest("termius-setup.html not on Pages yet (first deploy)")
         self.assertEqual(status, 200)
         self.assertIn("tap copy", body)
+
+    def test_pages_iphone_free_http(self) -> None:
+        status, body = _http_get(f"{PAGES}/iphone-free.html")
+        if status == 404:
+            self.skipTest("iphone-free.html not on Pages yet (first deploy)")
+        self.assertEqual(status, 200)
+        self.assertIn("skip Blink", body)
 
 
 class TestGithubRepo(unittest.TestCase):

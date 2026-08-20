@@ -20,6 +20,8 @@ How Termius reaches the Codespace: [termius.html](https://rifaterdemsahin.github
 
 Termius iPhone copy-paste setup: [termius-setup.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/termius-setup.html)
 
+Free iPhone path (no Blink): [iphone-free.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/iphone-free.html)
+
 Open this repo in **GitHub Codespaces**. The container installs:
 
 - **Grok Build** (`grok`) — xAI, subscription login
