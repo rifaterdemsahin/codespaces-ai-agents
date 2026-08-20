@@ -282,7 +282,8 @@ git add -A && git commit -m "…" && git push
         <li><span class="ok">OK</span> vault <code>dp-kv-deliverypilot</code> reachable; xai-api-key, ANTHROPIC, OPENAI, GEMINI, OPENROUTER, FAL present (lengths only)</li>
         <li><span class="ok">OK</span> <code>https://x.ai/cli/install.sh</code> and <code>https://antigravity.google/cli/install.sh</code> return HTTP 200</li>
         <li><span class="ok">OK</span> <code>scripts/smoke-test.sh</code> run on the machine that committed this</li>
-        <li>GitHub Actions CI + Pages deploy run after the push (see the Actions tab)</li>
+        <li><span class="ok">OK</span> GitHub Pages live at this URL (HTTP 200 after the first Actions deploy)</li>
+        <li>GitHub Actions CI re-run after a false-positive key-pattern check was fixed (see the Actions tab)</li>
       </ul>
       <p>
         A full Codespaces create (wait for post-create, then <code>grok --version</code> /

@@ -69,8 +69,9 @@ else
   echo "SKIP  Azure login (CI or logged-out machine) — vault checks not run"
 fi
 
-# Guard against accidental secret commits in tracked files
-if git ls-files -z | xargs -0 grep -E 'xai-[A-Za-z0-9]{20,}|sk-ant-|sk-or-' >/dev/null 2>&1; then
+# Guard against accidental secret commits. Exclude this file: the pattern
+# strings live here and would be a false positive.
+if git grep -I -E 'xai-[A-Za-z0-9]{20,}|sk-ant-|sk-or-' -- ':!scripts/smoke-test.sh' >/dev/null 2>&1; then
   bad "possible API key pattern in tracked files"
 else
   ok "no obvious API key patterns in tracked files"
