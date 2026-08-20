@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>📋 Ops: grok-idle key → Downloads → WhatsApp → Termius</title>
+  <meta name="description" content="Repeatable procedure: export grok-idle to Downloads, send as WhatsApp document to yourself, import in Termius as azureuser.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav id="topnav" class="topnav"></nav>
+  <script src="nav.js"></script>
+  <header>
+    <div class="eyebrow">📋 operational procedure · do not put the key in git</div>
+    <h1>📋 Key to the phone: Downloads → WhatsApp → Termius</h1>
+    <p class="lede">
+      Use this every time you need the Azure <code>grok-idle</code> key on the iPhone.
+      AirDrop is cleaner. WhatsApp to <strong>yourself</strong> as a
+      <strong>Document</strong> (the zip) also works. Never a group chat.
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>1️⃣ Mac — put files in Downloads</h2>
+      <div class="copyrow">
+        <div><span class="k">Export</span><code>./scripts/export-grok-idle-key.sh</code></div>
+        <button type="button" data-copy="./scripts/export-grok-idle-key.sh">Copy</button>
+      </div>
+      <p>Creates:</p>
+      <ul>
+        <li><code>~/Downloads/grok-idle</code> — raw OpenSSH private key</li>
+        <li><code>~/Downloads/grok-idle-termius.zip</code> — send <em>this</em> on WhatsApp (bare keys get mangled)</li>
+      </ul>
+      <p>Fingerprint must stay:</p>
+      <div class="copyrow">
+        <div><span class="k">SHA256</span><code>SHA256:NA0Ra24KU1/8YJnJbds1VgLyG9pdH34VIrWzv2VKcFQ</code></div>
+        <button type="button" data-copy="SHA256:NA0Ra24KU1/8YJnJbds1VgLyG9pdH34VIrWzv2VKcFQ">Copy</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>2️⃣ WhatsApp — to yourself only</h2>
+      <ol class="steps">
+        <li>Open WhatsApp on the Mac (or Files → share).</li>
+        <li>Chat with <strong>yourself</strong> (or “Starred” / your other number). Not a group.</li>
+        <li>Attach <strong>Document</strong> → <code>grok-idle-termius.zip</code>. Not a photo, not “file as media”.</li>
+        <li>Send. On the iPhone: tap the zip → Share → Save to Files (On My iPhone).</li>
+        <li>Files → unzip → you should see a file named <code>grok-idle</code>.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>3️⃣ Termius</h2>
+      <ol class="steps">
+        <li>Keys → + → Import → that <code>grok-idle</code> file.</li>
+        <li>Host: Address <code>40.120.63.5</code> (or new IP after recreate), port <code>22</code>, user <code>azureuser</code>, key <code>grok-idle</code>.</li>
+        <li>Connect. Why it failed before: <a href="mobile-fail.html">❌ Why mobile failed</a>.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>4️⃣ After import</h2>
+      <ul>
+        <li>Delete the WhatsApp message and the zip from Files.</li>
+        <li>Delete <code>~/Downloads/grok-idle*</code> on the Mac.</li>
+        <li>WhatsApp backups can keep the zip — prefer AirDrop next time if iCloud/WhatsApp backup is on.</li>
+      </ul>
+      <p class="warn">
+        ⚠️ This is a private key. WhatsApp E2E to yourself is acceptable for a one-shot move.
+        Do not commit the key. It also lives in Key Vault as <code>grok-idle-ssh-private-key</code>.
+      </p>
+    </section>
+  </main>
+  <footer>
+    📋 Procedure only. No key material on this page.
+  </footer>
+  <script src="copy.js"></script>
+</body>
+</html>

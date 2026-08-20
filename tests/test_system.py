@@ -52,6 +52,7 @@ REQUIRED_FILES = [
     "azure-vm-errors.html",
     "termius-azure.html",
     "mobile-fail.html",
+    "ops-whatsapp-key.html",
     "scripts/azure-idle-vm.sh",
     "scripts/delete-azure-idle-vm.sh",
     "scripts/export-grok-idle-key.sh",
@@ -139,6 +140,7 @@ class TestRepoFiles(unittest.TestCase):
     def test_gitignore_covers_env(self) -> None:
         text = _read(".gitignore")
         self.assertRegex(text, r"(?m)^\.env$")
+        self.assertIn("grok-idle-termius.zip", text)
 
     def test_pages_workflow_publishes_test_page(self) -> None:
         text = _read(".github/workflows/pages.yml")
@@ -159,6 +161,7 @@ class TestRepoFiles(unittest.TestCase):
         self.assertIn("azure-vm-errors.html", text)
         self.assertIn("termius-azure.html", text)
         self.assertIn("mobile-fail.html", text)
+        self.assertIn("ops-whatsapp-key.html", text)
         self.assertIn("copy.js", text)
         self.assertIn("nav.js", text)
         self.assertIn("test.js", text)
@@ -228,6 +231,7 @@ class TestPagesContent(unittest.TestCase):
             "azure-vm-errors.html",
             "termius-azure.html",
             "mobile-fail.html",
+            "ops-whatsapp-key.html",
             "index.html",
             "iphone.html",
             "test.html",
@@ -338,6 +342,26 @@ class TestPagesContent(unittest.TestCase):
         self.assertIn("Why your mobile connection failed", html)
         self.assertIn("azureuser", html)
         self.assertIn("PasswordAuthentication", html)
+        self.assertIn("ops-whatsapp-key.html", html)
+
+    def test_ops_whatsapp_key_page(self) -> None:
+        html = _read("ops-whatsapp-key.html")
+        self.assertIn("operational procedure", html)
+        self.assertIn("~/Downloads/grok-idle-termius.zip", html)
+        self.assertIn("WhatsApp", html)
+        self.assertIn("Document", html)
+        self.assertIn("azureuser", html)
+        self.assertIn("export-grok-idle-key.sh", html)
+        self.assertIn("nav.js", html)
+        self.assertNotIn("BEGIN OPENSSH PRIVATE KEY", html)
+        self.assertIn("SHA256:NA0Ra24KU1/8YJnJbds1VgLyG9pdH34VIrWzv2VKcFQ", html)
+
+    def test_export_script_writes_downloads_zip(self) -> None:
+        text = _read("scripts/export-grok-idle-key.sh")
+        self.assertIn("${HOME}/Downloads", text)
+        self.assertIn("grok-idle-termius.zip", text)
+        self.assertIn("WhatsApp", text)
+        self.assertNotIn("BEGIN OPENSSH PRIVATE KEY", text)
 
 
 class TestNoSecretsCommitted(unittest.TestCase):
@@ -464,6 +488,14 @@ class TestLivePages(unittest.TestCase):
             self.skipTest("azure-idle.html not on Pages yet (first deploy)")
         self.assertEqual(status, 200)
         self.assertIn("destroy when idle", body)
+
+    def test_pages_ops_whatsapp_key_http(self) -> None:
+        status, body = _http_get(f"{PAGES}/ops-whatsapp-key.html")
+        if status == 404:
+            self.skipTest("ops-whatsapp-key.html not on Pages yet (first deploy)")
+        self.assertEqual(status, 200)
+        self.assertIn("operational procedure", body)
+        self.assertIn("WhatsApp", body)
 
 
 class TestGithubRepo(unittest.TestCase):

@@ -30,6 +30,8 @@ Cheapest VPS from the UK: [cheapest-vps.html](https://rifaterdemsahin.github.io/
 
 Azure wake-on-request / idle deallocate: [azure-idle.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/azure-idle.html)
 
+Termius key to iPhone (Downloads → WhatsApp Document): [ops-whatsapp-key.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/ops-whatsapp-key.html)
+
 Open this repo in **GitHub Codespaces**. The container installs:
 
 - **Grok Build** (`grok`) — xAI, subscription login

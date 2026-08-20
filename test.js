@@ -140,6 +140,10 @@
         const t = await fetchText("./mobile-fail.html");
         return mustInclude(t, "Why your mobile connection failed", "mobile-fail");
       }),
+      check("ops-whatsapp-key.html loads", async () => {
+        const t = await fetchText("./ops-whatsapp-key.html");
+        return mustInclude(t, "operational procedure", "ops-whatsapp-key");
+      }),
       check("styles.css loads", async () => {
         const t = await fetchText("./styles.css");
         return mustInclude(t, "--accent", "css");

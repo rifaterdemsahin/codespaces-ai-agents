@@ -18,3 +18,7 @@ gitignore
 # Local test dumps (CI writes report.json into the Pages artifact only)
 report.json
 tests/last-run.json
+
+# Exported Termius key / WhatsApp zip — never commit
+grok-idle
+grok-idle-termius.zip

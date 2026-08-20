@@ -11,7 +11,7 @@ Optional secrets come from Azure Key Vault `dp-kv-deliverypilot` via `./scripts/
 
 - Stay in the project directory unless asked to clone another repo.
 - Prefer small, reviewable diffs.
-- Do not commit secrets, `.env`, or API keys.
+- Do not commit secrets, `.env`, API keys, or the `grok-idle` private key / WhatsApp zip. Export that key with `./scripts/export-grok-idle-key.sh` into `~/Downloads` and follow `ops-whatsapp-key.html`.
 - Default billing is subscription login (`grok login --device-auth`, `agy` Google URL). Do not set `XAI_API_KEY` unless the user asks for vault `--include-xai`.
 - Do not create a new Key Vault. Use `dp-kv-deliverypilot`.
 - Do not run destructive git commands (`reset --hard`, force-push) unless the user asks.
