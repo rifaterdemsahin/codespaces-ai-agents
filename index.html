@@ -2,117 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Codespaces AI Agents — setup log</title>
   <meta name="description" content="What was deployed so GitHub Codespaces can run Grok Build and Antigravity, with Azure Key Vault for optional secrets.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #0c0d0a;
-      --bg-2: #14160f;
-      --ink: #e8eadf;
-      --muted: #9aa18a;
-      --line: #2a2e22;
-      --accent: #d6ff4b;
-      --accent-ink: #111409;
-      --warn: #ffb347;
-    }
-    * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
-    body {
-      font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
-      line-height: 1.55;
-      font-size: 17px;
-    }
-    a { color: var(--accent); }
-    code, pre, kbd {
-      font-family: "IBM Plex Mono", ui-monospace, monospace;
-    }
-    header {
-      padding: 28px 8vw 0;
-      border-bottom: 1px solid var(--line);
-    }
-    .eyebrow {
-      color: var(--accent);
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      font-size: 12px;
-      font-weight: 600;
-    }
-    h1 {
-      font-size: clamp(28px, 5vw, 48px);
-      letter-spacing: -0.03em;
-      margin: 8px 0 12px;
-      max-width: 18ch;
-    }
-    .lede { color: var(--muted); max-width: 62ch; margin: 0 0 28px; }
-    nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px 18px;
-      padding-bottom: 18px;
-      font-size: 14px;
-    }
-    nav a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
-    nav a:hover { border-color: var(--accent); }
-    main { padding: 36px 8vw 80px; max-width: 1100px; }
-    h2 {
-      font-size: 22px;
-      margin: 48px 0 12px;
-      padding-top: 8px;
-      border-top: 1px solid var(--line);
-    }
-    h3 { font-size: 16px; margin: 24px 0 8px; }
-    p { max-width: 70ch; }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
-      margin: 18px 0 8px;
-    }
-    .card {
-      background: var(--bg-2);
-      border: 1px solid var(--line);
-      padding: 16px;
-    }
-    .card strong { display: block; margin-bottom: 6px; }
-    .card span { color: var(--muted); font-size: 14px; }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-      margin: 12px 0 20px;
-    }
-    th, td {
-      text-align: left;
-      border-bottom: 1px solid var(--line);
-      padding: 8px 10px 8px 0;
-      vertical-align: top;
-    }
-    th { color: var(--muted); font-weight: 500; }
-    pre {
-      background: #080905;
-      border: 1px solid var(--line);
-      padding: 14px 16px;
-      overflow-x: auto;
-      font-size: 13px;
-    }
-    .warn {
-      border-left: 3px solid var(--warn);
-      padding: 8px 12px;
-      color: var(--muted);
-      max-width: 70ch;
-    }
-    svg.arch { width: 100%; max-width: 720px; height: auto; margin: 12px 0 24px; }
-    footer {
-      color: var(--muted);
-      font-size: 13px;
-      padding: 0 8vw 40px;
-    }
-    .ok { color: var(--accent); }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
@@ -124,6 +20,8 @@
       Codespaces was pointed at Grok Build plus Antigravity.
     </p>
     <nav>
+      <a href="index.html" aria-current="page">Setup log</a>
+      <a href="iphone.html">iPhone test</a>
       <a href="#done">What was done</a>
       <a href="#arch">Architecture</a>
       <a href="#use">How to use it</a>
@@ -157,6 +55,10 @@
         <div class="card">
           <strong>4. GitHub Pages</strong>
           <span>This <code>index.html</code> is deployed by <code>.github/workflows/pages.yml</code> on every push to <code>main</code>.</span>
+        </div>
+        <div class="card">
+          <strong>5. iPhone test</strong>
+          <span>Step-by-step from an iPhone 14 Pro Max in Safari: site, Codespace, Grok, Antigravity, optional Key Vault, then Stop. <a href="iphone.html">Open the iPhone page</a>.</span>
         </div>
       </div>
       <p class="warn">
@@ -270,6 +172,8 @@ git add -A && git commit -m "…" && git push
           <tr><td><code>.github/workflows/pages.yml</code></td><td>Deploys this page</td></tr>
           <tr><td><code>.github/workflows/ci.yml</code></td><td>Runs smoke tests on push</td></tr>
           <tr><td><code>index.html</code></td><td>This explanation</td></tr>
+          <tr><td><code>iphone.html</code></td><td>How to test from an iPhone 14 Pro Max</td></tr>
+          <tr><td><code>styles.css</code></td><td>Shared Pages styles (phone safe-area + 430pt column)</td></tr>
           <tr><td><code>README.md</code> / <code>SUBSCRIPTION.md</code> / <code>AGENTS.md</code></td><td>Human + agent docs</td></tr>
         </tbody>
       </table>
@@ -286,9 +190,8 @@ git add -A && git commit -m "…" && git push
         <li>GitHub Actions CI re-run after a false-positive key-pattern check was fixed (see the Actions tab)</li>
       </ul>
       <p>
-        A full Codespaces create (wait for post-create, then <code>grok --version</code> /
-        <code>agy --version</code>) is the remaining live check. Device-code Grok/Google login
-        still needs your phone.
+        A full Codespaces create is the remaining live check — do it from the phone using
+        <a href="iphone.html">the iPhone 14 Pro Max steps</a>.
       </p>
       <p>
         Source: <a href="https://github.com/rifaterdemsahin/codespaces-ai-agents">github.com/rifaterdemsahin/codespaces-ai-agents</a>

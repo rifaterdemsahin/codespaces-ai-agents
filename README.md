@@ -2,6 +2,8 @@
 
 Public explainer: [https://rifaterdemsahin.github.io/codespaces-ai-agents/](https://rifaterdemsahin.github.io/codespaces-ai-agents/)
 
+Test from an iPhone 14 Pro Max (Safari): [iphone.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/iphone.html)
+
 Open this repo in **GitHub Codespaces**. The container installs:
 
 - **Grok Build** (`grok`) — xAI, subscription login
@@ -33,7 +35,9 @@ Repo is already on GitHub: [rifaterdemsahin/codespaces-ai-agents](https://github
 
 ### From a phone
 
-Use github.com in the browser (same **Code → Codespaces**), or SSH from Termius after the codespace is running (codespace menu → SSH).
+iPhone 14 Pro Max, step by step: [iphone.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/iphone.html).
+
+Short version: Safari (not the GitHub app) → Request Desktop Website → **Code → Codespaces**. Device-code logins open in a second Safari tab on the same phone.
 
 ---
 

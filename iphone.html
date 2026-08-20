@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Test from iPhone 14 Pro Max — Codespaces AI Agents</title>
+  <meta name="description" content="Step-by-step: test GitHub Pages, Codespaces, Grok, and Antigravity from an iPhone 14 Pro Max.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="eyebrow">iPhone 14 Pro Max · Safari</div>
+    <h1>How to test this from your phone</h1>
+    <p class="lede">
+      Do this on the iPhone itself, in <strong>Safari</strong> (not Chrome, not the GitHub app).
+      You will open this site, start a 2-core Codespace, log Grok and Antigravity in with
+      device codes, run one prompt, then stop the machine.
+    </p>
+    <nav>
+      <a href="index.html">Setup log</a>
+      <a href="iphone.html" aria-current="page">iPhone test</a>
+      <a href="#prep">Prep</a>
+      <a href="#site">1. This site</a>
+      <a href="#codespace">2. Codespace</a>
+      <a href="#grok">3. Grok</a>
+      <a href="#agy">4. Antigravity</a>
+      <a href="#kv">5. Key Vault</a>
+      <a href="#stop">6. Stop</a>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <h2>Open this page on the iPhone</h2>
+      <p>In Safari, tap this URL (or AirDrop / iMessage it to yourself):</p>
+      <a class="urlbox" href="https://rifaterdemsahin.github.io/codespaces-ai-agents/iphone.html">https://rifaterdemsahin.github.io/codespaces-ai-agents/iphone.html</a>
+      <p>
+        iPhone 14 Pro Max logical width is 430pt. This page should read in one column, with
+        no sideways page scroll, and the Dynamic Island should not cover the title.
+      </p>
+    </section>
+
+    <section id="prep">
+      <h2>Prep (once, before any test)</h2>
+      <ol class="steps">
+        <li>
+          Use <strong>Safari</strong>. Chrome on iOS will not share GitHub / X / Google cookies
+          with the Codespaces workbench the way Safari does.
+        </li>
+        <li>
+          Turn <strong>Private Browsing off</strong>. Device-code logins need cookies that
+          Private Browsing throws away.
+        </li>
+        <li>
+          Settings → Battery → <strong>Low Power Mode off</strong>. iOS otherwise freezes
+          the Codespaces tab while the container builds (several minutes).
+        </li>
+        <li>
+          Settings → Display &amp; Brightness → Auto-Lock → <strong>5 minutes</strong> (or Never
+          while you test). Plug the phone in if you can.
+        </li>
+        <li>
+          Stay on <strong>Wi-Fi</strong>. First Codespace create pulls the Ubuntu image plus
+          <code>grok</code> and <code>agy</code> installers.
+        </li>
+        <li>
+          In Safari, sign in to these three sites and leave the tabs open:
+          <a href="https://github.com/login">github.com</a> as <code>rifaterdemsahin</code>,
+          <a href="https://grok.com">grok.com</a> / X with SuperGrok or X Premium+,
+          and <a href="https://accounts.google.com">Google</a> with the Antigravity account.
+          <span class="check">Pass: each site shows you already logged in, no password prompt.</span>
+        </li>
+      </ol>
+      <p class="warn">
+        The GitHub iOS app cannot host the VS Code workbench. If the app opens, tap
+        the share sheet → <strong>Open in Safari</strong>.
+      </p>
+    </section>
+
+    <section id="site">
+      <h2>1. Test this documentation site</h2>
+      <ol class="steps">
+        <li>
+          Open
+          <a href="https://rifaterdemsahin.github.io/codespaces-ai-agents/">https://rifaterdemsahin.github.io/codespaces-ai-agents/</a>
+        </li>
+        <li>
+          Confirm the title <strong>Codespaces that run AI agents</strong>, then tap
+          <strong>iPhone test</strong> in the nav to return here.
+          <span class="check">Pass: both pages load over HTTPS, text is readable, cards stack, no horizontal page scroll.</span>
+        </li>
+      </ol>
+    </section>
+
+    <section id="codespace">
+      <h2>2. Open a 2-core Codespace</h2>
+      <ol class="steps">
+        <li>
+          Open
+          <a href="https://github.com/rifaterdemsahin/codespaces-ai-agents">github.com/rifaterdemsahin/codespaces-ai-agents</a>
+        </li>
+        <li>
+          Tap <strong>AA</strong> in the Safari address bar → <strong>Request Desktop Website</strong>.
+          GitHub hides <strong>Code → Codespaces</strong> on the mobile layout.
+          <span class="check">Pass: you see the green <strong>Code</strong> button, not only a clone URL.</span>
+        </li>
+        <li>
+          Tap <strong>Code</strong> → <strong>Codespaces</strong> →
+          <strong>Create codespace on main</strong> (or <strong>Resume</strong> if one already exists).
+        </li>
+        <li>
+          If GitHub asks for a machine size, pick <strong>2-core</strong>. Do not pick 4-core.
+        </li>
+        <li>
+          Wait. First create is often 3–8 minutes. <strong>Keep Safari in the foreground</strong>.
+          Do not switch to another app — iOS will suspend the tab and the editor may never finish loading.
+          <span class="check">Pass: VS Code for the Web opens, file tree on the left, this repo’s files visible.</span>
+        </li>
+        <li>
+          Open a terminal: tap the hamburger (☰) → <strong>Terminal</strong> → <strong>New Terminal</strong>.
+          The iOS keyboard will cover half the screen; drag the terminal pane up if you can.
+        </li>
+        <li>
+          Run:
+<pre><code>which grok agy az gh
+grok --version
+agy --version</code></pre>
+          <span class="check">Pass: all four commands are on PATH and grok/agy print a version. If <code>command not found</code>, wait for post-create to finish or open a new terminal.</span>
+        </li>
+      </ol>
+    </section>
+
+    <section id="grok">
+      <h2>3. Test Grok (subscription, same phone)</h2>
+      <p>
+        Codespaces has no desktop browser. You approve the device code in a
+        <strong>second Safari tab</strong> on this iPhone.
+      </p>
+      <ol class="steps">
+        <li>
+          In the Codespace terminal:
+<pre><code>unset XAI_API_KEY
+grok login --device-auth</code></pre>
+        </li>
+        <li>
+          Long-press the printed URL → Copy. Also note the short code.
+        </li>
+        <li>
+          Safari: new tab → paste the URL. Stay on the SuperGrok / X Premium+ account.
+          Approve or type the code.
+          <span class="check">Pass: the login page says success / connected.</span>
+        </li>
+        <li>
+          Switch back to the Codespaces tab. Then:
+<pre><code>grok models
+grok -p "Reply with READY and nothing else"</code></pre>
+          <span class="check">Pass: <code>grok models</code> lists models, and the prompt prints READY. That is the live agent test.</span>
+        </li>
+      </ol>
+      <p class="warn">
+        If Grok asks for <code>XAI_API_KEY</code>, you are off subscription billing.
+        Run <code>unset XAI_API_KEY</code> and login again. Do not pull <code>xai-api-key</code>
+        from Key Vault unless you want pay-per-token.
+      </p>
+    </section>
+
+    <section id="agy">
+      <h2>4. Test Antigravity</h2>
+      <ol class="steps">
+        <li>
+          In the same terminal, run <code>agy</code>. It prints a Google authorization URL.
+        </li>
+        <li>
+          Copy the URL → new Safari tab → sign in with the Google account that has Antigravity.
+          <span class="check">Pass: the terminal leaves the login wait, or <code>agy --version</code> works afterward.</span>
+        </li>
+      </ol>
+    </section>
+
+    <section id="kv">
+      <h2>5. Optional — Azure Key Vault from the phone</h2>
+      <ol class="steps">
+        <li>
+<pre><code>az login --use-device-code</code></pre>
+          Copy the code, open <a href="https://microsoft.com/devicelogin">microsoft.com/devicelogin</a>
+          in Safari, paste the code, sign in as <code>info@deliverypilot.net</code>.
+        </li>
+        <li>
+<pre><code>./scripts/kv-env.sh status</code></pre>
+          <span class="check">Pass: it prints the vault name and OK lines for secret names. Values must not appear.</span>
+        </li>
+      </ol>
+    </section>
+
+    <section id="stop">
+      <h2>6. Stop the Codespace (required)</h2>
+      <ol class="steps">
+        <li>
+          Safari → the repo → <strong>Code</strong> → <strong>Codespaces</strong> →
+          the three dots on your codespace → <strong>Stop codespace</strong>.
+          <span class="check">Pass: status is Stopped. Idle hours no longer count against the GitHub Pro quota.</span>
+        </li>
+      </ol>
+      <p>
+        Next time: same URL → Resume. You must run <code>grok login --device-auth</code> again
+        if this is a <em>new</em> codespace. A resumed one keeps <code>~/.grok</code>.
+      </p>
+    </section>
+
+    <section>
+      <h2>If a step fails</h2>
+      <table>
+        <thead>
+          <tr><th>What you see</th><th>Fix</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>No green <strong>Code</strong> button</td>
+            <td>AA → Request Desktop Website. Still missing? You are in the GitHub app — open in Safari.</td>
+          </tr>
+          <tr>
+            <td>Editor blank / “taking a long time”</td>
+            <td>Safari kept the tab backgrounded. Foreground it, or reopen Codespaces → Resume.</td>
+          </tr>
+          <tr>
+            <td><code>grok: command not found</code></td>
+            <td>post-create still running. Wait, then new terminal. Or <code>export PATH="$HOME/.grok/bin:$HOME/.local/bin:$PATH"</code>.</td>
+          </tr>
+          <tr>
+            <td>Grok login page never loads in Codespaces</td>
+            <td>Expected. Use <code>grok login --device-auth</code> and a second Safari tab.</td>
+          </tr>
+          <tr>
+            <td>Wrong X or Google account</td>
+            <td>Safari tab → sign out → open the device URL again.</td>
+          </tr>
+          <tr>
+            <td>Codespaces blocked / quota</td>
+            <td>GitHub Settings → Billing. Extra spend should be $0; included hours may be used up.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        Back to the <a href="index.html">setup log</a>.
+        Source: <a href="https://github.com/rifaterdemsahin/codespaces-ai-agents">github.com/rifaterdemsahin/codespaces-ai-agents</a>
+      </p>
+    </section>
+  </main>
+  <footer>
+    Written for iPhone 14 Pro Max + Safari. No secrets on this page.
+  </footer>
+</body>
+</html>
