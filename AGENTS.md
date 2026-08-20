@@ -24,4 +24,4 @@ Optional secrets come from Azure Key Vault `dp-kv-deliverypilot` via `./scripts/
 
 ## Docs site
 
-`index.html`, `iphone.html`, `test.html`, and `after-green.html` are deployed to GitHub Pages. Shared menu is `nav.js`. If you change how the environment works, update those pages and `tests/test_system.py`.
+`index.html`, `iphone.html`, `test.html`, `after-green.html`, and `agy-worked.html` are deployed to GitHub Pages. Shared menu is `nav.js`. If you change how the environment works, update those pages and `tests/test_system.py`.

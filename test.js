@@ -80,6 +80,10 @@
         const t = await fetchText("./nav.js");
         return mustInclude(t, "After green button", "nav");
       }),
+      check("agy-worked.html loads", async () => {
+        const t = await fetchText("./agy-worked.html");
+        return mustInclude(t, "What you should see when agy works", "agy-worked");
+      }),
       check("styles.css loads", async () => {
         const t = await fetchText("./styles.css");
         return mustInclude(t, "--accent", "css");

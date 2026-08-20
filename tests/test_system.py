@@ -37,6 +37,7 @@ REQUIRED_FILES = [
     "iphone.html",
     "test.html",
     "after-green.html",
+    "agy-worked.html",
     "test.js",
     "nav.js",
     "styles.css",
@@ -122,6 +123,7 @@ class TestRepoFiles(unittest.TestCase):
         text = _read(".github/workflows/pages.yml")
         self.assertIn("test.html", text)
         self.assertIn("after-green.html", text)
+        self.assertIn("agy-worked.html", text)
         self.assertIn("nav.js", text)
         self.assertIn("test.js", text)
         self.assertIn("report.json", text)
@@ -170,8 +172,21 @@ class TestPagesContent(unittest.TestCase):
 
     def test_shared_nav_lists_all_pages(self) -> None:
         js = _read("nav.js")
-        for name in ("after-green.html", "index.html", "iphone.html", "test.html"):
+        for name in (
+            "after-green.html",
+            "agy-worked.html",
+            "index.html",
+            "iphone.html",
+            "test.html",
+        ):
             self.assertIn(name, js)
+
+    def test_agy_worked_page(self) -> None:
+        html = _read("agy-worked.html")
+        self.assertIn("What you should see when agy works", html)
+        self.assertIn("Antigravity CLI 1.1.16", html)
+        self.assertIn("Google AI Pro", html)
+        self.assertIn("nav.js", html)
 
 
 class TestNoSecretsCommitted(unittest.TestCase):
@@ -228,6 +243,13 @@ class TestLivePages(unittest.TestCase):
             self.skipTest("after-green.html not on Pages yet (first deploy)")
         self.assertEqual(status, 200)
         self.assertIn("After you press the green button", body)
+
+    def test_pages_agy_worked_http(self) -> None:
+        status, body = _http_get(f"{PAGES}/agy-worked.html")
+        if status == 404:
+            self.skipTest("agy-worked.html not on Pages yet (first deploy)")
+        self.assertEqual(status, 200)
+        self.assertIn("What you should see when agy works", body)
 
 
 class TestGithubRepo(unittest.TestCase):

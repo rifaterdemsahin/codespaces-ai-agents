@@ -137,6 +137,12 @@ pre {
   font-size: 13px;
   -webkit-overflow-scrolling: touch;
 }
+pre.term {
+  border-color: var(--accent);
+  max-width: 70ch;
+  white-space: pre-wrap;
+  line-height: 1.45;
+}
 .warn {
   border-left: 3px solid var(--warn);
   padding: 8px 12px;

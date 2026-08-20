@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>✨ What you should see when agy works</title>
+  <meta name="description" content="Captured from zany-train Codespace: Antigravity CLI signed in and answering hello.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav id="topnav" class="topnav"></nav>
+  <script src="nav.js"></script>
+  <header>
+    <div class="eyebrow">✨ captured from zany-train · 20 Aug 2026</div>
+    <h1>✨ What you should see when agy works</h1>
+    <p class="lede">
+      This is a real session from
+      <a href="https://zany-train-p9wx45qrxq3rr5p.github.dev/">zany-train.github.dev</a>
+      after the Google OAuth link. If your Codespace looks like this, Antigravity is in.
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>👀 What “it worked” looks like</h2>
+      <p>Four things must be on screen. Missing any one of them means login did not finish.</p>
+      <div class="grid">
+        <div class="card">
+          <strong>1️⃣ Banner + version</strong>
+          <span>ASCII gem and <code>Antigravity CLI 1.1.16</code> (version can be newer).</span>
+        </div>
+        <div class="card">
+          <strong>2️⃣ Your Google account</strong>
+          <span><code>rifaterdemsahin@gmail.com (Google AI Pro)</code> — not a “sign in” URL.</span>
+        </div>
+        <div class="card">
+          <strong>3️⃣ Model line</strong>
+          <span><code>Gemini 3.7 Flash (High)</code> (name can change). Workspace path under it.</span>
+        </div>
+        <div class="card">
+          <strong>4️⃣ A reply to hello</strong>
+          <span>You type <code>hello</code>. It answers in the TUI, not with another OAuth URL.</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>💻 The session (saved from the container)</h2>
+<pre class="term"><code>👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.
+
+🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)
+
+📝 Edit away, then run your build command to see your code running in the browser.
+
+@rifaterdemsahin ➜ /workspaces/codespaces-ai-agents (main) $ agy
+
+      ▄▀▀▄
+     ▀▀▀▀▀▀
+    ▀▀▀▀▀▀▀▀
+   ▄▀▀    ▀▀▄
+  ▄▀▀      ▀▀▄
+
+  Antigravity CLI 1.1.16
+  rifaterdemsahin@gmail.com (Google AI Pro)
+  Gemini 3.7 Flash (High)
+  /workspaces/codespaces-ai-agents
+
+──────────────────────────────────────────────────
+&gt; hello
+
+  Hello! How can I help you today with your
+  project or terminal agents in this Codespace?</code></pre>
+    </section>
+
+    <section>
+      <h2>✅ Pass vs 🚫 not yet</h2>
+      <table>
+        <thead>
+          <tr><th>You see</th><th>Meaning</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>A long <code>accounts.google.com/o/oauth2/auth?…</code> URL</td>
+            <td>🚫 Login not done. Open that URL in Chrome or Safari, Allow, come back. Do not paste the URL into the TUI.</td>
+          </tr>
+          <tr>
+            <td><code>agy: command not found</code></td>
+            <td>🚫 post-create still running. Wait, then a <em>new</em> terminal.</td>
+          </tr>
+          <tr>
+            <td>Email + <code>Google AI Pro</code> + prompt <code>&gt;</code></td>
+            <td>✅ Signed in. Type <code>hello</code> to confirm the model answers.</td>
+          </tr>
+          <tr>
+            <td>A reply to <code>hello</code> about the project / Codespace</td>
+            <td>✅ Agent is live. This is the basic agy test.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>🔁 How to get back to this screen</h2>
+<pre><code>agy</code></pre>
+      <p>
+        Next time in the <em>same</em> Codespace you usually skip OAuth. A <em>new</em> codespace
+        prints the Google URL again. After you leave: stop <code>zany-train</code> so hours
+        do not burn idle. Grok is separate: <code>grok login --device-auth</code> —
+        <a href="after-green.html">🟢 After green button</a>.
+      </p>
+    </section>
+  </main>
+  <footer>
+    ✨ Real output from the first working agy session. No OAuth tokens on this page.
+  </footer>
+</body>
+</html>

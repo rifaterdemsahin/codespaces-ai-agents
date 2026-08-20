@@ -8,6 +8,8 @@ Is the system working? [test.html](https://rifaterdemsahin.github.io/codespaces-
 
 Just pressed the green **Code** button? [after-green.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/after-green.html) — basic test inside `*.github.dev`.
 
+What a working `agy` session looks like: [agy-worked.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/agy-worked.html)
+
 Open this repo in **GitHub Codespaces**. The container installs:
 
 - **Grok Build** (`grok`) — xAI, subscription login
