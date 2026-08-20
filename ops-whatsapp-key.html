@@ -32,8 +32,9 @@
       </div>
       <p>Creates:</p>
       <ul>
-        <li><code>~/Downloads/grok-idle</code> — raw OpenSSH private key</li>
-        <li><code>~/Downloads/grok-idle-termius.zip</code> — send <em>this</em> on WhatsApp (bare keys get mangled)</li>
+        <li><code>~/Downloads/grok-idle.pem</code> — import this in Termius (iOS needs the extension)</li>
+        <li><code>~/Downloads/grok-idle.txt</code> — same bytes; open, Select All, Paste Key</li>
+        <li><code>~/Downloads/grok-idle-termius.zip</code> — send <em>this</em> on WhatsApp as a Document</li>
       </ul>
       <p>Fingerprint must stay:</p>
       <div class="copyrow">
@@ -49,16 +50,29 @@
         <li>Chat with <strong>yourself</strong> (or “Starred” / your other number). Not a group.</li>
         <li>Attach <strong>Document</strong> → <code>grok-idle-termius.zip</code>. Not a photo, not “file as media”.</li>
         <li>Send. On the iPhone: tap the zip → Share → Save to Files (On My iPhone).</li>
-        <li>Files → unzip → you should see a file named <code>grok-idle</code>.</li>
+        <li>Files → unzip → you should see <code>grok-idle.pem</code> and <code>grok-idle.txt</code>.</li>
       </ol>
     </section>
 
     <section>
-      <h2>3️⃣ Termius</h2>
+      <h2>3️⃣ Termius — Import, never Export</h2>
+      <p class="warn">
+        ⚠️ “Export Key” with the <code>authorized_keys</code> bash snippet is the wrong screen.
+        That tries to <em>push a public key to the VM</em>. Ubuntu has no password, so it fails.
+        The Mac already put the public key on the box. You only need the <strong>private</strong> key in Termius.
+      </p>
       <ol class="steps">
-        <li>Keys → + → Import → that <code>grok-idle</code> file.</li>
-        <li>Host: Address <code>40.120.63.5</code> (or new IP after recreate), port <code>22</code>, user <code>azureuser</code>, key <code>grok-idle</code>.</li>
-        <li>Connect. Why it failed before: <a href="mobile-fail.html">❌ Why mobile failed</a>.</li>
+        <li>Keychain → if a key named <code>grok-idle</code> exists, <strong>delete it</strong> (it is empty).</li>
+        <li>Keychain → + → <strong>Import from file</strong> → <code>grok-idle.pem</code>.
+            Or + → <strong>Paste Key</strong> → open <code>grok-idle.txt</code> → Select All → Copy → paste.
+            The text must start with <code>BEGIN OPENSSH PRIVATE KEY</code>.</li>
+        <li>Label it <code>grok-idle</code>. After save it must show fingerprint
+            <code>SHA256:NA0Ra24KU1/8YJnJbds1VgLyG9pdH34VIrWzv2VKcFQ</code>.
+            If Termius says “Private Key is empty”, the import did not take — paste instead.</li>
+        <li>Host: Address <code>40.120.63.5</code>, port <code>22</code>, user <code>azureuser</code>,
+            key <code>grok-idle</code> (the one you just imported).</li>
+        <li>Connect. If it asks to trust the host, Accept
+            (<code>SHA256:q9tOqtThKfhVSiJMdEmktR1us3SRcG+On/BoT+vbMYs</code>).</li>
       </ol>
     </section>
 

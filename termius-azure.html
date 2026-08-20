@@ -50,10 +50,12 @@
       <ol class="steps">
         <li>On the Mac:
 <pre><code>./scripts/export-grok-idle-key.sh</code></pre>
-          Writes <code>~/Downloads/grok-idle</code> and <code>~/Downloads/grok-idle-termius.zip</code>.
+          Writes <code>~/Downloads/grok-idle.pem</code> and a zip.
           Send the zip as a WhatsApp <strong>Document</strong> to yourself (not media).
           Procedure: <a href="ops-whatsapp-key.html">📋 Key via WhatsApp</a>.</li>
-        <li>Termius → Keys → + → Import key → that file. Name it <code>grok-idle</code>.</li>
+        <li>Termius Keychain → delete any empty <code>grok-idle</code> → + → <strong>Import from file</strong>
+            <code>grok-idle.pem</code> (or Paste Key from <code>grok-idle.txt</code>).
+            Do <strong>not</strong> use Export Key / the <code>authorized_keys</code> script.</li>
         <li>Host → Key → select <code>grok-idle</code>. Not “default”, not your Mac key.</li>
         <li>Tap Connect. If it asks to trust the host, Accept.</li>
       </ol>

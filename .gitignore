@@ -21,4 +21,6 @@ tests/last-run.json
 
 # Exported Termius key / WhatsApp zip — never commit
 grok-idle
+grok-idle.pem
+grok-idle.txt
 grok-idle-termius.zip

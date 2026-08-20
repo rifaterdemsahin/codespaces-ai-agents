@@ -348,18 +348,23 @@ class TestPagesContent(unittest.TestCase):
         html = _read("ops-whatsapp-key.html")
         self.assertIn("operational procedure", html)
         self.assertIn("~/Downloads/grok-idle-termius.zip", html)
+        self.assertIn("grok-idle.pem", html)
+        self.assertIn("Paste Key", html)
+        self.assertIn("Private Key is empty", html)
         self.assertIn("WhatsApp", html)
         self.assertIn("Document", html)
         self.assertIn("azureuser", html)
         self.assertIn("export-grok-idle-key.sh", html)
         self.assertIn("nav.js", html)
-        self.assertNotIn("BEGIN OPENSSH PRIVATE KEY", html)
+        # Instructional header name is fine; a real key body is not.
+        self.assertNotRegex(html, r"-----BEGIN OPENSSH PRIVATE KEY-----\s*[A-Za-z0-9+/]{20,}")
         self.assertIn("SHA256:NA0Ra24KU1/8YJnJbds1VgLyG9pdH34VIrWzv2VKcFQ", html)
 
     def test_export_script_writes_downloads_zip(self) -> None:
         text = _read("scripts/export-grok-idle-key.sh")
         self.assertIn("${HOME}/Downloads", text)
         self.assertIn("grok-idle-termius.zip", text)
+        self.assertIn("grok-idle.pem", text)
         self.assertIn("WhatsApp", text)
         self.assertNotIn("BEGIN OPENSSH PRIVATE KEY", text)
 
