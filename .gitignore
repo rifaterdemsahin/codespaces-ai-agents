@@ -14,3 +14,7 @@ gitignore
 # Editor
 .vscode/
 .idea/
+
+# Local test dumps (CI writes report.json into the Pages artifact only)
+report.json
+tests/last-run.json

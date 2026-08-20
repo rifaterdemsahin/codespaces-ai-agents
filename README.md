@@ -4,6 +4,8 @@ Public explainer: [https://rifaterdemsahin.github.io/codespaces-ai-agents/](http
 
 Test from an iPhone 14 Pro Max (Safari): [iphone.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/iphone.html)
 
+Is the system working? [test.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/test.html) — browser checks plus `./scripts/system-test.sh`.
+
 Open this repo in **GitHub Codespaces**. The container installs:
 
 - **Grok Build** (`grok`) — xAI, subscription login
@@ -128,6 +130,21 @@ All-day daily use will exceed ~90 hours on Pro. Evenings/weekends from a phone i
 
 ---
 
+## Tests
+
+Public board: [test.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/test.html)
+
+```bash
+./scripts/system-test.sh -v
+python3 tests/test_system.py --json
+# after `grok login --device-auth`:
+./scripts/system-test.sh --live -v
+```
+
+`--live` is the agent check: Grok must reply `READY`. Vault checks run only if `az` is logged in; they never print secret values.
+
+---
+
 ## Repo layout
 
 ```
@@ -140,12 +157,19 @@ All-day daily use will exceed ~90 hours on Pro. Evenings/weekends from a phone i
 scripts/
   kv-env.sh
   smoke-test.sh
+  system-test.sh
+tests/
+  test_system.py
 .gitignore
 .env.example
 AGENTS.md
 README.md
 SUBSCRIPTION.md
 index.html
+iphone.html
+test.html
+test.js
+styles.css
 ```
 
 After you change `.devcontainer/*`: Command Palette → **Codespaces: Rebuild Container**.

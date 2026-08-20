@@ -24,4 +24,4 @@ Optional secrets come from Azure Key Vault `dp-kv-deliverypilot` via `./scripts/
 
 ## Docs site
 
-`index.html` and `iphone.html` are deployed to GitHub Pages. If you change how the environment works, update those pages too.
+`index.html`, `iphone.html`, and `test.html` are deployed to GitHub Pages. If you change how the environment works, update those pages and `tests/test_system.py`.

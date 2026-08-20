@@ -11,5 +11,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run smoke tests
-        run: bash scripts/smoke-test.sh
+      - name: Run system tests
+        run: python3 tests/test_system.py -v

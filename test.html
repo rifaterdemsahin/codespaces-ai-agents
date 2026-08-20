@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Is this system working? — Codespaces AI Agents</title>
+  <meta name="description" content="Live test board: GitHub Pages, repo, Actions, plus commands to test Grok in a Codespace.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="eyebrow">test board · no secrets</div>
+    <h1>Is this system working?</h1>
+    <p class="lede">
+      This page runs checks in your browser against the public site and GitHub.
+      The table under <strong>Last CI report</strong> is produced by
+      <code>python3 tests/test_system.py --json</code> on every Pages deploy.
+      Grok itself still has to be tested inside a Codespace after device login.
+    </p>
+    <nav>
+      <a href="index.html">Setup log</a>
+      <a href="iphone.html">iPhone test</a>
+      <a href="test.html" aria-current="page">System test</a>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <h2>Browser checks (this page)</h2>
+      <p>
+        Auto-runs on load. Works on the iPhone 14 Pro Max in Safari too.
+        These prove Pages, CSS, the repo API, and a recent green Actions run.
+      </p>
+      <p>
+        <button type="button" class="run" id="run">Run browser tests again</button>
+      </p>
+      <div id="summary"></div>
+      <div id="board"></div>
+    </section>
+
+    <section>
+      <h2>Last CI report</h2>
+      <p>
+        Written into <code>report.json</code> when GitHub Actions deploys this site.
+        Vault and Grok rows are <code>SKIP</code> on the Actions runner (no Azure login,
+        no grok CLI). They turn into <code>PASS</code> when you run the same tests
+        on a logged-in machine.
+      </p>
+      <div id="ci-report">Loading…</div>
+    </section>
+
+    <section>
+      <h2>Test code to run in a Codespace</h2>
+      <p>This is the real “are the agents working” check. Browser tests cannot log into Grok.</p>
+<pre><code>./scripts/system-test.sh -v
+# same thing:
+python3 tests/test_system.py -v
+
+# after grok login --device-auth:
+./scripts/system-test.sh --live -v</code></pre>
+      <p><code>--live</code> runs <code>grok -p "Reply with READY and nothing else"</code>. Pass = the model printed READY.</p>
+      <p>JSON for this page (CI already does this):</p>
+<pre><code>python3 tests/test_system.py --json</code></pre>
+      <ol class="steps">
+        <li>Open a 2-core Codespace from the repo (Safari → Request Desktop Website). Steps: <a href="iphone.html">iphone.html</a>.</li>
+        <li>Wait for <code>post-create.sh</code>. New terminal: <code>./scripts/system-test.sh -v</code>. Grok/agy presence should PASS; Grok live stays SKIP until you log in.</li>
+        <li><code>unset XAI_API_KEY && grok login --device-auth</code> in one terminal, approve in a second Safari tab.</li>
+        <li><code>./scripts/system-test.sh --live -v</code> — <code>TestGrokLive.test_grok_prompt_ready</code> must PASS.</li>
+        <li>Optional: <code>az login --use-device-code</code> then rerun. Vault checks should PASS without printing values.</li>
+        <li>Stop the codespace when finished.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>What each layer proves</h2>
+      <table>
+        <thead>
+          <tr><th>Layer</th><th>Code</th><th>Working means</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Repo layout</td>
+            <td><code>tests/test_system.py</code> · TestRepoFiles</td>
+            <td>devcontainer, scripts, Pages files present</td>
+          </tr>
+          <tr>
+            <td>This site</td>
+            <td><code>test.js</code> + TestLivePages</td>
+            <td>GitHub Pages serves the HTML</td>
+          </tr>
+          <tr>
+            <td>Installers</td>
+            <td>TestInstallers</td>
+            <td><code>grok</code> / <code>agy</code> install URLs still 200</td>
+          </tr>
+          <tr>
+            <td>Key Vault</td>
+            <td>TestAzureKeyVault</td>
+            <td><code>az</code> can see <code>dp-kv-deliverypilot</code> (names only)</td>
+          </tr>
+          <tr>
+            <td>Grok agent</td>
+            <td>TestGrokLive · <code>--live</code></td>
+            <td>A real Grok reply contains READY</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        <a href="index.html">Setup log</a>
+        ·
+        <a href="iphone.html">iPhone steps</a>
+        ·
+        <a href="https://github.com/rifaterdemsahin/codespaces-ai-agents">source</a>
+      </p>
+    </section>
+  </main>
+  <footer>
+    Browser tests talk only to this origin and the public GitHub API. No vault values.
+  </footer>
+  <script src="test.js"></script>
+</body>
+</html>
