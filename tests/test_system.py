@@ -45,6 +45,7 @@ REQUIRED_FILES = [
     "termius-setup.html",
     "iphone-free.html",
     "vps.html",
+    "cheapest-vps.html",
     "copy.js",
     "test.js",
     "nav.js",
@@ -141,6 +142,7 @@ class TestRepoFiles(unittest.TestCase):
         self.assertIn("termius-setup.html", text)
         self.assertIn("iphone-free.html", text)
         self.assertIn("vps.html", text)
+        self.assertIn("cheapest-vps.html", text)
         self.assertIn("copy.js", text)
         self.assertIn("nav.js", text)
         self.assertIn("test.js", text)
@@ -200,6 +202,7 @@ class TestPagesContent(unittest.TestCase):
             "termius-setup.html",
             "iphone-free.html",
             "vps.html",
+            "cheapest-vps.html",
             "index.html",
             "iphone.html",
             "test.html",
@@ -260,6 +263,14 @@ class TestPagesContent(unittest.TestCase):
         self.assertIn("VPS instead of Codespaces", html)
         self.assertIn("Fly.io", html)
         self.assertIn("fly ssh console", html)
+        self.assertIn("nav.js", html)
+
+    def test_cheapest_vps_page(self) -> None:
+        html = _read("cheapest-vps.html")
+        self.assertIn("Cheapest VPS you can reach from the UK", html)
+        self.assertIn("Hetzner", html)
+        self.assertIn("OVHcloud", html)
+        self.assertIn("Fly.io", html)
         self.assertIn("nav.js", html)
 
 
@@ -373,6 +384,13 @@ class TestLivePages(unittest.TestCase):
             self.skipTest("vps.html not on Pages yet (first deploy)")
         self.assertEqual(status, 200)
         self.assertIn("Fly.io", body)
+
+    def test_pages_cheapest_vps_http(self) -> None:
+        status, body = _http_get(f"{PAGES}/cheapest-vps.html")
+        if status == 404:
+            self.skipTest("cheapest-vps.html not on Pages yet (first deploy)")
+        self.assertEqual(status, 200)
+        self.assertIn("Cheapest VPS you can reach from the UK", body)
 
 
 class TestGithubRepo(unittest.TestCase):

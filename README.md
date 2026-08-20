@@ -24,6 +24,8 @@ Free iPhone path (no Blink): [iphone-free.html](https://rifaterdemsahin.github.i
 
 VPS vs Codespaces (and Fly.io): [vps.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/vps.html)
 
+Cheapest VPS from the UK: [cheapest-vps.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/cheapest-vps.html)
+
 Open this repo in **GitHub Codespaces**. The container installs:
 
 - **Grok Build** (`grok`) — xAI, subscription login

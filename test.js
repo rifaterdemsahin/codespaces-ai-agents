@@ -116,6 +116,10 @@
         const t = await fetchText("./vps.html");
         return mustInclude(t, "Fly.io", "vps");
       }),
+      check("cheapest-vps.html loads", async () => {
+        const t = await fetchText("./cheapest-vps.html");
+        return mustInclude(t, "Cheapest VPS you can reach from the UK", "cheapest-vps");
+      }),
       check("styles.css loads", async () => {
         const t = await fetchText("./styles.css");
         return mustInclude(t, "--accent", "css");

@@ -12,6 +12,7 @@
     { href: "iphone-ssh.html", emoji: "📡", label: "iPhone SSH" },
     { href: "iphone.html", emoji: "📱", label: "iPhone Safari" },
     { href: "vps.html", emoji: "🖥️", label: "VPS vs Codespaces" },
+    { href: "cheapest-vps.html", emoji: "💷", label: "Cheapest VPS" },
     { href: "test.html", emoji: "✅", label: "System test" },
   ];
 
