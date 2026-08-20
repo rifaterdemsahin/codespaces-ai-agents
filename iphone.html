@@ -11,31 +11,31 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <nav id="topnav" class="topnav"></nav>
+  <script src="nav.js"></script>
   <header>
-    <div class="eyebrow">iPhone 14 Pro Max · Safari</div>
-    <h1>How to test this from your phone</h1>
+    <div class="eyebrow">📱 iPhone 14 Pro Max · Safari</div>
+    <h1>📱 How to test this from your phone</h1>
     <p class="lede">
       Do this on the iPhone itself, in <strong>Safari</strong> (not Chrome, not the GitHub app).
       You will open this site, start a 2-core Codespace, log Grok and Antigravity in with
       device codes, run one prompt, then stop the machine.
+      Already have a <code>github.dev</code> tab? <a href="after-green.html">🟢 After green button</a>.
     </p>
-    <nav>
-      <a href="index.html">Setup log</a>
-      <a href="iphone.html" aria-current="page">iPhone test</a>
-      <a href="test.html">System test</a>
-      <a href="#prep">Prep</a>
-      <a href="#site">1. This site</a>
-      <a href="#codespace">2. Codespace</a>
-      <a href="#grok">3. Grok</a>
-      <a href="#agy">4. Antigravity</a>
-      <a href="#kv">5. Key Vault</a>
-      <a href="#stop">6. Stop</a>
+    <nav class="page-nav">
+      <a href="#prep">🧭 Prep</a>
+      <a href="#site">🌐 1. This site</a>
+      <a href="#codespace">🟢 2. Codespace</a>
+      <a href="#grok">🤖 3. Grok</a>
+      <a href="#agy">✨ 4. Antigravity</a>
+      <a href="#kv">🔐 5. Key Vault</a>
+      <a href="#stop">🛑 6. Stop</a>
     </nav>
   </header>
 
   <main>
     <section>
-      <h2>Open this page on the iPhone</h2>
+      <h2>📲 Open this page on the iPhone</h2>
       <p>In Safari, tap this URL (or AirDrop / iMessage it to yourself):</p>
       <a class="urlbox" href="https://rifaterdemsahin.github.io/codespaces-ai-agents/iphone.html">https://rifaterdemsahin.github.io/codespaces-ai-agents/iphone.html</a>
       <p>
@@ -45,7 +45,7 @@
     </section>
 
     <section id="prep">
-      <h2>Prep (once, before any test)</h2>
+      <h2>🧭 Prep (once, before any test)</h2>
       <ol class="steps">
         <li>
           Use <strong>Safari</strong>. Chrome on iOS will not share GitHub / X / Google cookies
@@ -82,7 +82,7 @@
     </section>
 
     <section id="site">
-      <h2>1. Test this documentation site</h2>
+      <h2>🌐 1. Test this documentation site</h2>
       <ol class="steps">
         <li>
           Open
@@ -97,7 +97,7 @@
     </section>
 
     <section id="codespace">
-      <h2>2. Open a 2-core Codespace</h2>
+      <h2>🟢 2. Open a 2-core Codespace</h2>
       <ol class="steps">
         <li>
           Open
@@ -135,7 +135,7 @@ agy --version</code></pre>
     </section>
 
     <section id="grok">
-      <h2>3. Test Grok (subscription, same phone)</h2>
+      <h2>🤖 3. Test Grok (subscription, same phone)</h2>
       <p>
         Codespaces has no desktop browser. You approve the device code in a
         <strong>second Safari tab</strong> on this iPhone.
@@ -169,7 +169,7 @@ grok -p "Reply with READY and nothing else"</code></pre>
     </section>
 
     <section id="agy">
-      <h2>4. Test Antigravity</h2>
+      <h2>✨ 4. Test Antigravity</h2>
       <ol class="steps">
         <li>
           In the same terminal, run <code>agy</code>. It prints a Google authorization URL.
@@ -182,7 +182,7 @@ grok -p "Reply with READY and nothing else"</code></pre>
     </section>
 
     <section id="kv">
-      <h2>5. Optional — Azure Key Vault from the phone</h2>
+      <h2>🔐 5. Optional — Azure Key Vault from the phone</h2>
       <ol class="steps">
         <li>
 <pre><code>az login --use-device-code</code></pre>
@@ -197,7 +197,7 @@ grok -p "Reply with READY and nothing else"</code></pre>
     </section>
 
     <section id="stop">
-      <h2>6. Stop the Codespace (required)</h2>
+      <h2>🛑 6. Stop the Codespace (required)</h2>
       <ol class="steps">
         <li>
           Safari → the repo → <strong>Code</strong> → <strong>Codespaces</strong> →
@@ -212,7 +212,7 @@ grok -p "Reply with READY and nothing else"</code></pre>
     </section>
 
     <section>
-      <h2>If a step fails</h2>
+      <h2>🚑 If a step fails</h2>
       <table>
         <thead>
           <tr><th>What you see</th><th>Fix</th></tr>
@@ -251,7 +251,7 @@ grok -p "Reply with READY and nothing else"</code></pre>
     </section>
   </main>
   <footer>
-    Written for iPhone 14 Pro Max + Safari. No secrets on this page.
+    📱 Written for iPhone 14 Pro Max + Safari. No secrets on this page.
   </footer>
 </body>
 </html>

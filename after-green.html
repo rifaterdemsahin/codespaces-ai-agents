@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>🟢 After you press the green button</title>
+  <meta name="description" content="You created a Codespace. Here is the basic test to prove Grok and Antigravity actually work.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav id="topnav" class="topnav"></nav>
+  <script src="nav.js"></script>
+  <header>
+    <div class="eyebrow">🟢 green Code button → github.dev</div>
+    <h1>🟢 After you press the green button</h1>
+    <p class="lede">
+      Hitting the green <strong>Code</strong> button and landing on a
+      <code>*.github.dev</code> URL <strong>does</strong> mean the Codespace exists.
+      It does <em>not</em> mean Grok is logged in yet. Do the basic test below
+      in that tab.
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>✅ Would it work now?</h2>
+      <p>
+        Your machine is
+        <a class="urlbox" href="https://zany-train-p9wx45qrxq3rr5p.github.dev/">https://zany-train-p9wx45qrxq3rr5p.github.dev/</a>
+      </p>
+      <p>
+        That host is VS Code for the Web on a GitHub Codespace (the name
+        <code>zany-train</code> is random). <strong>Yes, it will work</strong> if all of this is true:
+      </p>
+      <div class="grid">
+        <div class="card">
+          <strong>🟢 1. Editor loaded</strong>
+          <span>You see a file tree. <code>README.md</code>, <code>.devcontainer/</code>, <code>scripts/</code> are there — not a blank spinner.</span>
+        </div>
+        <div class="card">
+          <strong>⏳ 2. Setup finished</strong>
+          <span>Bottom status is not stuck on “Setting up remote connection” / “Running post-create”. First boot is 3–8 minutes.</span>
+        </div>
+        <div class="card">
+          <strong>💻 3. Terminal exists</strong>
+          <span>Hamburger ☰ → Terminal → New Terminal. A bash prompt in <code>/workspaces/codespaces-ai-agents</code>.</span>
+        </div>
+        <div class="card">
+          <strong>🤖 4. Login still required</strong>
+          <span>The green button never signs into Grok, Google, or Azure. You must device-login from this terminal.</span>
+        </div>
+      </div>
+      <p class="warn">
+        ⚠️ If the tab is still building, wait. <code>grok: command not found</code> usually means
+        post-create is not done — open a <em>new</em> terminal after it finishes.
+      </p>
+    </section>
+
+    <section>
+      <h2>🧪 Basic test (do this in zany-train)</h2>
+      <ol class="steps">
+        <li>
+          Stay in the <code>github.dev</code> tab. ☰ → <strong>Terminal</strong> → <strong>New Terminal</strong>.
+        </li>
+        <li>
+          Paste this. It must print paths and version numbers.
+<pre><code>pwd
+which grok agy az gh
+grok --version
+agy --version</code></pre>
+          <span class="check">✅ Pass: <code>pwd</code> ends with <code>codespaces-ai-agents</code>, and grok/agy print a version. Fail: wait for post-create, then a new terminal, or <code>export PATH="$HOME/.grok/bin:$HOME/.local/bin:$PATH"</code>.</span>
+        </li>
+        <li>
+          Repo checks (no Grok login needed):
+<pre><code>./scripts/system-test.sh -v</code></pre>
+          <span class="check">✅ Pass: tests OK, Grok-live is SKIP. Fail: read the first FAIL line — usually a missing file or network.</span>
+        </li>
+        <li>
+          Log Grok in (subscription, not an API key):
+<pre><code>unset XAI_API_KEY
+grok login --device-auth</code></pre>
+          Copy the URL + code. Open them in another browser tab (or your iPhone). Approve.
+          <span class="check">✅ Pass: the login page says connected, terminal returns to a prompt.</span>
+        </li>
+        <li>
+          The actual agent test:
+<pre><code>grok -p "Reply with READY and nothing else"
+./scripts/system-test.sh --live -v</code></pre>
+          <span class="check">✅ Pass: the reply contains READY, and <code>TestGrokLive.test_grok_prompt_ready</code> is ok.</span>
+        </li>
+        <li>
+          Optional: Antigravity — run <code>agy</code>, open the Google URL, then <code>agy --version</code>.
+        </li>
+        <li>
+          When you leave: GitHub → repo → Code → Codespaces → ⋯ → <strong>Stop codespace</strong>
+          so <code>zany-train</code> does not burn idle hours.
+        </li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>🧭 What the green button already did</h2>
+      <table>
+        <thead>
+          <tr><th></th><th>Done by the green button?</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>🖥️ VM + VS Code at <code>*.github.dev</code></td><td>Yes</td></tr>
+          <tr><td>📦 Clone this repo into <code>/workspaces</code></td><td>Yes</td></tr>
+          <tr><td>⬇️ Install grok, agy, az, gh (post-create)</td><td>Yes, after a few minutes</td></tr>
+          <tr><td>🔐 Grok / Google / Azure login</td><td>No — you do that in the basic test</td></tr>
+          <tr><td>🧪 <code>READY</code> from the model</td><td>No — step 5 above</td></tr>
+        </tbody>
+      </table>
+      <p>
+        Phone walkthrough: <a href="iphone.html">📱 iPhone page</a>.
+        Auto board: <a href="test.html">✅ System test</a>.
+      </p>
+    </section>
+  </main>
+  <footer>
+    🟢 Named for the green Code button. No secrets on this page.
+  </footer>
+</body>
+</html>

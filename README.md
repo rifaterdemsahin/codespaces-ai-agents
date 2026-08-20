@@ -6,6 +6,8 @@ Test from an iPhone 14 Pro Max (Safari): [iphone.html](https://rifaterdemsahin.g
 
 Is the system working? [test.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/test.html) — browser checks plus `./scripts/system-test.sh`.
 
+Just pressed the green **Code** button? [after-green.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/after-green.html) — basic test inside `*.github.dev`.
+
 Open this repo in **GitHub Codespaces**. The container installs:
 
 - **Grok Build** (`grok`) — xAI, subscription login
@@ -168,7 +170,9 @@ SUBSCRIPTION.md
 index.html
 iphone.html
 test.html
+after-green.html
 test.js
+nav.js
 styles.css
 ```
 

@@ -11,30 +11,30 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <nav id="topnav" class="topnav"></nav>
+  <script src="nav.js"></script>
   <header>
-    <div class="eyebrow">rifaterdemsahin / codespaces-ai-agents</div>
-    <h1>Codespaces that run AI agents</h1>
+    <div class="eyebrow">🏠 rifaterdemsahin / codespaces-ai-agents</div>
+    <h1>🚀 Codespaces that run AI agents</h1>
     <p class="lede">
       This page is the public log of the 20 Aug 2026 setup: Azure Key Vault was already logged in,
       the starter files in the repo were unpacked and wired, GitHub Pages was deployed, and
       Codespaces was pointed at Grok Build plus Antigravity.
+      Just hit the green button? Go to <a href="after-green.html">🟢 After green button</a>.
     </p>
-    <nav>
-      <a href="index.html" aria-current="page">Setup log</a>
-      <a href="iphone.html">iPhone test</a>
-      <a href="test.html">System test</a>
-      <a href="#done">What was done</a>
-      <a href="#arch">Architecture</a>
-      <a href="#use">How to use it</a>
-      <a href="#kv">Key Vault</a>
-      <a href="#files">Files</a>
-      <a href="#test">Tests</a>
+    <nav class="page-nav">
+      <a href="#done">🛠️ What was done</a>
+      <a href="#arch">🗺️ Architecture</a>
+      <a href="#use">▶️ How to use it</a>
+      <a href="#kv">🔐 Key Vault</a>
+      <a href="#files">📁 Files</a>
+      <a href="#test">🧪 Tests</a>
     </nav>
   </header>
 
   <main>
     <section id="done">
-      <h2>What was done in this deploy</h2>
+      <h2>🛠️ What was done in this deploy</h2>
       <p>
         The GitHub repo existed but only had a two-line README. The real starter lived as
         <code>devcontainer.zip</code> plus untracked docs. Those files were turned into a
@@ -42,23 +42,23 @@
       </p>
       <div class="grid">
         <div class="card">
-          <strong>1. Azure Key Vault</strong>
+          <strong>🔐 1. Azure Key Vault</strong>
           <span>Used the existing <code>az login</code> as <code>info@deliverypilot.net</code>. Vault <code>dp-kv-deliverypilot</code> is reachable. Secret <em>names</em> were checked; values were never committed.</span>
         </div>
         <div class="card">
-          <strong>2. Dev container</strong>
+          <strong>📦 2. Dev container</strong>
           <span>Unpacked <code>devcontainer.zip</code> into <code>.devcontainer/</code>. Codespaces now installs <code>grok</code>, <code>agy</code>, Azure CLI, and GitHub CLI on a 2-core Ubuntu 24.04 image.</span>
         </div>
         <div class="card">
-          <strong>3. Secret helper</strong>
+          <strong>🔑 3. Secret helper</strong>
           <span><code>scripts/kv-env.sh</code> does device-code Azure login and can write a gitignored <code>.env</code> from the vault. <code>XAI_API_KEY</code> is opt-in so Grok stays on subscription billing.</span>
         </div>
         <div class="card">
-          <strong>4. GitHub Pages</strong>
+          <strong>🌐 4. GitHub Pages</strong>
           <span>This <code>index.html</code> is deployed by <code>.github/workflows/pages.yml</code> on every push to <code>main</code>.</span>
         </div>
         <div class="card">
-          <strong>5. iPhone test</strong>
+          <strong>📱 5. iPhone test</strong>
           <span>Step-by-step from an iPhone 14 Pro Max in Safari: site, Codespace, Grok, Antigravity, optional Key Vault, then Stop. <a href="iphone.html">Open the iPhone page</a>.</span>
         </div>
       </div>
@@ -70,7 +70,7 @@
     </section>
 
     <section id="arch">
-      <h2>Architecture</h2>
+      <h2>🗺️ Architecture</h2>
       <svg class="arch" viewBox="0 0 720 260" role="img" aria-label="Phone and laptop open GitHub, which hosts Pages and a 2-core Codespace. The Codespace runs grok, agy, and az against Key Vault.">
         <rect x="8" y="20" width="160" height="80" fill="#14160f" stroke="#d6ff4b"/>
         <text x="88" y="54" text-anchor="middle" fill="#e8eadf" font-family="IBM Plex Sans, sans-serif" font-size="14">You (phone / laptop)</text>
@@ -104,7 +104,7 @@
     </section>
 
     <section id="use">
-      <h2>How to run the agents</h2>
+      <h2>▶️ How to run the agents</h2>
       <h3>1. Open a Codespace</h3>
       <p>
         Repo → <strong>Code</strong> → <strong>Codespaces</strong> → Create on <code>main</code>.
@@ -130,7 +130,7 @@ git add -A && git commit -m "…" && git push
     </section>
 
     <section id="kv">
-      <h2>Azure Key Vault</h2>
+      <h2>🔐 Azure Key Vault</h2>
       <p>
         Vault <code>dp-kv-deliverypilot</code> in resource group <code>deliverypilot-rg</code>
         (subscription <code>Azure subscription 1</code>). No new vault was created.
@@ -160,7 +160,7 @@ git add -A && git commit -m "…" && git push
     </section>
 
     <section id="files">
-      <h2>Files that landed on main</h2>
+      <h2>📁 Files that landed on main</h2>
       <table>
         <thead>
           <tr><th>Path</th><th>Role</th></tr>
@@ -174,6 +174,8 @@ git add -A && git commit -m "…" && git push
           <tr><td><code>.github/workflows/ci.yml</code></td><td>Runs smoke tests on push</td></tr>
           <tr><td><code>index.html</code></td><td>This explanation</td></tr>
           <tr><td><code>iphone.html</code></td><td>How to test from an iPhone 14 Pro Max</td></tr>
+          <tr><td><code>after-green.html</code></td><td>🟢 What to do after the green Code button</td></tr>
+          <tr><td><code>nav.js</code></td><td>Shared top menu on every page</td></tr>
           <tr><td><code>test.html</code> / <code>test.js</code></td><td>Live “is it working?” board</td></tr>
           <tr><td><code>tests/test_system.py</code></td><td>Repo, Pages, vault, optional Grok READY</td></tr>
           <tr><td><code>styles.css</code></td><td>Shared Pages styles (phone safe-area + 430pt column)</td></tr>
@@ -183,7 +185,7 @@ git add -A && git commit -m "…" && git push
     </section>
 
     <section id="test">
-      <h2>What was tested before this page went live</h2>
+      <h2>🧪 What was tested before this page went live</h2>
       <ul>
         <li><span class="ok">OK</span> <code>az account show</code> — user info@deliverypilot.net, Azure subscription 1</li>
         <li><span class="ok">OK</span> vault <code>dp-kv-deliverypilot</code> reachable; xai-api-key, ANTHROPIC, OPENAI, GEMINI, OPENROUTER, FAL present (lengths only)</li>
@@ -193,8 +195,8 @@ git add -A && git commit -m "…" && git push
         <li>GitHub Actions CI re-run after a false-positive key-pattern check was fixed (see the Actions tab)</li>
       </ul>
       <p>
-        A full Codespaces create is the remaining live check — do it from the phone using
-        <a href="iphone.html">the iPhone 14 Pro Max steps</a>.
+        Already have a <code>*.github.dev</code> tab? Do the basic test on
+        <a href="after-green.html">🟢 After green button</a>. Phone: <a href="iphone.html">📱 iPhone steps</a>.
       </p>
       <p>
         Source: <a href="https://github.com/rifaterdemsahin/codespaces-ai-agents">github.com/rifaterdemsahin/codespaces-ai-agents</a>
@@ -202,7 +204,7 @@ git add -A && git commit -m "…" && git push
     </section>
   </main>
   <footer>
-    Deployed from main by GitHub Actions. No secrets on this page.
+    🚀 Deployed from main by GitHub Actions. No secrets on this page.
   </footer>
 </body>
 </html>

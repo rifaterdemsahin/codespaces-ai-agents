@@ -11,38 +11,36 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <nav id="topnav" class="topnav"></nav>
+  <script src="nav.js"></script>
   <header>
-    <div class="eyebrow">test board · no secrets</div>
-    <h1>Is this system working?</h1>
+    <div class="eyebrow">✅ test board · no secrets</div>
+    <h1>✅ Is this system working?</h1>
     <p class="lede">
       This page runs checks in your browser against the public site and GitHub.
       The table under <strong>Last CI report</strong> is produced by
       <code>python3 tests/test_system.py --json</code> on every Pages deploy.
-      Grok itself still has to be tested inside a Codespace after device login.
+      Grok itself still has to be tested inside a Codespace after device login —
+      <a href="after-green.html">🟢 After green button</a>.
     </p>
-    <nav>
-      <a href="index.html">Setup log</a>
-      <a href="iphone.html">iPhone test</a>
-      <a href="test.html" aria-current="page">System test</a>
-    </nav>
   </header>
 
   <main>
     <section>
-      <h2>Browser checks (this page)</h2>
+      <h2>🌐 Browser checks (this page)</h2>
       <p>
         Auto-runs on load. Works on the iPhone 14 Pro Max in Safari too.
         These prove Pages, CSS, the repo API, and a recent green Actions run.
       </p>
       <p>
-        <button type="button" class="run" id="run">Run browser tests again</button>
+        <button type="button" class="run" id="run">▶️ Run browser tests again</button>
       </p>
       <div id="summary"></div>
       <div id="board"></div>
     </section>
 
     <section>
-      <h2>Last CI report</h2>
+      <h2>📋 Last CI report</h2>
       <p>
         Written into <code>report.json</code> when GitHub Actions deploys this site.
         Vault and Grok rows are <code>SKIP</code> on the Actions runner (no Azure login,
@@ -53,7 +51,7 @@
     </section>
 
     <section>
-      <h2>Test code to run in a Codespace</h2>
+      <h2>💻 Test code to run in a Codespace</h2>
       <p>This is the real “are the agents working” check. Browser tests cannot log into Grok.</p>
 <pre><code>./scripts/system-test.sh -v
 # same thing:
@@ -75,7 +73,7 @@ python3 tests/test_system.py -v
     </section>
 
     <section>
-      <h2>What each layer proves</h2>
+      <h2>🧩 What each layer proves</h2>
       <table>
         <thead>
           <tr><th>Layer</th><th>Code</th><th>Working means</th></tr>
@@ -118,7 +116,7 @@ python3 tests/test_system.py -v
     </section>
   </main>
   <footer>
-    Browser tests talk only to this origin and the public GitHub API. No vault values.
+    ✅ Browser tests talk only to this origin and the public GitHub API. No vault values.
   </footer>
   <script src="test.js"></script>
 </body>

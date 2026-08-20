@@ -72,6 +72,14 @@
         const t = await fetchText("./test.html");
         return mustInclude(t, "system-test.sh", "test page");
       }),
+      check("after-green.html loads", async () => {
+        const t = await fetchText("./after-green.html");
+        return mustInclude(t, "After you press the green button", "after-green");
+      }),
+      check("nav.js shared menu", async () => {
+        const t = await fetchText("./nav.js");
+        return mustInclude(t, "After green button", "nav");
+      }),
       check("styles.css loads", async () => {
         const t = await fetchText("./styles.css");
         return mustInclude(t, "--accent", "css");

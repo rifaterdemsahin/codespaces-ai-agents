@@ -36,7 +36,9 @@ REQUIRED_FILES = [
     "index.html",
     "iphone.html",
     "test.html",
+    "after-green.html",
     "test.js",
+    "nav.js",
     "styles.css",
     "README.md",
     "SUBSCRIPTION.md",
@@ -119,6 +121,8 @@ class TestRepoFiles(unittest.TestCase):
     def test_pages_workflow_publishes_test_page(self) -> None:
         text = _read(".github/workflows/pages.yml")
         self.assertIn("test.html", text)
+        self.assertIn("after-green.html", text)
+        self.assertIn("nav.js", text)
         self.assertIn("test.js", text)
         self.assertIn("report.json", text)
 
@@ -141,17 +145,33 @@ class TestPagesContent(unittest.TestCase):
         self.assertIn("Codespaces that run AI agents", html)
         self.assertIn("dp-kv-deliverypilot", html)
         self.assertIn("test.html", html)
+        self.assertIn("nav.js", html)
+        self.assertIn("after-green.html", html)
 
     def test_iphone_page(self) -> None:
         html = _read("iphone.html")
         self.assertIn("iPhone 14 Pro Max", html)
         self.assertIn("Request Desktop Website", html)
         self.assertIn("grok login --device-auth", html)
+        self.assertIn("nav.js", html)
 
     def test_test_page(self) -> None:
         html = _read("test.html")
         self.assertIn("test.js", html)
         self.assertIn("system-test.sh", html)
+        self.assertIn("nav.js", html)
+
+    def test_after_green_page(self) -> None:
+        html = _read("after-green.html")
+        self.assertIn("After you press the green button", html)
+        self.assertIn("github.dev", html)
+        self.assertIn("system-test.sh", html)
+        self.assertIn("nav.js", html)
+
+    def test_shared_nav_lists_all_pages(self) -> None:
+        js = _read("nav.js")
+        for name in ("after-green.html", "index.html", "iphone.html", "test.html"):
+            self.assertIn(name, js)
 
 
 class TestNoSecretsCommitted(unittest.TestCase):
@@ -201,6 +221,13 @@ class TestLivePages(unittest.TestCase):
             self.skipTest("test.html not on Pages yet (first deploy)")
         self.assertEqual(status, 200)
         self.assertIn("Is this system working", body)
+
+    def test_pages_after_green_http(self) -> None:
+        status, body = _http_get(f"{PAGES}/after-green.html")
+        if status == 404:
+            self.skipTest("after-green.html not on Pages yet (first deploy)")
+        self.assertEqual(status, 200)
+        self.assertIn("After you press the green button", body)
 
 
 class TestGithubRepo(unittest.TestCase):
