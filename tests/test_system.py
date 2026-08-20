@@ -215,7 +215,7 @@ class TestPagesContent(unittest.TestCase):
     def test_iphone_ssh_page(self) -> None:
         html = _read("iphone-ssh.html")
         self.assertIn("gh codespace ssh", html)
-        self.assertIn("Blink", html)
+        self.assertIn("Termius", html)
         self.assertIn("nav.js", html)
 
 
