@@ -100,6 +100,14 @@
         const t = await fetchText("./termius.html");
         return mustInclude(t, "How Termius reaches that Codespace", "termius");
       }),
+      check("termius-setup.html loads", async () => {
+        const t = await fetchText("./termius-setup.html");
+        return mustInclude(t, "tap copy", "termius-setup");
+      }),
+      check("copy.js loads", async () => {
+        const t = await fetchText("./copy.js");
+        return mustInclude(t, "data-copy", "copy.js");
+      }),
       check("styles.css loads", async () => {
         const t = await fetchText("./styles.css");
         return mustInclude(t, "--accent", "css");

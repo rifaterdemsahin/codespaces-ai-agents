@@ -213,6 +213,43 @@ ol.steps > li::before {
   table { display: block; overflow-x: auto; }
 }
 
+.copyrow {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  max-width: 70ch;
+  margin: 0 0 10px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  padding: 8px 8px 8px 12px;
+}
+.copyrow .k {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+.copyrow code {
+  font-size: 14px;
+  word-break: break-all;
+}
+.copyrow > div { flex: 1; min-width: 0; }
+.copyrow button {
+  appearance: none;
+  flex: 0 0 auto;
+  min-width: 72px;
+  min-height: 44px;
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  font: 600 14px "IBM Plex Sans", sans-serif;
+  padding: 8px 12px;
+}
+.copyrow button.copied {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
 button.run {
   appearance: none;
   background: var(--accent);

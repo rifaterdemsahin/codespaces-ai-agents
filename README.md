@@ -18,6 +18,8 @@ SSH from iPhone (skip Safari passkey): [iphone-ssh.html](https://rifaterdemsahin
 
 How Termius reaches the Codespace: [termius.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/termius.html)
 
+Termius iPhone copy-paste setup: [termius-setup.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/termius-setup.html)
+
 Open this repo in **GitHub Codespaces**. The container installs:
 
 - **Grok Build** (`grok`) — xAI, subscription login

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>📋 Termius iPhone — tap copy, connect</title>
+  <meta name="description" content="One-tap copy fields for Termius on iPhone: Mac host, then gh codespace ssh, then agy and grok.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav id="topnav" class="topnav"></nav>
+  <script src="nav.js"></script>
+  <header>
+    <div class="eyebrow">📋 Termius · iPhone 14 Pro Max</div>
+    <h1>📋 Connect from Termius — tap copy</h1>
+    <p class="lede">
+      Open this page on the iPhone. Copy each field into Termius. Do not paste the
+      <code>github.dev</code> URL into Address — that opens the passkey website.
+      Why two hops: <a href="termius.html">How Termius reaches the Codespace</a>.
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>1️⃣ New host in Termius</h2>
+      <p>Hosts → <strong>+</strong> → New Host. Paste these.</p>
+      <div class="copyrow">
+        <div><span class="k">Label</span><code>Mac → zany-train</code></div>
+        <button type="button" data-copy="Mac → zany-train">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Address (same Wi-Fi)</span><code>10.142.236.14</code></div>
+        <button type="button" data-copy="10.142.236.14">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Address (Bonjour)</span><code>Rifats-MacBook-Pro-25258.local</code></div>
+        <button type="button" data-copy="Rifats-MacBook-Pro-25258.local">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Port</span><code>22</code></div>
+        <button type="button" data-copy="22">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Username</span><code>rifaterdemsahin</code></div>
+        <button type="button" data-copy="rifaterdemsahin">Copy</button>
+      </div>
+      <p class="warn">📶 Phone and Mac on the same Wi-Fi. If copy of the IP fails later, the Mac got a new address — check Wi-Fi details on the Mac.</p>
+    </section>
+
+    <section>
+      <h2>2️⃣ First time on the Mac</h2>
+      <p>Remote Login On (Sharing). Then Termius → Keys → copy public key → paste on the Mac:</p>
+      <div class="copyrow">
+        <div><span class="k">Allow the key</span><code>mkdir -p ~/.ssh && chmod 700 ~/.ssh && nano ~/.ssh/authorized_keys</code></div>
+        <button type="button" data-copy="mkdir -p ~/.ssh && chmod 700 ~/.ssh && nano ~/.ssh/authorized_keys">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Lock the file</span><code>chmod 600 ~/.ssh/authorized_keys</code></div>
+        <button type="button" data-copy="chmod 600 ~/.ssh/authorized_keys">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">GitHub Codespaces scope</span><code>gh auth refresh -h github.com -s codespace,repo</code></div>
+        <button type="button" data-copy="gh auth refresh -h github.com -s codespace,repo">Copy</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>3️⃣ Tap the host, then hop into zany-train</h2>
+      <p>You land on the <strong>Mac</strong> first. Paste this next:</p>
+      <div class="copyrow">
+        <div><span class="k">Enter the Codespace</span><code>gh codespace ssh -c zany-train-p9wx45qrxq3rr5p</code></div>
+        <button type="button" data-copy="gh codespace ssh -c zany-train-p9wx45qrxq3rr5p">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Optional: list machines</span><code>gh codespace list</code></div>
+        <button type="button" data-copy="gh codespace list">Copy</button>
+      </div>
+      <p>Termius → host → startup snippet (one tap next time):</p>
+      <div class="copyrow">
+        <div><span class="k">Run on connect</span><code>gh codespace ssh -c zany-train-p9wx45qrxq3rr5p</code></div>
+        <button type="button" data-copy="gh codespace ssh -c zany-train-p9wx45qrxq3rr5p">Copy</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>4️⃣ Start working</h2>
+      <div class="copyrow">
+        <div><span class="k">Go to the repo</span><code>cd /workspaces/codespaces-ai-agents</code></div>
+        <button type="button" data-copy="cd /workspaces/codespaces-ai-agents">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Antigravity</span><code>agy</code></div>
+        <button type="button" data-copy="agy">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Grok</span><code>grok</code></div>
+        <button type="button" data-copy="grok">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Smoke + live Grok</span><code>./scripts/system-test.sh --live -v</code></div>
+        <button type="button" data-copy="./scripts/system-test.sh --live -v">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Stop hours when you leave</span><code>gh codespace stop -c zany-train-p9wx45qrxq3rr5p</code></div>
+        <button type="button" data-copy="gh codespace stop -c zany-train-p9wx45qrxq3rr5p">Copy</button>
+      </div>
+    </section>
+  </main>
+  <footer>
+    📋 Copy uses the phone clipboard. Mac must be on. No tokens on this page.
+  </footer>
+  <script src="copy.js"></script>
+</body>
+</html>
