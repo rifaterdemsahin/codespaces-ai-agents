@@ -44,6 +44,7 @@ REQUIRED_FILES = [
     "termius.html",
     "termius-setup.html",
     "iphone-free.html",
+    "vps.html",
     "copy.js",
     "test.js",
     "nav.js",
@@ -139,6 +140,7 @@ class TestRepoFiles(unittest.TestCase):
         self.assertIn("termius.html", text)
         self.assertIn("termius-setup.html", text)
         self.assertIn("iphone-free.html", text)
+        self.assertIn("vps.html", text)
         self.assertIn("copy.js", text)
         self.assertIn("nav.js", text)
         self.assertIn("test.js", text)
@@ -197,6 +199,7 @@ class TestPagesContent(unittest.TestCase):
             "termius.html",
             "termius-setup.html",
             "iphone-free.html",
+            "vps.html",
             "index.html",
             "iphone.html",
             "test.html",
@@ -250,6 +253,13 @@ class TestPagesContent(unittest.TestCase):
         self.assertIn("Termius", html)
         self.assertIn("data-copy", html)
         self.assertIn("copy.js", html)
+        self.assertIn("nav.js", html)
+
+    def test_vps_page(self) -> None:
+        html = _read("vps.html")
+        self.assertIn("VPS instead of Codespaces", html)
+        self.assertIn("Fly.io", html)
+        self.assertIn("fly ssh console", html)
         self.assertIn("nav.js", html)
 
 
@@ -356,6 +366,13 @@ class TestLivePages(unittest.TestCase):
             self.skipTest("iphone-free.html not on Pages yet (first deploy)")
         self.assertEqual(status, 200)
         self.assertIn("skip Blink", body)
+
+    def test_pages_vps_http(self) -> None:
+        status, body = _http_get(f"{PAGES}/vps.html")
+        if status == 404:
+            self.skipTest("vps.html not on Pages yet (first deploy)")
+        self.assertEqual(status, 200)
+        self.assertIn("Fly.io", body)
 
 
 class TestGithubRepo(unittest.TestCase):

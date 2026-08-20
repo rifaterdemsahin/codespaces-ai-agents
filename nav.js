@@ -11,6 +11,7 @@
     { href: "termius.html", emoji: "📱", label: "Termius hops" },
     { href: "iphone-ssh.html", emoji: "📡", label: "iPhone SSH" },
     { href: "iphone.html", emoji: "📱", label: "iPhone Safari" },
+    { href: "vps.html", emoji: "🖥️", label: "VPS vs Codespaces" },
     { href: "test.html", emoji: "✅", label: "System test" },
   ];
 

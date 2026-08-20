@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>🖥️ VPS vs Codespaces — and Fly.io</title>
+  <meta name="description" content="What changes if you run grok and agy on a VPS instead of GitHub Codespaces, and whether Fly.io can do it.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav id="topnav" class="topnav"></nav>
+  <script src="nav.js"></script>
+  <header>
+    <div class="eyebrow">🖥️ same agents · different box</div>
+    <h1>🖥️ If you had a VPS instead of Codespaces</h1>
+    <p class="lede">
+      <code>grok</code> and <code>agy</code> do not care whether the Linux box is GitHub,
+      Hetzner, or Fly. What changes is <strong>how the iPhone reaches the shell</strong>,
+      whether the machine sleeps, and who bills the VM. Subscriptions (SuperGrok, Google AI Pro)
+      stay the same.
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>📊 Side by side</h2>
+      <table>
+        <thead>
+          <tr><th></th><th>GitHub Codespaces (now)</th><th>A normal VPS</th><th>Fly.io Machine</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>What you SSH to</td>
+            <td>No public IP. Tunnel: Mac <code>gh codespace ssh</code></td>
+            <td>Public (or Tailscale) IP port 22. Termius talks to it <em>directly</em></td>
+            <td>Default: no public SSH. <code>fly ssh console</code> from a computer with <code>flyctl</code>, unless you add sshd + an IP</td>
+          </tr>
+          <tr>
+            <td>iPhone Termius (free)</td>
+            <td>Two hops: phone → Mac → Codespace</td>
+            <td>One hop: phone → VPS. Easier than today</td>
+            <td>One hop only if you run sshd and give the Machine a reachable address. Otherwise same two-hop as Codespaces (phone → Mac → <code>fly ssh</code>)</td>
+          </tr>
+          <tr>
+            <td>Sleep / idle</td>
+            <td>Stops after idle. Cold start. Burns included hours if you forget Stop</td>
+            <td>Stays up until you power it off. Flat monthly fee</td>
+            <td>Can auto-stop like Codespaces, or stay up if you set min machines = 1 and pay</td>
+          </tr>
+          <tr>
+            <td>Disk / logins</td>
+            <td><code>~/.grok</code> and <code>~/.agy</code> die if you delete the codespace</td>
+            <td>Survive reboots. Delete the droplet to lose them</td>
+            <td>Need a Fly Volume or they vanish when the Machine is replaced</td>
+          </tr>
+          <tr>
+            <td>Install grok / agy</td>
+            <td>Automatic via <code>.devcontainer</code></td>
+            <td>You install (cloud-init or once over SSH)</td>
+            <td>Dockerfile or <code>fly ssh</code> then the same curl installers</td>
+          </tr>
+          <tr>
+            <td>Browser IDE</td>
+            <td><code>*.github.dev</code> (passkey on iPhone)</td>
+            <td>None unless you add code-server. Termius is the UI</td>
+            <td>None unless you add an HTTP app. Fly is not VS Code</td>
+          </tr>
+          <tr>
+            <td>Bill for the box</td>
+            <td>GitHub Pro hours (2-core). Stop when you leave</td>
+            <td>Typical small VPS ~ few USD / month, 24/7</td>
+            <td>CPU/RAM seconds + optional dedicated IPv4. Cheap if it sleeps; similar to a VPS if always on</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>📱 What would feel different on the iPhone</h2>
+      <div class="grid">
+        <div class="card">
+          <strong>🟢 VPS — simpler Termius</strong>
+          <span>Address = VPS IP, port 22, your key. No Mac in the middle. No <code>gh</code>. Stay in <code>tmux</code> so locking the phone does not kill <code>agy</code>.</span>
+        </div>
+        <div class="card">
+          <strong>🟡 Codespaces — what you have</strong>
+          <span>Termius cannot dial <code>github.dev</code>. Free path is still phone → this Mac → <code>gh codespace ssh</code>. <a href="iphone-free.html">🆓 Free iPhone</a>.</span>
+        </div>
+        <div class="card">
+          <strong>🟠 Fly.io — in between</strong>
+          <span>Out of the box it behaves like Codespaces (CLI tunnel). You can make it behave like a VPS if you install sshd and attach an IP.</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>🪰 Can you do this on Fly.io?</h2>
+      <p>
+        <strong>Yes.</strong> Fly can run the same Ubuntu-ish Machine, install
+        <code>grok</code> and <code>agy</code>, and keep a volume for
+        <code>~/.grok</code> / <code>~/.agy</code>. It is not a drop-in Codespaces
+        replacement: no green Code button, no github.dev.
+      </p>
+      <h3>Three Fly shapes</h3>
+      <table>
+        <thead>
+          <tr><th>Shape</th><th>iPhone</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>A. <code>fly ssh console</code> only</td>
+            <td>Needs a computer with <code>flyctl</code> (same Mac hop as today)</td>
+            <td>Closest to <code>gh codespace ssh</code>. Easy. No public 22.</td>
+          </tr>
+          <tr>
+            <td>B. sshd + dedicated IPv4</td>
+            <td>Termius → that IP:22, like a VPS</td>
+            <td>You maintain sshd, keys, firewall. IPv4 is a Fly add-on cost.</td>
+          </tr>
+          <tr>
+            <td>C. WireGuard to <code>*.internal</code></td>
+            <td>iPhone WireGuard app, then Termius to the 6PN address</td>
+            <td>No public SSH. More moving parts on iOS. Fits a private Fly org.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>Installers (same as Codespaces) if you SSH into a Fly Machine:</p>
+      <div class="copyrow">
+        <div><span class="k">Grok CLI</span><code>curl -fsSL https://x.ai/cli/install.sh | bash</code></div>
+        <button type="button" data-copy="curl -fsSL https://x.ai/cli/install.sh | bash">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Antigravity CLI</span><code>curl -fsSL https://antigravity.google/cli/install.sh | bash</code></div>
+        <button type="button" data-copy="curl -fsSL https://antigravity.google/cli/install.sh | bash">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Fly shell (from a Mac, not Termius)</span><code>fly ssh console -a YOUR_APP</code></div>
+        <button type="button" data-copy="fly ssh console -a YOUR_APP">Copy</button>
+      </div>
+      <p class="warn">
+        ⚠️ Do not put sshd on the public internet without keys-only login and no password root.
+        Fly HTTP apps (web processes) will not run the <code>agy</code> TUI by themselves.
+      </p>
+    </section>
+
+    <section>
+      <h2>🧭 What does not change</h2>
+      <ul>
+        <li>🤖 <code>grok login --device-auth</code> — still a URL + code on the phone.</li>
+        <li>✨ <code>agy</code> — still a Google OAuth URL.</li>
+        <li>🔐 Azure Key Vault is optional and independent of where the VM lives.</li>
+        <li>💳 Model spend is SuperGrok / Google, not GitHub, not Fly, not Hetzner.</li>
+      </ul>
+      <p>
+        Stay on Codespaces: <a href="iphone-free.html">🆓 free Termius path</a>.
+        Browser URL: <a href="codespace-url.html">🔗 zany-train</a>.
+      </p>
+    </section>
+  </main>
+  <footer>
+    🖥️ Comparison only. This repo is still the Codespaces starter. No secrets on this page.
+  </footer>
+  <script src="copy.js"></script>
+</body>
+</html>

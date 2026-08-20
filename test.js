@@ -112,6 +112,10 @@
         const t = await fetchText("./iphone-free.html");
         return mustInclude(t, "skip Blink", "iphone-free");
       }),
+      check("vps.html loads", async () => {
+        const t = await fetchText("./vps.html");
+        return mustInclude(t, "Fly.io", "vps");
+      }),
       check("styles.css loads", async () => {
         const t = await fetchText("./styles.css");
         return mustInclude(t, "--accent", "css");

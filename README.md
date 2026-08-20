@@ -22,6 +22,8 @@ Termius iPhone copy-paste setup: [termius-setup.html](https://rifaterdemsahin.gi
 
 Free iPhone path (no Blink): [iphone-free.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/iphone-free.html)
 
+VPS vs Codespaces (and Fly.io): [vps.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/vps.html)
+
 Open this repo in **GitHub Codespaces**. The container installs:
 
 - **Grok Build** (`grok`) — xAI, subscription login
