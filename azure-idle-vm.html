@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>☁️ £5 Azure idle VM — cost and what you get</title>
-  <meta name="description" content="UK South B2s for grok/agy. Under £5 if deleted when idle. $5 budget stop. Created with az login as info@deliverypilot.net.">
+  <meta name="description" content="UK South D2s_v3 for grok/agy. Under £5 if deleted when idle. $5 budget stop. Created with az login as info@deliverypilot.net.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -38,7 +38,7 @@
         <tbody>
           <tr>
             <td>Use 10 hours then it auto-deletes</td>
-            <td>~10 hours × B2s ≈ <strong>well under $1</strong> + pennies for IP while up</td>
+            <td>~10 hours × D2s_v3 ≈ <strong>about $1</strong> + pennies for IP while up</td>
             <td>✅ Yes</td>
           </tr>
           <tr>
@@ -48,7 +48,7 @@
           </tr>
           <tr>
             <td>Leave it running 24/7 (idle killer broken)</td>
-            <td>≈ <strong>$30</strong>/mo if B2s left 24/7 — budget fires first</td>
+            <td>≈ <strong>$70</strong>/mo if D2s_v3 left 24/7 — $5 budget emails at ~50 hours</td>
             <td>❌ Over $5 — budget alert fires; auto-shutdown 21:00 GMT is backup</td>
           </tr>
           <tr>
@@ -59,8 +59,9 @@
         </tbody>
       </table>
       <p>
-        SKU <code>Standard_B2s</code> (this subscription has <strong>0 quota</strong> for cheaper ARM B2ats_v2 in UK South).
-        2 vCPU / 4 GB. Idle-delete keeps a month of evening use under $5 / £5.
+        Live SKU is <code>Standard_D2s_v3</code> in UK South after B-series failed
+        (see <a href="azure-vm-errors.html">🧾 Azure VM errors</a>).
+        2 vCPU / 8 GB. Idle-delete is mandatory to stay under $5.
         OS disk is <strong>deleted with the VM</strong>.
       </p>
     </section>
@@ -74,7 +75,7 @@
         </div>
         <div class="card">
           <strong>🖥️ Box</strong>
-          <span>2 vCPU, 4 GB RAM, Ubuntu 24.04 x86, public IP, SSH key <code>~/.ssh/grok-idle</code>, user <code>azureuser</code></span>
+          <span>D2s_v3: 2 vCPU, 8 GB, Ubuntu 24.04, IP <code>40.120.63.5</code>, key <code>~/.ssh/grok-idle</code>, user <code>azureuser</code></span>
         </div>
         <div class="card">
           <strong>🤖 Agents</strong>

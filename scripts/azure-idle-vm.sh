@@ -7,11 +7,10 @@ set -euo pipefail
 
 SUB="${AZURE_SUBSCRIPTION_ID:-b85b029d-9f7c-4c5a-8939-819480780c5d}"
 RG="${AZURE_IDLE_RG:-dp-grok-idle-rg}"
-LOC="${AZURE_IDLE_LOCATION:-westeurope}"
+LOC="${AZURE_IDLE_LOCATION:-uksouth}"
 VM="${AZURE_IDLE_VM:-grok-idle}"
-# B2ats_v2 (ARM) is cheaper but this subscription has 0 Basv2 quota in uksouth.
-# Standard_B2s is BS-family (quota 10) — 2 vCPU / 4 GB, still <$5 if idle-deleted.
-SKU="${AZURE_IDLE_SKU:-Standard_B2s}"
+# B2s/B4s failed (capacity / invalid size). D2s_v3 UK South succeeded 2026-08-20.
+SKU="${AZURE_IDLE_SKU:-Standard_D2s_v3}"
 IMAGE="${AZURE_IDLE_IMAGE:-Canonical:ubuntu-24_04-lts:server:latest}"
 ADMIN="${AZURE_IDLE_ADMIN:-azureuser}"
 BUDGET_NAME="${AZURE_IDLE_BUDGET:-grok-idle-5usd}"

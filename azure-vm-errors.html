@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>🧾 Azure VM create errors — then D2s_v3 worked</title>
+  <meta name="description" content="Live az retries as info@deliverypilot.net. B-series failed. One tier up then D2s_v3 UK South is running.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav id="topnav" class="topnav"></nav>
+  <script src="nav.js"></script>
+  <header>
+    <div class="eyebrow">🧾 az login info@deliverypilot.net · 20 Aug 2026</div>
+    <h1>🧾 Azure VM errors — then a success</h1>
+    <p class="lede">
+      We went <strong>one tier up</strong> from <code>Standard_B2s</code> to <code>Standard_B4s</code>.
+      That size is <em>not valid</em> in UK South (use <code>B4ms</code> there). Next family
+      <code>Standard_D2s_v3</code> in <strong>uksouth</strong> created and is running.
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>✅ What is up now</h2>
+      <table>
+        <thead>
+          <tr><th></th><th>Value</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>VM</td><td><code>grok-idle</code></td></tr>
+          <tr><td>RG</td><td><code>dp-grok-idle-rg</code></td></tr>
+          <tr><td>SKU</td><td><code>Standard_D2s_v3</code> (2 vCPU / 8 GB)</td></tr>
+          <tr><td>Region</td><td>UK South</td></tr>
+          <tr><td>Public IP</td><td><code>40.120.63.5</code></td></tr>
+          <tr><td>SSH</td><td><code>azureuser</code> + key <code>~/.ssh/grok-idle</code></td></tr>
+          <tr><td>Budget</td><td><code>grok-idle-5usd</code> $5/month on this RG</td></tr>
+          <tr><td>Idle</td><td>No SSH ~20 min → VM deletes itself</td></tr>
+        </tbody>
+      </table>
+      <div class="copyrow">
+        <div><span class="k">SSH from Mac</span><code>ssh -i ~/.ssh/grok-idle azureuser@40.120.63.5</code></div>
+        <button type="button" data-copy="ssh -i ~/.ssh/grok-idle azureuser@40.120.63.5">Copy</button>
+      </div>
+      <p class="warn">
+        ⚠️ D2s_v3 is ~$0.10/hour. 24/7 would blow the $5 cap in about two days.
+        Stay on SSH or it self-deletes. Import <code>grok-idle</code> into Termius (host <code>40.120.63.5</code>).
+      </p>
+    </section>
+
+    <section>
+      <h2>❌ Ladder of failures (then success)</h2>
+      <table>
+        <thead>
+          <tr><th>When</th><th>Try</th><th>Azure said</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><code>Standard_B2ats_v2</code> uksouth</td>
+            <td><code>QuotaExceeded</code> standardBasv2Family Current Limit: <strong>0</strong></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><code>Standard_B2s</code> uksouth</td>
+            <td><code>SkuNotAvailable</code> capacity restrictions</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><code>Standard_B2s</code> westeurope</td>
+            <td><code>SkuNotAvailable</code> capacity restrictions</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><code>Standard_B1s</code> uksouth</td>
+            <td><code>SkuNotAvailable</code> capacity restrictions</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td><code>Standard_A2_v2</code> uksouth</td>
+            <td><code>SkuNotAvailable</code> capacity restrictions</td>
+          </tr>
+          <tr>
+            <td>6 one tier up</td>
+            <td><code>Standard_B4s</code> uksouth</td>
+            <td><code>InvalidParameter</code> vmSize — <code>B4s</code> is not a valid size here. Valid sibling is <code>Standard_B4ms</code>, not B4s.</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td><code>Standard_B4s</code> westeurope</td>
+            <td>Same class of deploy failure (CLI consumed the body; B4s is the wrong name).</td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td><code>Standard_D2s_v3</code> uksouth</td>
+            <td><strong>Success</strong> — VM running, IP 40.120.63.5</td>
+          </tr>
+        </tbody>
+      </table>
+<pre class="term"><code>QuotaExceeded
+standardBasv2Family Cores quota. Location: uksouth
+Current Limit: 0, Current Usage: 0, Additional Required: 2
+
+SkuNotAvailable
+Following SKUs have failed for Capacity Restrictions: Standard_B2s
+location 'uksouth' / 'westeurope'
+
+InvalidParameter target=vmSize
+The value Standard_B4s provided for the VM size is not valid.
+(UK South list includes Standard_B4ms, Standard_B2s, Standard_D2s_v3, …)</code></pre>
+    </section>
+
+    <section>
+      <h2>💷 Cost on the size that actually exists</h2>
+      <p>
+        <code>D2s_v3</code> is a step up from burstable B2 (2 vCPU / 8 GB). Idle-delete is mandatory
+        to stay under $5. Cost page: <a href="azure-idle-vm.html">💷 Azure £5 VM</a>.
+        Why this box exists: <a href="why.html">🎯 mobile + many agents</a>.
+      </p>
+    </section>
+  </main>
+  <footer>
+    🧾 Errors copied from live az CLI. No secrets. Public IP will change if the VM self-deletes.
+  </footer>
+  <script src="copy.js"></script>
+</body>
+</html>

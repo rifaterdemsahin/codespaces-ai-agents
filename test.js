@@ -128,6 +128,10 @@
         const t = await fetchText("./why.html");
         return mustInclude(t, "when you are mobile", "why");
       }),
+      check("azure-vm-errors.html loads", async () => {
+        const t = await fetchText("./azure-vm-errors.html");
+        return mustInclude(t, "QuotaExceeded", "azure-vm-errors");
+      }),
       check("styles.css loads", async () => {
         const t = await fetchText("./styles.css");
         return mustInclude(t, "--accent", "css");

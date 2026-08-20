@@ -49,6 +49,7 @@ REQUIRED_FILES = [
     "azure-idle.html",
     "azure-idle-vm.html",
     "why.html",
+    "azure-vm-errors.html",
     "scripts/azure-idle-vm.sh",
     "scripts/azure-idle-cloud-init.yaml",
     "copy.js",
@@ -151,6 +152,7 @@ class TestRepoFiles(unittest.TestCase):
         self.assertIn("azure-idle.html", text)
         self.assertIn("azure-idle-vm.html", text)
         self.assertIn("why.html", text)
+        self.assertIn("azure-vm-errors.html", text)
         self.assertIn("copy.js", text)
         self.assertIn("nav.js", text)
         self.assertIn("test.js", text)
@@ -215,6 +217,7 @@ class TestPagesContent(unittest.TestCase):
             "azure-idle.html",
             "azure-idle-vm.html",
             "why.html",
+            "azure-vm-errors.html",
             "index.html",
             "iphone.html",
             "test.html",
@@ -296,7 +299,7 @@ class TestPagesContent(unittest.TestCase):
     def test_azure_idle_vm_page(self) -> None:
         html = _read("azure-idle-vm.html")
         self.assertIn("dp-grok-idle-rg", html)
-        self.assertIn("B2s", html)
+        self.assertIn("D2s_v3", html)
         self.assertIn("$5", html)
         self.assertIn("azure-idle-vm.sh", html)
 
@@ -306,6 +309,13 @@ class TestPagesContent(unittest.TestCase):
         self.assertIn("many agents", html)
         self.assertIn("base for agents", html)
         self.assertIn("nav.js", html)
+
+    def test_azure_vm_errors_page(self) -> None:
+        html = _read("azure-vm-errors.html")
+        self.assertIn("D2s_v3", html)
+        self.assertIn("QuotaExceeded", html)
+        self.assertIn("SkuNotAvailable", html)
+        self.assertIn("40.120.63.5", html)
 
 
 class TestNoSecretsCommitted(unittest.TestCase):

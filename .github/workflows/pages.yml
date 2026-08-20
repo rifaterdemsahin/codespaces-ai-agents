@@ -27,7 +27,7 @@ jobs:
         run: |
           mkdir -p _site
           python3 tests/test_system.py --json > _site/report.json || true
-          cp index.html iphone.html test.html after-green.html agy-worked.html grok-worked.html codespace-url.html iphone-ssh.html termius.html termius-setup.html iphone-free.html vps.html cheapest-vps.html azure-idle.html azure-idle-vm.html why.html styles.css test.js nav.js copy.js _site/
+          cp index.html iphone.html test.html after-green.html agy-worked.html grok-worked.html codespace-url.html iphone-ssh.html termius.html termius-setup.html iphone-free.html vps.html cheapest-vps.html azure-idle.html azure-idle-vm.html why.html azure-vm-errors.html styles.css test.js nav.js copy.js _site/
           touch _site/.nojekyll
       - uses: actions/upload-pages-artifact@v3
         with:
