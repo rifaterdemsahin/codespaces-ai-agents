@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>💷 Ongoing costs — grok-idle RG</title>
+  <meta name="description" content="What still bills when grok-idle is deleted: UK South static public IP. Compute is zero. $5 budget. /start recreates the VM.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav id="topnav" class="topnav"></nav>
+  <script src="nav.js"></script>
+  <header>
+    <div class="eyebrow">💷 dp-grok-idle-rg · UK South · GBP retail 21 Aug 2026</div>
+    <h1>💷 Ongoing costs while you sleep</h1>
+    <p class="lede">
+      The VM is gone most of the time (idle-delete). Compute then is
+      <strong>£0</strong>. The leftover <strong>static public IP</strong> still
+      bills about <strong>£3.29 / month</strong> so Termius can keep
+      <code>40.120.63.5</code>. That is almost the whole $5 cap.
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>▶️ Start when you need it</h2>
+      <div class="copyrow">
+        <div><span class="k">Terminal</span><code>./scripts/start-grok-idle.sh</code></div>
+        <button type="button" data-copy="./scripts/start-grok-idle.sh">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Grok</span><code>/start</code></div>
+        <button type="button" data-copy="/start">Copy</button>
+      </div>
+      <p>
+        Recreates the box if idle-deleted, reuses the static IP, waits for SSH,
+        prints host / port / <code>azureuser</code> / key path. Never prints the private key.
+      </p>
+    </section>
+
+    <section>
+      <h2>📊 Two meters that matter</h2>
+      <table>
+        <thead>
+          <tr><th>Meter (UK South, GBP)</th><th>When VM is deleted</th><th>While VM is running</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>D2s_v3 compute <code>£0.0873 / hour</code></td>
+            <td><strong>£0</strong></td>
+            <td>£0.0873 × hours (~£63.70 if 24/7 — do not do this)</td>
+          </tr>
+          <tr>
+            <td>Standard static public IP <code>£0.0045 / hour</code></td>
+            <td><strong>~£3.29 / month</strong> (still allocated)</td>
+            <td>same — IP does not stop with the VM</td>
+          </tr>
+          <tr>
+            <td>OS disk (Premium SSD ~P4)</td>
+            <td><strong>£0</strong> (deleted with the VM)</td>
+            <td>~£4.81 / month pro-rata while the disk exists</td>
+          </tr>
+          <tr>
+            <td>VNet / NSG / action group / $5 budget</td>
+            <td>£0</td>
+            <td>£0</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        $5 USD ≈ £3.80. A 24/7 static IP (~£3.29) uses most of that budget
+        even with <strong>no VM</strong>. Idle-delete only zeros compute and disk.
+      </p>
+    </section>
+
+    <section>
+      <h2>🧾 Actual bill so far (Aug 2026, Cost Management)</h2>
+      <p>Month-to-date on <code>dp-grok-idle-rg</code> as of 21 Aug 2026 08:14 UTC (GBP):</p>
+      <table>
+        <thead>
+          <tr><th>Resource type</th><th>Cost</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Virtual machines (a few boots, then idle-delete)</td><td>£0.038</td></tr>
+          <tr><td>Public IP addresses</td><td>£0.027</td></tr>
+          <tr><td>Disks (deleted with the VM)</td><td>£0.002</td></tr>
+          <tr><td>Action groups</td><td>£0</td></tr>
+          <tr><td><strong>Total MTD</strong></td><td><strong>£0.07</strong></td></tr>
+        </tbody>
+      </table>
+      <p>
+        IP cost will keep accumulating for the rest of the month unless you
+        delete <code>grok-idlePublicIP</code> (then <code>/start</code> gets a new address).
+      </p>
+    </section>
+
+    <section>
+      <h2>🧮 Example months</h2>
+      <table>
+        <thead>
+          <tr><th>How you use it</th><th>Rough monthly</th><th>Inside $5?</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Idle all month, keep static IP</td>
+            <td>~£3.29 IP only</td>
+            <td>⚠️ tight vs $5 / ~£3.80</td>
+          </tr>
+          <tr>
+            <td>10 hours SSH + keep static IP</td>
+            <td>~£3.29 + 10 × £0.087 ≈ <strong>£4.16</strong></td>
+            <td>❌ over $5 — budget email fires</td>
+          </tr>
+          <tr>
+            <td>10 hours SSH, delete IP when idle</td>
+            <td>~£0.87 compute</td>
+            <td>✅ well under</td>
+          </tr>
+          <tr>
+            <td>Leave D2s_v3 running 24/7</td>
+            <td>~£64 + IP</td>
+            <td>❌ $5 emails around hour 50; auto-shutdown 21:00 GMT is backup</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>✂️ Cut leftover IP (optional)</h2>
+      <p>
+        Only if you accept a <strong>new Termius address</strong> each start.
+        Do not run this unless you mean to drop <code>40.120.63.5</code>.
+      </p>
+      <div class="copyrow">
+        <div><span class="k">Delete static IP</span><code>az network public-ip delete -g dp-grok-idle-rg -n grok-idlePublicIP</code></div>
+        <button type="button" data-copy="az network public-ip delete -g dp-grok-idle-rg -n grok-idlePublicIP">Copy</button>
+      </div>
+      <p class="warn">
+        ⚠️ Isolated RG only. $5 budget emails
+        <code>info@deliverypilot.net</code> at 80% and 100%. It does not
+        touch the rest of DeliveryPilot. No passwords on this page.
+      </p>
+    </section>
+  </main>
+  <footer>
+    💷 Retail UK South 21 Aug 2026. Probe MTD from Cost Management. No secrets.
+  </footer>
+  <script src="copy.js"></script>
+</body>
+</html>

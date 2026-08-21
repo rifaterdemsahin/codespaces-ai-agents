@@ -16,6 +16,7 @@ Optional secrets come from Azure Key Vault `dp-kv-deliverypilot` via `./scripts/
 - Do not create a new Key Vault. Use `dp-kv-deliverypilot`.
 - Do not run destructive git commands (`reset --hard`, force-push) unless the user asks.
 - Ask before changing billing-related or production infrastructure.
+- `/start` (or `./scripts/start-grok-idle.sh`) recreates `grok-idle` and prints SSH details. Never print the private key. Ongoing costs: `ongoing-costs.html`.
 
 ## Codespace constraints
 

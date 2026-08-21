@@ -25,13 +25,15 @@ usage() {
 Usage: ./scripts/azure-idle-vm.sh <command>
 
   infra     Resource group, NSG, $5 budget, action group (no VM)
-  request   Create or recreate the VM (self-deletes when SSH idle)
-  status    Show RG, VM, public IP, budget
-  destroy   Delete the VM (+ NIC/IP/disk). Keeps RG + budget
+  start     Create or start the VM, wait for SSH, print connection details
+  request   Same as start (kept for older docs)
+  status    Show RG, VM, public IP
+  destroy   Delete the VM (+ NIC/disk). Keeps RG + budget + static IP
   delete    Same as destroy
   nuke      Delete the whole resource group (stops all idle-VM spend)
 
 Requires: az login as info@deliverypilot.net
+Never prints the private key.
 EOF
 }
 
@@ -137,33 +139,37 @@ PY
   echo "Infra ready: RG=${RG} location=${LOC} budget=\$${BUDGET_USD}"
 }
 
-cmd_request() {
-  need_az
-  cmd_infra
-  ensure_ssh_key
-  if az vm show -g "$RG" -n "$VM" >/dev/null 2>&1; then
-    echo "VM exists — starting"
-    az vm start -g "$RG" -n "$VM" --no-wait
-    az vm wait -g "$RG" -n "$VM" --updated
+create_vm() {
+  local extra=()
+  if az network public-ip show -g "$RG" -n "${VM}PublicIP" >/dev/null 2>&1; then
+    echo "Reusing static IP ${VM}PublicIP"
+    extra+=(--public-ip-address "${VM}PublicIP")
   else
-    echo "Creating ${VM} ${SKU} in ${LOC}"
-    az vm create \
-      --resource-group "$RG" \
-      --name "$VM" \
-      --location "$LOC" \
-      --image "$IMAGE" \
-      --size "$SKU" \
-      --admin-username "$ADMIN" \
-      --ssh-key-values "$SSH_KEY" \
-      --nsg "${VM}-nsg-${LOC}" \
-      --public-ip-sku Standard \
-      --os-disk-size-gb 30 \
-      --os-disk-delete-option Delete \
-      --nic-delete-option Delete \
-      --assign-identity \
-      --custom-data "$CLOUDINIT" \
-      --tags purpose=grok-idle costcap=5usd owner="$EMAIL"
+    extra+=(--public-ip-sku Standard)
   fi
+  if az network vnet show -g "$RG" -n "${VM}VNET" >/dev/null 2>&1; then
+    extra+=(--vnet-name "${VM}VNET" --subnet "${VM}Subnet")
+  fi
+  echo "Creating ${VM} ${SKU} in ${LOC}"
+  az vm create \
+    --resource-group "$RG" \
+    --name "$VM" \
+    --location "$LOC" \
+    --image "$IMAGE" \
+    --size "$SKU" \
+    --admin-username "$ADMIN" \
+    --ssh-key-values "$SSH_KEY" \
+    --nsg "${VM}-nsg-${LOC}" \
+    --os-disk-size-gb 30 \
+    --os-disk-delete-option Delete \
+    --nic-delete-option Delete \
+    --assign-identity \
+    --custom-data "$CLOUDINIT" \
+    --tags purpose=grok-idle costcap=5usd owner="$EMAIL" \
+    "${extra[@]}"
+}
+
+post_create() {
   local oid
   oid="$(az vm show -g "$RG" -n "$VM" --query identity.principalId -o tsv)"
   az role assignment create --assignee-object-id "$oid" --assignee-principal-type ServicePrincipal \
@@ -173,7 +179,82 @@ cmd_request() {
       --url "https://management.azure.com/subscriptions/${SUB}/resourceGroups/${RG}/providers/microsoft.devtestlab/schedules/shutdown-computevm-${VM}?api-version=2018-09-15" \
       --body "{\"location\":\"${LOC}\",\"properties\":{\"status\":\"Enabled\",\"taskType\":\"ComputeVmShutdownTask\",\"dailyRecurrence\":{\"time\":\"2100\"},\"timeZoneId\":\"GMT Standard Time\",\"targetResourceId\":\"$(az vm show -g "$RG" -n "$VM" --query id -o tsv)\",\"notificationSettings\":{\"status\":\"Enabled\",\"emailRecipient\":\"${EMAIL}\",\"timeInMinutes\":30}}}" \
       >/dev/null || true
-  cmd_status
+}
+
+wait_ssh() {
+  local ip priv i
+  ip="$(az vm show -d -g "$RG" -n "$VM" --query publicIps -o tsv)"
+  priv="${SSH_KEY%.pub}"
+  if [ -z "$ip" ]; then
+    echo "No public IP yet" >&2
+    return 1
+  fi
+  ssh-keygen -R "$ip" >/dev/null 2>&1 || true
+  echo "Waiting for sshd on ${ip} (new VM = new host key)..."
+  for i in $(seq 1 24); do
+    if ssh -o BatchMode=yes -o ConnectTimeout=8 -o StrictHostKeyChecking=accept-new \
+      -i "$priv" "${ADMIN}@${ip}" 'true' >/dev/null 2>&1; then
+      echo "SSH ready"
+      return 0
+    fi
+    sleep 5
+  done
+  echo "SSH not ready after ~2 min — VM may still be booting" >&2
+  return 1
+}
+
+print_connection() {
+  local ip state priv fp
+  ip="$(az vm show -d -g "$RG" -n "$VM" --query publicIps -o tsv 2>/dev/null || true)"
+  state="$(az vm show -d -g "$RG" -n "$VM" --query powerState -o tsv 2>/dev/null || echo "not present")"
+  priv="${SSH_KEY%.pub}"
+  fp="$(ssh-keygen -lf "${priv}.pub" 2>/dev/null | awk '{print $2}' || true)"
+  cat <<EOF
+
+=== grok-idle connection ===
+state:     ${state}
+host:      ${ip:-unknown}
+port:      22
+user:      ${ADMIN}
+key file:  ${priv}
+client fp: ${fp:-unknown}
+ssh:       ssh -i ${priv} ${ADMIN}@${ip}
+
+Termius
+  Address   ${ip}
+  Port      22
+  Username  ${ADMIN}
+  Key       grok-idle   (Import / Paste Key — never Export Key)
+  Host key  accept if it changed (idle-delete recreates the VM)
+
+Idle-delete: ~20 min with no SSH (8 min grace after boot)
+Costs:       see ongoing-costs.html  (static IP still bills while VM is gone)
+EOF
+}
+
+cmd_start() {
+  need_az
+  if az group show -n "$RG" >/dev/null 2>&1; then
+    echo "RG ${RG} exists"
+  else
+    cmd_infra
+  fi
+  ensure_ssh_key
+  if az vm show -g "$RG" -n "$VM" >/dev/null 2>&1; then
+    local state
+    state="$(az vm show -d -g "$RG" -n "$VM" --query powerState -o tsv)"
+    if echo "$state" | grep -qi running; then
+      echo "VM already running"
+    else
+      echo "Starting existing VM (${state})"
+      az vm start -g "$RG" -n "$VM"
+    fi
+  else
+    create_vm
+    post_create
+  fi
+  wait_ssh || true
+  print_connection
 }
 
 cmd_status() {
@@ -202,7 +283,7 @@ cmd_nuke() {
 main() {
   case "${1:-}" in
     infra) cmd_infra ;;
-    request) cmd_request ;;
+    start|request) cmd_start ;;
     status) cmd_status ;;
     destroy|delete) cmd_destroy ;;
     nuke) cmd_nuke ;;

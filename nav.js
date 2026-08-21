@@ -21,6 +21,7 @@
     { href: "mobile-fail.html", emoji: "❌", label: "Why mobile failed" },
     { href: "ops-whatsapp-key.html", emoji: "📋", label: "Key via WhatsApp" },
     { href: "idle-status.html", emoji: "🧾", label: "Idle VM status" },
+    { href: "ongoing-costs.html", emoji: "💷", label: "Ongoing costs" },
     { href: "test.html", emoji: "✅", label: "System test" },
   ];
 

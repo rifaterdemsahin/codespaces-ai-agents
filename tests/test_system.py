@@ -54,7 +54,11 @@ REQUIRED_FILES = [
     "mobile-fail.html",
     "ops-whatsapp-key.html",
     "idle-status.html",
+    "ongoing-costs.html",
     "scripts/azure-idle-vm.sh",
+    "scripts/start-grok-idle.sh",
+    ".grok/skills/start/SKILL.md",
+    ".grok/commands/start.md",
     "scripts/delete-azure-idle-vm.sh",
     "scripts/export-grok-idle-key.sh",
     "scripts/azure-idle-cloud-init.yaml",
@@ -164,6 +168,7 @@ class TestRepoFiles(unittest.TestCase):
         self.assertIn("mobile-fail.html", text)
         self.assertIn("ops-whatsapp-key.html", text)
         self.assertIn("idle-status.html", text)
+        self.assertIn("ongoing-costs.html", text)
         self.assertIn("copy.js", text)
         self.assertIn("nav.js", text)
         self.assertIn("test.js", text)
@@ -178,6 +183,7 @@ class TestRepoFiles(unittest.TestCase):
             "scripts/azure-idle-vm.sh",
             "scripts/delete-azure-idle-vm.sh",
             "scripts/export-grok-idle-key.sh",
+            "scripts/start-grok-idle.sh",
         ):
             proc = _run(["bash", "-n", str(ROOT / rel)])
             self.assertEqual(proc.returncode, 0, proc.stderr)
@@ -235,6 +241,7 @@ class TestPagesContent(unittest.TestCase):
             "mobile-fail.html",
             "ops-whatsapp-key.html",
             "idle-status.html",
+            "ongoing-costs.html",
             "index.html",
             "iphone.html",
             "test.html",
@@ -381,6 +388,29 @@ class TestPagesContent(unittest.TestCase):
         self.assertIn("nav.js", html)
         self.assertNotRegex(html, r"-----BEGIN OPENSSH PRIVATE KEY-----\s*[A-Za-z0-9+/]{20,}")
 
+    def test_ongoing_costs_page(self) -> None:
+        html = _read("ongoing-costs.html")
+        self.assertIn("Ongoing costs while you sleep", html)
+        self.assertIn("£0.0045", html)
+        self.assertIn("£0.0873", html)
+        self.assertIn("start-grok-idle.sh", html)
+        self.assertIn("/start", html)
+        self.assertIn("static public IP", html)
+        self.assertIn("nav.js", html)
+        self.assertNotRegex(html, r"-----BEGIN OPENSSH PRIVATE KEY-----\s*[A-Za-z0-9+/]{20,}")
+
+    def test_start_script_and_skill(self) -> None:
+        sh = _read("scripts/azure-idle-vm.sh")
+        self.assertIn("cmd_start()", sh)
+        self.assertIn("print_connection", sh)
+        self.assertIn("Never prints the private key", sh)
+        wrapper = _read("scripts/start-grok-idle.sh")
+        self.assertIn('azure-idle-vm.sh" start', wrapper)
+        skill = _read(".grok/skills/start/SKILL.md")
+        self.assertIn("user-invocable: true", skill)
+        self.assertIn("start-grok-idle.sh", skill)
+        self.assertNotIn("BEGIN OPENSSH PRIVATE KEY", skill)
+
 
 class TestNoSecretsCommitted(unittest.TestCase):
     _EXCLUDE = (":!scripts/smoke-test.sh", ":!tests/test_system.py")
@@ -389,7 +419,9 @@ class TestNoSecretsCommitted(unittest.TestCase):
         return _run(["git", "grep", "-I", "-E", "-e", pattern, "--", *self._EXCLUDE])
 
     def test_no_obvious_api_key_literals(self) -> None:
-        proc = self._git_grep(r"xai-[A-Za-z0-9]{20,}|sk-ant-|sk-or-|sk-proj-|ghp_[A-Za-z0-9]{20,}|github_pat_")
+        proc = self._git_grep(
+            r"xai-[A-Za-z0-9]{20,}|sk-ant-[A-Za-z0-9]{8,}|sk-or-[A-Za-z0-9]{8,}|sk-proj-[A-Za-z0-9]{8,}|ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}"
+        )
         if proc.returncode == 0:
             self.fail("possible API key pattern in tracked files")
         if proc.returncode != 1:
@@ -534,6 +566,13 @@ class TestLivePages(unittest.TestCase):
             self.skipTest("idle-status.html not on Pages yet (first deploy)")
         self.assertEqual(status, 200)
         self.assertIn("grok-idle is deleted", body)
+
+    def test_pages_ongoing_costs_http(self) -> None:
+        status, body = _http_get(f"{PAGES}/ongoing-costs.html")
+        if status == 404:
+            self.skipTest("ongoing-costs.html not on Pages yet (first deploy)")
+        self.assertEqual(status, 200)
+        self.assertIn("Ongoing costs while you sleep", body)
 
 
 class TestGithubRepo(unittest.TestCase):

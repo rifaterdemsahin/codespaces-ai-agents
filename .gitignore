@@ -6,8 +6,12 @@
 devcontainer.zip
 gitignore
 
-# Agent / CLI local state (never commit)
-.grok/
+# Agent / CLI local state (never commit). Keep project /start skill + commands.
+.grok/*
+!.grok/skills/
+!.grok/skills/**
+!.grok/commands/
+!.grok/commands/**
 .agy/
 .local/
 

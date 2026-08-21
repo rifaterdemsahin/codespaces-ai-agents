@@ -148,6 +148,10 @@
         const t = await fetchText("./idle-status.html");
         return mustInclude(t, "grok-idle is deleted", "idle-status");
       }),
+      check("ongoing-costs.html loads", async () => {
+        const t = await fetchText("./ongoing-costs.html");
+        return mustInclude(t, "Ongoing costs while you sleep", "ongoing-costs");
+      }),
       check("styles.css loads", async () => {
         const t = await fetchText("./styles.css");
         return mustInclude(t, "--accent", "css");

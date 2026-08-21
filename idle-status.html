@@ -107,14 +107,19 @@
     <section>
       <h2>▶️ Bring it back (when you need SSH)</h2>
       <div class="copyrow">
-        <div><span class="k">Recreate VM</span><code>./scripts/azure-idle-vm.sh request</code></div>
-        <button type="button" data-copy="./scripts/azure-idle-vm.sh request">Copy</button>
+        <div><span class="k">Start / recreate</span><code>./scripts/start-grok-idle.sh</code></div>
+        <button type="button" data-copy="./scripts/start-grok-idle.sh">Copy</button>
+      </div>
+      <div class="copyrow">
+        <div><span class="k">Grok</span><code>/start</code></div>
+        <button type="button" data-copy="/start">Copy</button>
       </div>
       <p>
         After it is up: stay on SSH or it will idle-delete again.
         Termius: user <code>azureuser</code>, key imported via
         <a href="ops-whatsapp-key.html">📋 Key via WhatsApp</a>
         (Import / Paste Key — never Export Key).
+        Costs: <a href="ongoing-costs.html">💷 Ongoing costs</a>.
       </p>
     </section>
 
@@ -127,7 +132,7 @@
         </thead>
         <tbody>
           <tr><td>OpenSSH / PEM private key armor in tracked files</td><td>✅ none (only the instructional words on the WhatsApp ops page)</td></tr>
-          <tr><td><code>xai-</code> / <code>sk-ant-</code> / <code>sk-or-</code> / <code>ghp_</code> literals</td><td>✅ none in tracked files</td></tr>
+          <tr><td>xAI / Anthropic / OpenRouter / GitHub token prefixes with a real payload</td><td>✅ none in tracked files</td></tr>
           <tr><td>Tracked files named <code>grok-idle</code>, <code>.pem</code>, <code>.key</code>, <code>.env</code></td><td>✅ none. Only <code>.env.example</code> with empty values</td></tr>
           <tr><td><code>.gitignore</code></td><td>Covers <code>.env</code>, <code>grok-idle</code>, <code>grok-idle.pem</code>, <code>grok-idle.txt</code>, zip</td></tr>
           <tr><td>Private key on disk for Termius</td><td>Lives in <code>~/.ssh/grok-idle</code> and Key Vault <code>grok-idle-ssh-private-key</code> — not in this repo</td></tr>

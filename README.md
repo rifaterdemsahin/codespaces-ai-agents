@@ -34,6 +34,8 @@ Termius key to iPhone (Downloads → WhatsApp Document): [ops-whatsapp-key.html]
 
 Idle VM status (deleted / leftover IP / secret scan): [idle-status.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/idle-status.html)
 
+Ongoing costs (static IP vs compute) and `/start`: [ongoing-costs.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/ongoing-costs.html)
+
 Open this repo in **GitHub Codespaces**. The container installs:
 
 - **Grok Build** (`grok`) — xAI, subscription login
