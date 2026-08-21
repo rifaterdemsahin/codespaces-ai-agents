@@ -152,6 +152,10 @@
         const t = await fetchText("./ongoing-costs.html");
         return mustInclude(t, "too expensive", "ongoing-costs");
       }),
+      check("mobile-type.html loads", async () => {
+        const t = await fetchText("./mobile-type.html");
+        return mustInclude(t, "bad keyboard", "mobile-type");
+      }),
       check("styles.css loads", async () => {
         const t = await fetchText("./styles.css");
         return mustInclude(t, "--accent", "css");

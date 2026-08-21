@@ -6,6 +6,8 @@ Public explainer: [https://rifaterdemsahin.github.io/codespaces-ai-agents/](http
 
 Test from an iPhone 14 Pro Max (Safari): [iphone.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/iphone.html)
 
+Codespaces typing on the phone is painful — use Termius / paste: [mobile-type.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/mobile-type.html)
+
 Is the system working? [test.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/test.html) — browser checks plus `./scripts/system-test.sh`.
 
 Just pressed the green **Code** button? [after-green.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/after-green.html) — basic test inside `*.github.dev`.

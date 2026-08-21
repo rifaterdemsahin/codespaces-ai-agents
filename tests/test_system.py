@@ -55,6 +55,7 @@ REQUIRED_FILES = [
     "ops-whatsapp-key.html",
     "idle-status.html",
     "ongoing-costs.html",
+    "mobile-type.html",
     "scripts/azure-idle-vm.sh",
     "scripts/start-grok-idle.sh",
     ".grok/skills/start/SKILL.md",
@@ -169,6 +170,7 @@ class TestRepoFiles(unittest.TestCase):
         self.assertIn("ops-whatsapp-key.html", text)
         self.assertIn("idle-status.html", text)
         self.assertIn("ongoing-costs.html", text)
+        self.assertIn("mobile-type.html", text)
         self.assertIn("copy.js", text)
         self.assertIn("nav.js", text)
         self.assertIn("test.js", text)
@@ -205,6 +207,7 @@ class TestPagesContent(unittest.TestCase):
         self.assertIn("iPhone 14 Pro Max", html)
         self.assertIn("Request Desktop Website", html)
         self.assertIn("grok login --device-auth", html)
+        self.assertIn("mobile-type.html", html)
         self.assertIn("nav.js", html)
 
     def test_test_page(self) -> None:
@@ -242,6 +245,7 @@ class TestPagesContent(unittest.TestCase):
             "ops-whatsapp-key.html",
             "idle-status.html",
             "ongoing-costs.html",
+            "mobile-type.html",
             "index.html",
             "iphone.html",
             "test.html",
@@ -386,6 +390,17 @@ class TestPagesContent(unittest.TestCase):
         self.assertIn("idle-delete", html)
         self.assertIn("secret scan", html.lower())
         self.assertIn("nav.js", html)
+        self.assertNotRegex(html, r"-----BEGIN OPENSSH PRIVATE KEY-----\s*[A-Za-z0-9+/]{20,}")
+
+    def test_mobile_type_page(self) -> None:
+        html = _read("mobile-type.html")
+        self.assertIn("bad keyboard", html)
+        self.assertIn("Termius", html)
+        self.assertIn("Smart Punctuation", html)
+        self.assertIn("gh codespace ssh", html)
+        self.assertIn("viewport-fit=cover", html)
+        self.assertIn("nav.js", html)
+        self.assertIn("copy.js", html)
         self.assertNotRegex(html, r"-----BEGIN OPENSSH PRIVATE KEY-----\s*[A-Za-z0-9+/]{20,}")
 
     def test_ongoing_costs_page(self) -> None:
@@ -579,6 +594,13 @@ class TestLivePages(unittest.TestCase):
         if "too expensive" not in body.lower():
             self.skipTest("ongoing-costs.html not updated on Pages yet")
         self.assertIn("too expensive", body.lower())
+
+    def test_pages_mobile_type_http(self) -> None:
+        status, body = _http_get(f"{PAGES}/mobile-type.html")
+        if status == 404:
+            self.skipTest("mobile-type.html not on Pages yet (first deploy)")
+        self.assertEqual(status, 200)
+        self.assertIn("bad keyboard", body)
 
 
 class TestGithubRepo(unittest.TestCase):

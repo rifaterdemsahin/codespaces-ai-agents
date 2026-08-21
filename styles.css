@@ -9,6 +9,7 @@
   --warn: #ffb347;
 }
 * { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
 body {
   font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
@@ -17,6 +18,7 @@ body {
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
 }
+a, button { touch-action: manipulation; }
 a { color: var(--accent); }
 code, pre, kbd {
   font-family: "IBM Plex Mono", ui-monospace, monospace;
@@ -210,7 +212,9 @@ ol.steps > li::before {
   body { font-size: 16px; }
   header, main, footer, .topnav { padding-left: 5vw; padding-right: 5vw; }
   pre { font-size: 12px; }
-  table { display: block; overflow-x: auto; }
+  table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .copyrow { flex-wrap: wrap; }
+  .copyrow button { min-width: 44px; flex: 1 1 100%; }
 }
 
 .copyrow {

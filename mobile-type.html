@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>⌨️ Codespaces on iPhone — typing is broken, do this</title>
+  <meta name="description" content="github.dev on iPhone is a bad keyboard. Mitigate: Termius SSH, paste from Notes, turn off Smart Punctuation. This page is for the phone.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav id="topnav" class="topnav"></nav>
+  <script src="nav.js"></script>
+  <header>
+    <div class="eyebrow">⌨️ iPhone 14 Pro Max · do not type in VS Code web</div>
+    <h1>⌨️ Codespaces in the phone browser is a bad keyboard</h1>
+    <p class="lede">
+      The green-button UI is desktop VS Code in Safari. The iOS keyboard covers the
+      terminal, has no Esc/Ctrl/Tab, and Smart Punctuation breaks code.
+      <strong>Do not type prompts in that tab.</strong> Use Termius, or paste.
+      Azure VPS is too expensive — not the fix.
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>📲 This page on the phone</h2>
+      <a class="urlbox" href="https://rifaterdemsahin.github.io/codespaces-ai-agents/mobile-type.html">https://rifaterdemsahin.github.io/codespaces-ai-agents/mobile-type.html</a>
+      <p>
+        One column, 44pt buttons, no sideways page scroll. Safari is fine for
+        <em>this</em> site. Safari is the problem only inside <code>*.github.dev</code>.
+      </p>
+    </section>
+
+    <section>
+      <h2>✅ Fix that actually works</h2>
+      <ol class="steps">
+        <li>
+          Leave the Codespaces <em>machine</em> running (create it in Safari if you must).
+          Close the VS Code tab. You will not type there.
+        </li>
+        <li>
+          Open <strong>Termius</strong> (free Starter). SSH to this Mac, then jump in:
+          <div class="copyrow">
+            <div><span class="k">On the Mac, after SSH</span><code>gh codespace ssh -c zany-train-p9wx45qrxq3rr5p</code></div>
+            <button type="button" data-copy="gh codespace ssh -c zany-train-p9wx45qrxq3rr5p">Copy</button>
+          </div>
+          Termius has Esc, Ctrl, Tab, arrows above the keyboard. github.dev does not.
+          Hops: <a href="termius-setup.html">📋 Termius setup</a> ·
+          <a href="iphone-free.html">🆓 Free iPhone</a>.
+        </li>
+        <li>
+          Type the prompt in Termius, or in Notes → copy → paste into Termius.
+          Paste is faster than the VS Code web editor.
+        </li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>🩹 If you must stay in Safari</h2>
+      <ol class="steps">
+        <li>AA in the address bar → <strong>Request Desktop Website</strong> (once, to find Code → Codespaces).</li>
+        <li>Rotate to <strong>landscape</strong>. More rows above the keyboard.</li>
+        <li>
+          Settings → General → Keyboard:
+          <strong>Smart Punctuation off</strong>,
+          <strong>Auto-Correction off</strong>,
+          <strong>Auto-Capitalization off</strong>.
+          Otherwise <code>"</code> becomes “ ” and commands fail.
+        </li>
+        <li>Write the prompt in Notes. Select All → Copy. Tap the Codespaces terminal → Paste. Do not compose in the VS Code box.</li>
+        <li>Hide the file tree (tap the menu) so the terminal is full width.</li>
+        <li>Not the GitHub iOS app. Share → Open in Safari.</li>
+      </ol>
+      <p class="warn">
+        ⚠️ A Bluetooth keyboard is the only way the web workbench feels normal.
+        Without one, Termius still wins.
+      </p>
+    </section>
+
+    <section>
+      <h2>🚫 What not to do</h2>
+      <table>
+        <thead>
+          <tr><th>Idea</th><th>Why not</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Type a long grok prompt in <code>*.github.dev</code></td>
+            <td>Keyboard covers the prompt; no Ctrl-C; cursor jumps.</td>
+          </tr>
+          <tr>
+            <td>Start Azure grok-idle for a nicer SSH box</td>
+            <td>Too expensive. RG deleted. <a href="ongoing-costs.html">Ongoing costs</a>.</td>
+          </tr>
+          <tr>
+            <td>Buy Blink for the keyboard bar</td>
+            <td>Termius Starter already has one. <a href="iphone-free.html">Skip Blink</a>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+  <footer>
+    ⌨️ Phone page. No secrets. Termius types; Safari only starts the machine.
+  </footer>
+  <script src="copy.js"></script>
+</body>
+</html>
