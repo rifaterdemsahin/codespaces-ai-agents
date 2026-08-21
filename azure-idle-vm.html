@@ -21,10 +21,8 @@
       <code>dp-grok-idle-rg</code> (not the rest of DeliveryPilot).
       West Europe (UK South had no B-series capacity). Deletes itself after ~20 minutes with no SSH.
       A <strong>$5/month budget</strong> emails Owner at 80% and 100% (harder than £5).
-      VM create is ready in code; Azure currently returns
-      <strong>SkuNotAvailable / Capacity Restrictions</strong> for B- and A-series in UK South
-      and West Europe on this subscription — request a Compute quota increase, then
-      <code>./scripts/azure-idle-vm.sh request</code>.
+      <strong>Too expensive — do not start.</strong> RG deleted 21 Aug 2026.
+      Use Codespaces. See <a href="ongoing-costs.html">💷 Ongoing costs</a>.
     </p>
   </header>
 
@@ -71,7 +69,7 @@
       <div class="grid">
         <div class="card">
           <strong>⚠️ Live status</strong>
-          <span>Checked 21 Aug 2026 08:14 UTC: <strong>VM idle-deleted</strong>. SSH to 40.120.63.5 times out. RG + static IP remain. Full probe: <a href="idle-status.html">🧾 Idle VM status</a>.</span>
+          <span>21 Aug 2026: <strong>too expensive — do not start</strong>. RG <code>dp-grok-idle-rg</code> deleted (IP, VNet, NSGs, budget). <a href="ongoing-costs.html">💷 Ongoing costs</a>.</span>
         </div>
         <div class="card">
           <strong>🖥️ Box</strong>
@@ -98,12 +96,11 @@
         <div><span class="k">Create budget + RG</span><code>./scripts/azure-idle-vm.sh infra</code></div>
         <button type="button" data-copy="./scripts/azure-idle-vm.sh infra">Copy</button>
       </div>
+      <p class="warn">
+        ⚠️ <code>/start</code> is refused. Azure grok-idle is too expensive. Do not recreate the RG.
+      </p>
       <div class="copyrow">
-        <div><span class="k">Start / recreate + print SSH</span><code>./scripts/start-grok-idle.sh</code></div>
-        <button type="button" data-copy="./scripts/start-grok-idle.sh">Copy</button>
-      </div>
-      <div class="copyrow">
-        <div><span class="k">Grok slash</span><code>/start</code></div>
+        <div><span class="k">Grok slash (refuses)</span><code>/start</code></div>
         <button type="button" data-copy="/start">Copy</button>
       </div>
       <div class="copyrow">

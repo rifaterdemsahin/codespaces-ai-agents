@@ -390,25 +390,29 @@ class TestPagesContent(unittest.TestCase):
 
     def test_ongoing_costs_page(self) -> None:
         html = _read("ongoing-costs.html")
-        self.assertIn("Ongoing costs while you sleep", html)
+        self.assertIn("too expensive", html.lower())
+        self.assertIn("do not start", html.lower())
         self.assertIn("£0.0045", html)
         self.assertIn("£0.0873", html)
         self.assertIn("start-grok-idle.sh", html)
         self.assertIn("/start", html)
-        self.assertIn("static public IP", html)
+        self.assertIn("dp-grok-idle-rg", html)
         self.assertIn("nav.js", html)
         self.assertNotRegex(html, r"-----BEGIN OPENSSH PRIVATE KEY-----\s*[A-Za-z0-9+/]{20,}")
 
     def test_start_script_and_skill(self) -> None:
         sh = _read("scripts/azure-idle-vm.sh")
         self.assertIn("cmd_start()", sh)
-        self.assertIn("print_connection", sh)
+        self.assertIn("refuse_expensive", sh)
+        self.assertIn("too expensive to start", sh)
         self.assertIn("Never prints the private key", sh)
         wrapper = _read("scripts/start-grok-idle.sh")
+        self.assertIn("too expensive", wrapper)
         self.assertIn('azure-idle-vm.sh" start', wrapper)
         skill = _read(".grok/skills/start/SKILL.md")
         self.assertIn("user-invocable: true", skill)
-        self.assertIn("start-grok-idle.sh", skill)
+        self.assertIn("too expensive", skill.lower())
+        self.assertIn("Do not run `az vm create`", skill)
         self.assertNotIn("BEGIN OPENSSH PRIVATE KEY", skill)
 
 
@@ -572,7 +576,9 @@ class TestLivePages(unittest.TestCase):
         if status == 404:
             self.skipTest("ongoing-costs.html not on Pages yet (first deploy)")
         self.assertEqual(status, 200)
-        self.assertIn("Ongoing costs while you sleep", body)
+        if "too expensive" not in body.lower():
+            self.skipTest("ongoing-costs.html not updated on Pages yet")
+        self.assertIn("too expensive", body.lower())
 
 
 class TestGithubRepo(unittest.TestCase):

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>💷 Ongoing costs — grok-idle RG</title>
-  <meta name="description" content="What still bills when grok-idle is deleted: UK South static public IP. Compute is zero. $5 budget. /start recreates the VM.">
+  <title>💷 Ongoing costs — Azure too expensive, do not start</title>
+  <meta name="description" content="Azure grok-idle is too expensive. Do not start it. RG dp-grok-idle-rg was deleted 21 Aug 2026. Use Codespaces.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -14,31 +14,29 @@
   <nav id="topnav" class="topnav"></nav>
   <script src="nav.js"></script>
   <header>
-    <div class="eyebrow">💷 dp-grok-idle-rg · UK South · GBP retail 21 Aug 2026</div>
-    <h1>💷 Ongoing costs while you sleep</h1>
+    <div class="eyebrow">💷 21 Aug 2026 · Azure grok-idle STOPPED · do not start</div>
+    <h1>💷 Azure is too expensive — do not start it</h1>
     <p class="lede">
-      The VM is gone most of the time (idle-delete). Compute then is
-      <strong>£0</strong>. The leftover <strong>static public IP</strong> still
-      bills about <strong>£3.29 / month</strong> so Termius can keep
-      <code>40.120.63.5</code>. That is almost the whole $5 cap.
+      Decision: <strong>do not start Azure grok-idle</strong>.
+      The leftover static IP (~<strong>£3.29 / month</strong>) almost ate the
+      <strong>$5</strong> cap with the VM already gone. D2s_v3 is
+      <strong>£0.0873 / hour</strong> (~£64 if left on).
+      Resource group <code>dp-grok-idle-rg</code> was <strong>deleted</strong>.
+      Use GitHub Codespaces in this repo instead.
     </p>
   </header>
 
   <main>
     <section>
-      <h2>▶️ Start when you need it</h2>
-      <div class="copyrow">
-        <div><span class="k">Terminal</span><code>./scripts/start-grok-idle.sh</code></div>
-        <button type="button" data-copy="./scripts/start-grok-idle.sh">Copy</button>
-      </div>
-      <div class="copyrow">
-        <div><span class="k">Grok</span><code>/start</code></div>
-        <button type="button" data-copy="/start">Copy</button>
-      </div>
-      <p>
-        Recreates the box if idle-deleted, reuses the static IP, waits for SSH,
-        prints host / port / <code>azureuser</code> / key path. Never prints the private key.
+      <h2>🛑 /start is refused</h2>
+      <p class="warn">
+        ⚠️ <code>/start</code> and <code>./scripts/start-grok-idle.sh</code> exit 1.
+        They do <strong>not</strong> create or start a VM.
       </p>
+      <div class="copyrow">
+        <div><span class="k">What /start prints</span><code>REFUSED: Azure grok-idle is too expensive to start.</code></div>
+        <button type="button" data-copy="REFUSED: Azure grok-idle is too expensive to start.">Copy</button>
+      </div>
     </section>
 
     <section>
@@ -92,8 +90,7 @@
         </tbody>
       </table>
       <p>
-        IP cost will keep accumulating for the rest of the month unless you
-        delete <code>grok-idlePublicIP</code> (then <code>/start</code> gets a new address).
+        That IP is gone as of 21 Aug 2026: the whole RG was deleted so leftover IP spend stops.
       </p>
     </section>
 
@@ -129,19 +126,14 @@
     </section>
 
     <section>
-      <h2>✂️ Cut leftover IP (optional)</h2>
+      <h2>🗑️ What was deleted (21 Aug 2026)</h2>
+      <ul>
+        <li>Resource group <code>dp-grok-idle-rg</code> (VNet, NSGs, static IP, action group)</li>
+        <li>Budget <code>grok-idle-5usd</code></li>
+        <li>Key Vault names only: <code>grok-idle-*</code> (not the rest of <code>dp-kv-deliverypilot</code>)</li>
+      </ul>
       <p>
-        Only if you accept a <strong>new Termius address</strong> each start.
-        Do not run this unless you mean to drop <code>40.120.63.5</code>.
-      </p>
-      <div class="copyrow">
-        <div><span class="k">Delete static IP</span><code>az network public-ip delete -g dp-grok-idle-rg -n grok-idlePublicIP</code></div>
-        <button type="button" data-copy="az network public-ip delete -g dp-grok-idle-rg -n grok-idlePublicIP">Copy</button>
-      </div>
-      <p class="warn">
-        ⚠️ Isolated RG only. $5 budget emails
-        <code>info@deliverypilot.net</code> at 80% and 100%. It does not
-        touch the rest of DeliveryPilot. No passwords on this page.
+        Working box: GitHub Codespaces. No passwords on this page.
       </p>
     </section>
   </main>

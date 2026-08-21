@@ -1,9 +1,3 @@
-Start (or recreate) the Azure grok-idle VM and print SSH / Termius details.
+Azure grok-idle is too expensive. Do **not** start or create a VM.
 
-Run from the repo root:
-
-```bash
-./scripts/start-grok-idle.sh
-```
-
-Reply with the script output (connection card). Never print the private key. User is `azureuser`. If `az` is not logged in, ask for `az login --use-device-code` as `info@deliverypilot.net`.
+Run `./scripts/start-grok-idle.sh` and paste the REFUSED output. Point at `ongoing-costs.html`. Use GitHub Codespaces in this repo instead. Never print the private key.

@@ -15,7 +15,7 @@
   <script src="nav.js"></script>
   <header>
     <div class="eyebrow">🧾 status check · 21 Aug 2026 08:14 UTC · no secrets on this page</div>
-    <h1>🧾 grok-idle is deleted</h1>
+    <h1>🧾 grok-idle is deleted — too expensive, do not start</h1>
     <p class="lede">
       Azure has <strong>no virtual machine</strong> named <code>grok-idle</code>.
       SSH to <code>40.120.63.5:22</code> timed out. That is idle-delete working,
@@ -106,20 +106,9 @@
 
     <section>
       <h2>▶️ Bring it back (when you need SSH)</h2>
-      <div class="copyrow">
-        <div><span class="k">Start / recreate</span><code>./scripts/start-grok-idle.sh</code></div>
-        <button type="button" data-copy="./scripts/start-grok-idle.sh">Copy</button>
-      </div>
-      <div class="copyrow">
-        <div><span class="k">Grok</span><code>/start</code></div>
-        <button type="button" data-copy="/start">Copy</button>
-      </div>
-      <p>
-        After it is up: stay on SSH or it will idle-delete again.
-        Termius: user <code>azureuser</code>, key imported via
-        <a href="ops-whatsapp-key.html">📋 Key via WhatsApp</a>
-        (Import / Paste Key — never Export Key).
-        Costs: <a href="ongoing-costs.html">💷 Ongoing costs</a>.
+      <p class="warn">
+        ⚠️ Too expensive. <code>/start</code> refuses. RG <code>dp-grok-idle-rg</code> was deleted 21 Aug 2026.
+        Use Codespaces. Costs: <a href="ongoing-costs.html">💷 Ongoing costs</a>.
       </p>
     </section>
 

@@ -61,7 +61,7 @@
       </ol>
       <p class="warn">
         ⚠️ If the VM was idle it may already be deleted. Then Termius hangs before “Remote server: OpenSSH”.
-        Recreate on the Mac: <code>./scripts/azure-idle-vm.sh request</code> — IP can change.
+        Do not recreate: Azure grok-idle is too expensive (<a href="ongoing-costs.html">ongoing costs</a>).
       </p>
     </section>
 
@@ -99,8 +99,8 @@
         <button type="button" data-copy="./scripts/azure-idle-vm.sh destroy">Copy</button>
       </div>
       <div class="copyrow">
-        <div><span class="k">Create again</span><code>./scripts/azure-idle-vm.sh request</code></div>
-        <button type="button" data-copy="./scripts/azure-idle-vm.sh request">Copy</button>
+        <div><span class="k">Do not create again</span><code>REFUSED — too expensive (see ongoing-costs.html)</code></div>
+        <button type="button" data-copy="REFUSED: Azure grok-idle is too expensive to start.">Copy</button>
       </div>
     </section>
   </main>

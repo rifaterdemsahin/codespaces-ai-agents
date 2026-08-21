@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Start (or recreate) grok-idle and print SSH / Termius details. Never prints the private key.
+# REFUSED: Azure grok-idle is too expensive. Does not create or start a VM.
 # Slash command: /start   Page: ongoing-costs.html
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

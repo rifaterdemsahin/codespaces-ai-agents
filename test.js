@@ -150,7 +150,7 @@
       }),
       check("ongoing-costs.html loads", async () => {
         const t = await fetchText("./ongoing-costs.html");
-        return mustInclude(t, "Ongoing costs while you sleep", "ongoing-costs");
+        return mustInclude(t, "too expensive", "ongoing-costs");
       }),
       check("styles.css loads", async () => {
         const t = await fetchText("./styles.css");
