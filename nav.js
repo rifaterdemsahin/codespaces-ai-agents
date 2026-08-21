@@ -20,6 +20,7 @@
     { href: "termius-azure.html", emoji: "📱", label: "Termius Azure" },
     { href: "mobile-fail.html", emoji: "❌", label: "Why mobile failed" },
     { href: "ops-whatsapp-key.html", emoji: "📋", label: "Key via WhatsApp" },
+    { href: "idle-status.html", emoji: "🧾", label: "Idle VM status" },
     { href: "test.html", emoji: "✅", label: "System test" },
   ];
 

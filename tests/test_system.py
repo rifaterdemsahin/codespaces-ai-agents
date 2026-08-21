@@ -53,6 +53,7 @@ REQUIRED_FILES = [
     "termius-azure.html",
     "mobile-fail.html",
     "ops-whatsapp-key.html",
+    "idle-status.html",
     "scripts/azure-idle-vm.sh",
     "scripts/delete-azure-idle-vm.sh",
     "scripts/export-grok-idle-key.sh",
@@ -162,6 +163,7 @@ class TestRepoFiles(unittest.TestCase):
         self.assertIn("termius-azure.html", text)
         self.assertIn("mobile-fail.html", text)
         self.assertIn("ops-whatsapp-key.html", text)
+        self.assertIn("idle-status.html", text)
         self.assertIn("copy.js", text)
         self.assertIn("nav.js", text)
         self.assertIn("test.js", text)
@@ -232,6 +234,7 @@ class TestPagesContent(unittest.TestCase):
             "termius-azure.html",
             "mobile-fail.html",
             "ops-whatsapp-key.html",
+            "idle-status.html",
             "index.html",
             "iphone.html",
             "test.html",
@@ -368,25 +371,48 @@ class TestPagesContent(unittest.TestCase):
         self.assertIn("WhatsApp", text)
         self.assertNotIn("BEGIN OPENSSH PRIVATE KEY", text)
 
+    def test_idle_status_page(self) -> None:
+        html = _read("idle-status.html")
+        self.assertIn("grok-idle is deleted", html)
+        self.assertIn("ResourceNotFound", html)
+        self.assertIn("Operation timed out", html)
+        self.assertIn("idle-delete", html)
+        self.assertIn("secret scan", html.lower())
+        self.assertIn("nav.js", html)
+        self.assertNotRegex(html, r"-----BEGIN OPENSSH PRIVATE KEY-----\s*[A-Za-z0-9+/]{20,}")
+
 
 class TestNoSecretsCommitted(unittest.TestCase):
+    _EXCLUDE = (":!scripts/smoke-test.sh", ":!tests/test_system.py")
+
+    def _git_grep(self, pattern: str) -> subprocess.CompletedProcess[str]:
+        return _run(["git", "grep", "-I", "-E", "-e", pattern, "--", *self._EXCLUDE])
+
     def test_no_obvious_api_key_literals(self) -> None:
-        proc = _run(
-            [
-                "git",
-                "grep",
-                "-I",
-                "-E",
-                r"xai-[A-Za-z0-9]{20,}|sk-ant-|sk-or-",
-                "--",
-                ":!scripts/smoke-test.sh",
-                ":!tests/test_system.py",
-            ]
-        )
+        proc = self._git_grep(r"xai-[A-Za-z0-9]{20,}|sk-ant-|sk-or-|sk-proj-|ghp_[A-Za-z0-9]{20,}|github_pat_")
         if proc.returncode == 0:
             self.fail("possible API key pattern in tracked files")
         if proc.returncode != 1:
             self.fail(f"git grep failed ({proc.returncode}): {proc.stderr.strip()}")
+
+    def test_no_private_key_armor(self) -> None:
+        proc = self._git_grep(r"-----BEGIN (OPENSSH |RSA |EC |DSA )?PRIVATE KEY-----")
+        if proc.returncode == 0:
+            self.fail("private key armor in tracked files")
+        if proc.returncode != 1:
+            self.fail(f"git grep failed ({proc.returncode}): {proc.stderr.strip()}")
+
+    def test_no_key_files_tracked(self) -> None:
+        proc = _run(["git", "ls-files", "grok-idle", "grok-idle.pem", "grok-idle.txt", "grok-idle-termius.zip", ".env"])
+        tracked = [line for line in proc.stdout.splitlines() if line.strip()]
+        self.assertEqual(tracked, [], f"secret-looking files are tracked: {tracked}")
+
+    def test_env_example_has_empty_values(self) -> None:
+        for line in _read(".env.example").splitlines():
+            if not line or line.lstrip().startswith("#") or "=" not in line:
+                continue
+            name, value = line.split("=", 1)
+            self.assertEqual(value, "", f"{name} in .env.example must be empty")
 
 
 class TestInstallers(unittest.TestCase):
@@ -501,6 +527,13 @@ class TestLivePages(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertIn("operational procedure", body)
         self.assertIn("WhatsApp", body)
+
+    def test_pages_idle_status_http(self) -> None:
+        status, body = _http_get(f"{PAGES}/idle-status.html")
+        if status == 404:
+            self.skipTest("idle-status.html not on Pages yet (first deploy)")
+        self.assertEqual(status, 200)
+        self.assertIn("grok-idle is deleted", body)
 
 
 class TestGithubRepo(unittest.TestCase):

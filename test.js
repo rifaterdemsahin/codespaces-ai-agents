@@ -144,6 +144,10 @@
         const t = await fetchText("./ops-whatsapp-key.html");
         return mustInclude(t, "operational procedure", "ops-whatsapp-key");
       }),
+      check("idle-status.html loads", async () => {
+        const t = await fetchText("./idle-status.html");
+        return mustInclude(t, "grok-idle is deleted", "idle-status");
+      }),
       check("styles.css loads", async () => {
         const t = await fetchText("./styles.css");
         return mustInclude(t, "--accent", "css");

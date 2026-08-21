@@ -32,6 +32,8 @@ Azure wake-on-request / idle deallocate: [azure-idle.html](https://rifaterdemsah
 
 Termius key to iPhone (Downloads → WhatsApp Document): [ops-whatsapp-key.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/ops-whatsapp-key.html)
 
+Idle VM status (deleted / leftover IP / secret scan): [idle-status.html](https://rifaterdemsahin.github.io/codespaces-ai-agents/idle-status.html)
+
 Open this repo in **GitHub Codespaces**. The container installs:
 
 - **Grok Build** (`grok`) — xAI, subscription login

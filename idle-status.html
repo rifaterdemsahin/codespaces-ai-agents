@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>🧾 grok-idle status — VM deleted (21 Aug 2026)</title>
+  <meta name="description" content="Check of Azure grok-idle on 21 Aug 2026: VM idle-deleted, SSH timed out, leftover RG/IP, repo secret scan clean.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav id="topnav" class="topnav"></nav>
+  <script src="nav.js"></script>
+  <header>
+    <div class="eyebrow">🧾 status check · 21 Aug 2026 08:14 UTC · no secrets on this page</div>
+    <h1>🧾 grok-idle is deleted</h1>
+    <p class="lede">
+      Azure has <strong>no virtual machine</strong> named <code>grok-idle</code>.
+      SSH to <code>40.120.63.5:22</code> timed out. That is idle-delete working,
+      not a Termius bug. Resource group + static IP are still there (tiny residual cost).
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>📡 What we probed</h2>
+      <table>
+        <thead>
+          <tr><th>Check</th><th>Result</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Azure user</td>
+            <td><code>info@deliverypilot.net</code> / Azure subscription 1</td>
+          </tr>
+          <tr>
+            <td><code>az vm show -g dp-grok-idle-rg -n grok-idle</code></td>
+            <td>❌ <code>ResourceNotFound</code> — VM object gone</td>
+          </tr>
+          <tr>
+            <td>NICs / OS disks in the RG</td>
+            <td>✅ none (deleted with the VM)</td>
+          </tr>
+          <tr>
+            <td>SSH <code>azureuser@40.120.63.5</code> (8s)</td>
+            <td>❌ <code>Operation timed out</code> — nothing listening on 22</td>
+          </tr>
+          <tr>
+            <td>Public IP <code>grok-idlePublicIP</code></td>
+            <td>Still allocated, static, <code>40.120.63.5</code> (no VM behind it)</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>🧾 Activity log (why it vanished)</h2>
+      <table>
+        <thead>
+          <tr><th>UTC</th><th>What</th><th>Who</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2026-08-20 18:16</td>
+            <td>Delete Virtual Machine</td>
+            <td>Previous VM identity (earlier idle-delete)</td>
+          </tr>
+          <tr>
+            <td>2026-08-20 18:53</td>
+            <td>Create or Update Virtual Machine — succeeded</td>
+            <td><code>info@deliverypilot.net</code> (recreate after Termius hang)</td>
+          </tr>
+          <tr>
+            <td>2026-08-20 19:02</td>
+            <td>Delete Virtual Machine — succeeded</td>
+            <td>This VM’s managed identity (idle-delete script)</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        Cloud-init timer: grace <strong>8 minutes</strong> after boot, then every
+        <strong>5 minutes</strong>, delete if no SSH for <strong>20 minutes</strong>
+        (<code>scripts/azure-idle-cloud-init.yaml</code>).
+        Last Mac SSH was ~18:55 UTC; by ~19:02 the box had already been torn down.
+        Termius never held a session, so idle-delete fired.
+      </p>
+    </section>
+
+    <section>
+      <h2>📦 What is still in <code>dp-grok-idle-rg</code></h2>
+      <table>
+        <thead>
+          <tr><th>Resource</th><th>Type</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>grok-idlePublicIP</code></td><td>Public IP (static)</td><td>40.120.63.5 — small ongoing charge while allocated</td></tr>
+          <tr><td><code>grok-idleVNET</code> / <code>grok-idleSubnet</code></td><td>VNet</td><td>Kept so recreate can reuse the same IP</td></tr>
+          <tr><td><code>grok-idle-nsg-uksouth</code> (+ extras)</td><td>NSG</td><td>SSH 22 from Internet</td></tr>
+          <tr><td><code>grok-idle-ag</code></td><td>Action group</td><td>$5 budget emails to info@deliverypilot.net</td></tr>
+          <tr><td>Compute VM / NIC / disk</td><td>—</td><td>❌ gone — compute bill is zero</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>▶️ Bring it back (when you need SSH)</h2>
+      <div class="copyrow">
+        <div><span class="k">Recreate VM</span><code>./scripts/azure-idle-vm.sh request</code></div>
+        <button type="button" data-copy="./scripts/azure-idle-vm.sh request">Copy</button>
+      </div>
+      <p>
+        After it is up: stay on SSH or it will idle-delete again.
+        Termius: user <code>azureuser</code>, key imported via
+        <a href="ops-whatsapp-key.html">📋 Key via WhatsApp</a>
+        (Import / Paste Key — never Export Key).
+      </p>
+    </section>
+
+    <section>
+      <h2>🔐 Secret scan of this repo (21 Aug 2026)</h2>
+      <p>Checked before this commit. <strong>No passwords, API keys, or private keys in git.</strong></p>
+      <table>
+        <thead>
+          <tr><th>Looked for</th><th>Result</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>OpenSSH / PEM private key armor in tracked files</td><td>✅ none (only the instructional words on the WhatsApp ops page)</td></tr>
+          <tr><td><code>xai-</code> / <code>sk-ant-</code> / <code>sk-or-</code> / <code>ghp_</code> literals</td><td>✅ none in tracked files</td></tr>
+          <tr><td>Tracked files named <code>grok-idle</code>, <code>.pem</code>, <code>.key</code>, <code>.env</code></td><td>✅ none. Only <code>.env.example</code> with empty values</td></tr>
+          <tr><td><code>.gitignore</code></td><td>Covers <code>.env</code>, <code>grok-idle</code>, <code>grok-idle.pem</code>, <code>grok-idle.txt</code>, zip</td></tr>
+          <tr><td>Private key on disk for Termius</td><td>Lives in <code>~/.ssh/grok-idle</code> and Key Vault <code>grok-idle-ssh-private-key</code> — not in this repo</td></tr>
+        </tbody>
+      </table>
+      <p class="warn">
+        ⚠️ Public on purpose (not credentials): IP <code>40.120.63.5</code>,
+        username <code>azureuser</code>, key <em>fingerprint</em>,
+        email <code>info@deliverypilot.net</code>, resource names, subscription id in
+        <code>azure-idle-vm.sh</code>. Those are identifiers. The private key and vault
+        secret values stay off git.
+      </p>
+    </section>
+  </main>
+  <footer>
+    🧾 Probe 2026-08-21 08:14 UTC. No private keys, tokens, or passwords on this page.
+  </footer>
+  <script src="copy.js"></script>
+</body>
+</html>
